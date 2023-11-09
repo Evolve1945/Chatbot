@@ -32,7 +32,7 @@ def president_last_name(file : str) -> str:
   
   return name
 
-#Test
+#Test bonjour
 print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
@@ -45,7 +45,6 @@ print(president_all_names("Speeches/Nomination_Giscard dEstaing90868433593.txt")
 
 #print(dict_president_full_name[1])
 
-for i
 
 
 
