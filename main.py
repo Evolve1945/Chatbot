@@ -32,6 +32,7 @@ def president_last_name(file : str) -> str:
   
   return name
 
+#Test
 print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
