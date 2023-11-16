@@ -5,10 +5,22 @@ directory = "Speeches"
 print("PART I\n")
 
 #Variables
-dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François",1 : "donut"}
+dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 
 
 #Functions
+
+def list_of_files(directory, extension):
+  files_names = []
+  for filename in os.listdir(directory):
+    if filename.endswith(extension):
+      files_names.append(filename)
+  return files_names
+
+directory = "./speeches"
+files_names = list_of_files(directory, "txt")
+
+#print(files_names)
 
 def president_last_name(file : str) -> str:
   """
@@ -45,11 +57,15 @@ def get_names (directory :str) -> list :
 
 #print(get_names(directory))
 
-def president_full_names (list_of_files : list) -> str:
-  global dict_president_full_name
-  for text in list_of_files :
-    name = dict_president_full_name[text]+ " " + text
-    print("|",name,end=" |")
+
+
+def president_full_names (list_of_files : list) -> None: # Define a function that takes a list of files as input and returns a string of president full names
+  global dict_president_full_name # Declare a global variable
+  names = [] # Declare an empty list to store the names
+  for text in list_of_files : # Loop through the list of files we gave as paramaters
+    name = dict_president_full_name[text]+ " " + text # Concatenate the president's first name and last name
+    names.append(name) # Append the name to the list of names
+  print("|", " | ".join(names), "|") # Print the list of names in a formatted way
 
 
 president_full_names(get_names(directory))
