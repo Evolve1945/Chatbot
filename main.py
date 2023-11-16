@@ -32,21 +32,27 @@ def president_last_name(file : str) -> str:
   
   return name
 
-#Test bonjour
 print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
 
-def get_names (directory :str) -> list :
-  list_of_speeches = []
-  for namefile in os.listdir(directory) :
-    if namefile.endswith(".txt") :
-      speech = president_last_name(os.path.join(namefile))
-      if speech not in list_of_speeches :
-        list_of_speeches.append(speech)
-  return list_of_speeches
+def get_names (directory : str) -> list :
+
+"""
+INPUT : (str) a directories
+OUTPUT : (list) a list with the names of the directories
+"""
+  list_of_speeches = []                                         #
+  for namefile in os.listdir(directory) :                       #
+    if namefile.endswith(".txt") :                              # Delete the .txt of the name
+      speech = president_last_name(os.path.join(namefile))      #
+      if speech not in list_of_speeches :                       #
+        list_of_speeches.append(speech)                         # Add the speech in the list of speech if not already in it
+  return list_of_speeches                                       # 
 
 print(get_names(directory))
+
+
 
 def president_full_names (list_of_files : list) -> str:
   global dict_president_full_name
