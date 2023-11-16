@@ -1,12 +1,11 @@
 import os
 
-directory = "Speeches"
 #PART I
 print("PART I\n")
 
 #Variables
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
-
+directory = "Speeches"
 
 #Functions
 
@@ -41,9 +40,7 @@ def president_last_name(file : str) -> str:
       cpt += 1
   return name
 
-#Test bonjour
 #print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
-
 
 
 def get_names (directory :str) -> list :
@@ -59,7 +56,11 @@ def get_names (directory :str) -> list :
 
 
 
-def president_full_names (list_of_files : list) -> None: # Define a function that takes a list of files as input and returns a string of president full names
+def president_full_names (list_of_files : list) -> None:
+  """Function that takes a list of name files as input and prints a string of with all president full names
+  IN :
+  OUT : 
+  """
   global dict_president_full_name # Declare a global variable
   names = [] # Declare an empty list to store the names
   for text in list_of_files : # Loop through the list of files we gave as paramaters
