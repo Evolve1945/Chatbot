@@ -11,13 +11,11 @@ dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles",
 #Functions
 
 def president_last_name(file : str) -> str:
-  
   """
   IN : str, the full name of the .txt file, with the extension
   OUT : the name of the president's name giving the speech
   Description : print the president's name present in the title of the file (without the number and the extention file)
   """
-  
   L = os.path.basename(file).split("_") 
   #Split the name of the last file/folder of the
   #path into a list of strs, where we can find the first element, supposed   to be the
@@ -29,11 +27,10 @@ def president_last_name(file : str) -> str:
     if L[1].split(".")[0][i] in "abcdefghijklmnopqrstuvwxyz" and cpt == 0: 
       name = L[1].split(".")[0][:i+1]
       cpt += 1
-  
   return name
 
 #Test bonjour
-print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
+#print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
 
@@ -46,13 +43,13 @@ def get_names (directory :str) -> list :
         list_of_speeches.append(speech)
   return list_of_speeches
 
-print(get_names(directory))
+#print(get_names(directory))
 
 def president_full_names (list_of_files : list) -> str:
   global dict_president_full_name
   for text in list_of_files :
-    name = dict_president_full_name[text]+ " " + name
-    print(name)
+    name = dict_president_full_name[text]+ " " + text
+    print("|",name,end=" |")
 
 
-print(president_full_names(get_names(directory)))
+president_full_names(get_names(directory))
