@@ -1,11 +1,11 @@
 import os
 
+directory = "Speeches"
 #PART I
 print("PART I\n")
 
 #Variables
-
-dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Holland" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François",1 : "donut"}
+dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François",1 : "donut"}
 
 
 #Functions
@@ -36,19 +36,23 @@ def president_last_name(file : str) -> str:
 print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
-def president_all_names(file : str) -> str:
-  name = president_last_name(file)
-  return dict_president_full_name[name] + " " + name
 
-print(president_all_names("Speeches/Nomination_Giscard dEstaing90868433593.txt"))
+def get_names (directory :str) -> list :
+  list_of_speeches = []
+  for namefile in os.listdir(directory) :
+    if namefile.endswith(".txt") :
+      speech = president_last_name(os.path.join(namefile))
+      if speech not in list_of_speeches :
+        list_of_speeches.append(speech)
+  return list_of_speeches
+
+print(get_names(directory))
+
+def president_full_names (list_of_files : list) -> str:
+  global dict_president_full_name
+  for text in list_of_files :
+    name = dict_president_full_name[text]+ " " + name
+    print(name)
 
 
-#print(dict_president_full_name[1])
-
-
-
-
-
-
-
-
+print(president_full_names(get_names(directory)))
