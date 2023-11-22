@@ -70,3 +70,56 @@ def president_full_names (list_of_files : list) -> None:
 
 
 president_full_names(get_names(directory))
+
+
+def folder_cleaned():
+  """
+  Check if it exists a folder "Cleaned" 
+    if no : create it
+    if yes : verify if it's empty
+      if no : delete the files inside of it
+      return True
+
+  """
+  #rmv = os.rmdir
+  dirname = os.path.dirname                 #Give the name of the folder
+  path_dir = 'Chatbot/Cleaned'
+
+  if dirname == "Cleaned" in "./Chatbot":   #Verify if the folder already exists
+    for files in os.listdir(path_dir):      #Yes : Remove the files
+      os.remove(os.path.join(path_dir, files))
+  else:                                     #Create a new folder
+    os.mkdir("Cleaned")
+
+  return True
+    
+
+
+def cleaned_pt1():
+  """
+  folder_cleaned True
+    Ask if the file prime already exists
+      if yes : delete it then create a new one
+      if no : create one
+      ...
+  """
+  path_file_orgl = "/Chatbot/Speeches"
+  path_file_prime = "/Chatbot/Cleaned"
+
+  if "/Cleaned" in directory:
+    for file in "/Speeches" :
+      if file in "/Cleaned" and file in "/Speeches":
+        os.remove(os.path.join(path_file_orgl, file))
+      else:
+        os.open(path_file_prime, 'w')
+
+
+
+def cleaned_pt2():
+  """
+  ...
+  Then verify that each chr in txt is well formated
+        If no : reformate it
+        Then put the chr in the file
+  """
+  pass
