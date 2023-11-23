@@ -74,44 +74,28 @@ def president_full_names (list_of_files : list) -> None:
 
 def folder_cleaned() -> bool:
   """
-  Check if it exists a folder "Cleaned" 
-    if yes : verify if it's empty
-      if no : delete the files inside of it
-    if no : create it
-
-  return True
+  IN : None
+  Out : bool, True
+  Description : Create a folder named "Cleaned" if it doesn't exist, and delete all the files in it if it does already exist
   """
   # Defined the path
-  
-  dirname = os.path.dirname
-  path_dir = 'Cleaned'
+  dirname = os.path.dirname  # Get the directory name from the path
+  path_dir = 'Cleaned'  # Set the path of the folder to be checked/created
   
   # Check if the folder exists
-  if os.path.exists(path_dir):  
+  if os.path.exists(path_dir):  # Check if the folder already exists
     
     # If not empty, delete the files
-    list_of_files_name = os.listdir(path_dir)                  # List the files to delete them
-    for file in list_of_files_name:     
-      file_path = os.path.join(path_dir, file)
-      os.remove(file_path)    
-  
+    list_of_files_name = os.listdir(path_dir)  # Get the list of file names in the folder
+    for file in list_of_files_name:  # Iterate through the file names
+      file_path = os.path.join(path_dir, file)  # Get the full path of the file
+      os.remove(file_path)  # Remove the file
+    
   # If doesn't exist, create it
-  else :                                  
-    os.mkdir(path_dir)
+  else:  # If the folder doesn't exist
+    os.mkdir(path_dir)  # Create the folder
 
   return True
-
-
-
-  """
-  if dirname == "Cleaned" in "./Chatbot":   #Verify if the folder already exists
-    for files in os.listdir(path_dir):      #Yes : Remove the files
-      os.remove(os.path.join(path_dir, files))
-  else:                                     #Create a new folder
-    os.mkdir("Cleaned")
-
-  return True
- """
 
 
 def cleaned_pt2():
@@ -132,7 +116,7 @@ def cleaned_pt2():
       lines = file_orgl.readlines()                           # "Read" each line of the orginal
       
       for line in lines:
-        formatted_line = line.upper()
+        formatted_line = line.lower()
         file_prime.write(formatted_line)
 
   return True
