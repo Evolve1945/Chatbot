@@ -108,11 +108,11 @@ def cleaned_pt2():
   path_file_orgl = "Speeches"
   path_file_prime = "Cleaned"
 
-  for file_name in os.list(path_file_orgl):
+  for file_name in os.listdir(path_file_orgl):
     path_file_orgl = os.path.join(path_file_orgl, file_name)
     path_file_prime = os.path.join(path_file_prime,file_name)
     
-    with open(path_file_orgl, 'r') as file_orgl, open(path_file_prime, 'r') as file_prime :
+    with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'r', encoding='utf-8') as file_prime :
       lines = file_orgl.readlines()                           # "Read" each line of the orginal
       
       for line in lines:
