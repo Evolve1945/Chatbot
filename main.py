@@ -44,6 +44,11 @@ def president_last_name(file : str) -> str:
 
 
 def get_names (directory :str) -> list :
+  """  
+  IN : str corresponding to the location of the directory
+  OUT : list of strs, all last names which made the speech, without duplicates
+  Description : Function to get all the last names of the presidents which speeches are in the folder folder in parameters
+  """
   list_of_speeches = []
   for namefile in os.listdir(directory) :
     if namefile.endswith(".txt") :
@@ -57,9 +62,10 @@ def get_names (directory :str) -> list :
 
 
 def president_full_names (list_of_files : list) -> None:
-  """Function that takes a list of name files as input and prints a string of with all president full names
-  IN :
-  OUT : 
+  """
+  IN : list of strs, corresponding to files names
+  OUT : None no return
+  Description : Function that takes a list of name files as input and prints a string of with all president full names
   """
   global dict_president_full_name # Declare a global variable
   names = [] # Declare an empty list to store the names
