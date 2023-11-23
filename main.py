@@ -1,14 +1,20 @@
 import os
 import shutil
 
+
+
 #PART I
 print("PART I\n")
 
-#Variables
+
+
+#VARIABLES
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 directory = "Speeches"
 
-#Functions
+
+
+#FUNCTIONS
 
 def list_of_files(directory, extension):
   files_names = []
@@ -21,6 +27,9 @@ directory = "./speeches"
 files_names = list_of_files(directory, "txt")
 
 #print(files_names)
+
+
+
 
 def president_last_name(file : str) -> str:
   """
@@ -72,6 +81,8 @@ def president_full_names (list_of_files : list) -> None:
 
 
 
+#Cleaned text in "Cleaned" folder
+
 def folder_cleaned() -> bool:
   """
   Check if it exists a folder "Cleaned" 
@@ -103,17 +114,6 @@ def folder_cleaned() -> bool:
 
 
 
-  """
-  if dirname == "Cleaned" in "./Chatbot":   #Verify if the folder already exists
-    for files in os.listdir(path_dir):      #Yes : Remove the files
-      os.remove(os.path.join(path_dir, files))
-  else:                                     #Create a new folder
-    os.mkdir("Cleaned")
-
-  return True
- """
-
-
 def cleaned_pt2():
   """
   ...
@@ -132,10 +132,12 @@ def cleaned_pt2():
       lines = file_orgl.readlines()                           # "Read" each line of the orginal
       
       for line in lines:
-        formatted_line = line.upper()
+        formatted_line = line.lower()
         file_prime.write(formatted_line)
 
   return True
+
+
 
 
 
@@ -146,7 +148,6 @@ def cleaned_pt2():
 president_full_names(get_names(directory))
 
 folder_cleaned()
-#cleaned_pt1()
 cleaned_pt2()
 
 
