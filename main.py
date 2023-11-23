@@ -75,11 +75,11 @@ def president_full_names (list_of_files : list) -> None:
 def folder_cleaned() -> bool:
   """
   Check if it exists a folder "Cleaned" 
-    if no : create it
     if yes : verify if it's empty
       if no : delete the files inside of it
-      return True
+    if no : create it
 
+  return True
   """
   # Defined the path
   path_dir = '/Cleaned'
@@ -108,7 +108,7 @@ def folder_cleaned() -> bool:
     os.mkdir("Cleaned")
 
   return True
-  """
+ """
 
 
 def cleaned_pt1():
