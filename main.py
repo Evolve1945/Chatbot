@@ -82,22 +82,25 @@ def folder_cleaned() -> bool:
   return True
   """
   # Defined the path
-  path_dir = '/Cleaned'
-
+  
+  dirname = os.path.dirname
+  path_dir = 'Cleaned'
+  
   # Check if the folder exists
   if os.path.exists(path_dir):  
     
     # If not empty, delete the files
-    if os.listdir(path_dir):                    # List the files to delete them
-      for file in os.listdir(path_dir):     
-        file_path = os.path.join(path_dir, file)
-        os.remove(file_path)    
+    list_of_files_name = os.listdir(path_dir)                  # List the files to delete them
+    for file in list_of_files_name:     
+      file_path = os.path.join(path_dir, file)
+      os.remove(file_path)    
   
   # If doesn't exist, create it
   else :                                  
     os.mkdir(path_dir)
 
   return True
+
 
 
   """
@@ -111,27 +114,6 @@ def folder_cleaned() -> bool:
  """
 
 
-def cleaned_pt1():
-  """
-  folder_cleaned True
-    Ask if the file prime already exists
-      if yes : delete it then create a new one
-      if no : create one
-      ...
-  """
-  path_file_orgl = "/Speeches"
-  path_file_prime = "/Cleaned"
-
-  if os.listdir(path_file_prime):
-      shutil.rmtree(path_file_prime)
-      os.mkdir(path_file_prime)
-
-  else:
-    os.mkdir(path_file_prime)
-
-  return True
-
-
 def cleaned_pt2():
   """
   ...
@@ -139,8 +121,8 @@ def cleaned_pt2():
         If no : reformate it
         Then put the chr in the file
   """
-  path_file_orgl = "/Speeches"
-  path_file_prime = "/Cleaned"
+  path_file_orgl = "Speeches"
+  path_file_prime = "Cleaned"
 
   for file_name in os.list(path_file_orgl):
     path_file_orgl = os.path.join(path_file_orgl, file_name)
@@ -164,7 +146,7 @@ def cleaned_pt2():
 president_full_names(get_names(directory))
 
 folder_cleaned()
-cleaned_pt1()
+#cleaned_pt1()
 cleaned_pt2()
 
 
