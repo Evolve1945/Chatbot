@@ -1,4 +1,5 @@
 import os
+import shutil
 
 #PART I
 print("PART I\n")
@@ -44,11 +45,6 @@ def president_last_name(file : str) -> str:
 
 
 def get_names (directory :str) -> list :
-  """  
-  IN : str corresponding to the location of the directory
-  OUT : list of strs, all last names which made the speech, without duplicates
-  Description : Function to get all the last names of the presidents which speeches are in the folder folder in parameters
-  """
   list_of_speeches = []
   for namefile in os.listdir(directory) :
     if namefile.endswith(".txt") :
@@ -62,10 +58,9 @@ def get_names (directory :str) -> list :
 
 
 def president_full_names (list_of_files : list) -> None:
-  """
-  IN : list of strs, corresponding to files names
-  OUT : None no return
-  Description : Function that takes a list of name files as input and prints a string of with all president full names
+  """Function that takes a list of name files as input and prints a string of with all president full names
+  IN :
+  OUT : 
   """
   global dict_president_full_name # Declare a global variable
   names = [] # Declare an empty list to store the names
@@ -75,10 +70,9 @@ def president_full_names (list_of_files : list) -> None:
   print("|", " | ".join(names), "|") # Print the list of names in a formatted way
 
 
-president_full_names(get_names(directory))
 
 
-def folder_cleaned():
+def folder_cleaned() -> bool:
   """
   Check if it exists a folder "Cleaned" 
     if no : create it
@@ -87,10 +81,26 @@ def folder_cleaned():
       return True
 
   """
-  #rmv = os.rmdir
-  dirname = os.path.dirname                 #Give the name of the folder
-  path_dir = 'Chatbot/Cleaned'
+  # Defined the path
+  path_dir = '/Cleaned'
 
+  # Check if the folder exists
+  if os.path.exists(path_dir):  
+    
+    # If not empty, delete the files
+    if os.listdir(path_dir):                    # List the files to delete them
+      for file in os.listdir(path_dir):     
+        file_path = os.path.join(path_dir, file)
+        os.remove(file_path)    
+  
+  # If doesn't exist, create it
+  else :                                  
+    os.mkdir(path_dir)
+
+  return True
+
+
+  """
   if dirname == "Cleaned" in "./Chatbot":   #Verify if the folder already exists
     for files in os.listdir(path_dir):      #Yes : Remove the files
       os.remove(os.path.join(path_dir, files))
@@ -98,7 +108,7 @@ def folder_cleaned():
     os.mkdir("Cleaned")
 
   return True
-    
+  """
 
 
 def cleaned_pt1():
@@ -109,16 +119,17 @@ def cleaned_pt1():
       if no : create one
       ...
   """
-  path_file_orgl = "/Chatbot/Speeches"
-  path_file_prime = "/Chatbot/Cleaned"
+  path_file_orgl = "/Speeches"
+  path_file_prime = "/Cleaned"
 
-  if "/Cleaned" in directory:
-    for file in "/Speeches" :
-      if file in "/Cleaned" and file in "/Speeches":
-        os.remove(os.path.join(path_file_orgl, file))
-      else:
-        os.open(path_file_prime, 'w')
+  if os.listdir(path_file_prime):
+      shutil.rmtree(path_file_prime)
+      os.mkdir(path_file_prime)
 
+  else:
+    os.mkdir(path_file_prime)
+
+  return True
 
 
 def cleaned_pt2():
@@ -128,4 +139,32 @@ def cleaned_pt2():
         If no : reformate it
         Then put the chr in the file
   """
-  pass
+  path_file_orgl = "/Speeches"
+  path_file_prime = "/Cleaned"
+
+  for file_name in os.list(path_file_orgl):
+    path_file_orgl = os.path.join(path_file_orgl, file_name)
+    path_file_prime = os.path.join(path_file_prime,file_name)
+    
+    with open(path_file_orgl, 'r') as file_orgl, open(path_file_prime, 'r') as file_prime :
+      lines = file_orgl.readlines()                           # "Read" each line of the orginal
+      
+      for line in lines:
+        formatted_line = line.upper()
+        file_prime.write(formatted_line)
+
+  return True
+
+
+
+
+
+
+# CALL
+president_full_names(get_names(directory))
+
+folder_cleaned()
+cleaned_pt1()
+cleaned_pt2()
+
+
