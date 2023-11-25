@@ -110,18 +110,8 @@ def folder_cleaned() -> bool:
 
 
 
-  """
-  if dirname == "Cleaned" in "./Chatbot":   #Verify if the folder already exists
-    for files in os.listdir(path_dir):      #Yes : Remove the files
-      os.remove(os.path.join(path_dir, files))
-  else:                                     #Create a new folder
-    os.mkdir("Cleaned")
 
-  return True
- """
-
-
-def cleaned_pt2():
+def file_cleaned():
   """
   ...
   Then verify that each chr in txt is well formated
@@ -146,7 +136,23 @@ def cleaned_pt2():
 
 
 
+"""
+- For each file stored in the "cleaned" directory, run through its text and remove any punctuation characters.
+The final result should be a file with words separated by spaces. Please note that some characters, such as
+the apostrophe (') or the dash (-), requires special treatment to avoid concatenating two words (e.g. "elle-
+même" should become "elle même" and not "ellemême"). Changes made at this phase should be stored
+in the same files in the "cleaned" directory.
+"""
 
+punctuation_chr ="?.!,;:"
+special_punctuation_chr = "-'"
+
+def del_punct(punctuation_chr : str, special_punctuation_chr : str, text : str):
+  for i in text:
+    if text[i] == punctuation_chr:
+      text[i] == ""
+    if text[i] == special_punctuation_chr:
+      text == " "
 
 
 
@@ -155,6 +161,6 @@ def cleaned_pt2():
 president_full_names(get_names(directory))
 
 folder_cleaned()
-cleaned_pt2()
+file_cleaned()
 
 
