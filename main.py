@@ -168,16 +168,42 @@ times.
 6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
 """
 
-def calculate_tf():
-  pass
+def calculate_tf(text : str) -> dict:
+  """
+  Calculate how many times a word appears in a text
+  """
+  occurrence_word = {}
+  for word in text:
+    if word in occurrence_word:
+      occurrence_word[word] += 1
+    else:
+      occurrence_word = 0
+  return occurrence_word
 
-def calculate_idf():
-  pass
-
-def calculate_tfidf():
-  pass
 
 """
+# Besoin idée
+def calculate_idf(folder) -> dict:
+
+  cpt_in_text = 0
+
+  for file in os.listdir(folder):
+    file_path = os.path.join(folder, file)
+
+    with open(file, 'r', encoding = 'utf-8') as file:
+      cpt_in_text += 1
+
+      # Faut checker si le mot est présent dans le doc
+      #Puis trouver un moyen de calculer idf
+      return math.log(cpt / "x fois l occurence du mot" )
+
+def calculate_tfidf(text, folder):
+  tfidf = {}
+  tf = calculate_tf(text)
+  idf = calculate_idf(folder)
+
+  for word in tf.keys():
+
 def unimportant_words():
   least_important_words = []
   for word in text:
