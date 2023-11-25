@@ -1,5 +1,5 @@
 import os
-import shutil
+import math
 
 
 
@@ -11,7 +11,9 @@ print("PART I\n")
 #VARIABLES
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 directory = "Speeches"
-
+punct_chr ="?.!,;:"
+spe_punct_chr = "-'"
+acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü"}
 
 
 #FUNCTIONS
@@ -43,8 +45,8 @@ def president_last_name(file : str) -> str:
   #word "Nomination" and the second element, the name of the president with or without
   #a number, following with the extension of the file, here ".txt"
   cpt = 0
-  for i in range (len(L[1].split(".")[0])-1,1,-1) :#for loop to prevent from the name
-  #being followed by a number having more than 1 digit
+  for i in range (len(L[1].split(".")[0])-1,1,-1) :   #for loop to prevent from the name
+                                                      #being followed by a number having more than 1 digit
     if L[1].split(".")[0][i] in "abcdefghijklmnopqrstuvwxyz" and cpt == 0: 
       name = L[1].split(".")[0][:i+1]
       cpt += 1
@@ -71,12 +73,12 @@ def president_full_names (list_of_files : list) -> None:
   IN :
   OUT : 
   """
-  global dict_president_full_name # Declare a global variable
-  names = [] # Declare an empty list to store the names
-  for text in list_of_files : # Loop through the list of files we gave as paramaters
+  global dict_president_full_name                     # Declare a global variable
+  names = []                                          # Declare an empty list to store the names
+  for text in list_of_files :                         # Loop through the list of files we gave as paramaters
     name = dict_president_full_name[text]+ " " + text # Concatenate the president's first name and last name
-    names.append(name) # Append the name to the list of names
-  print("|", " | ".join(names), "|") # Print the list of names in a formatted way
+    names.append(name)                                # Append the name to the list of names
+  print("|", " | ".join(names), "|")                  # Print the list of names in a formatted way
 
 
 
@@ -90,21 +92,21 @@ def folder_cleaned() -> bool:
   Description : Create a folder named "Cleaned" if it doesn't exist, and delete all the files in it if it does already exist
   """
   # Defined the path
-  dirname = os.path.dirname  # Get the directory name from the path
-  path_dir = 'Cleaned'  # Set the path of the folder to be checked/created
   
-  # Check if the folder exists
-  if os.path.exists(path_dir):  # Check if the folder already exists
+  #dirname = os.path.dirname 
+  path_dir = 'Cleaned'                              # Set the path of the folder to be checked/created
+  
+  if os.path.exists(path_dir):                      # Check if the folder already exists
     
-    # If not empty, delete the files
-    list_of_files_name = os.listdir(path_dir)  # Get the list of file names in the folder
-    for file in list_of_files_name:  # Iterate through the file names
-      file_path = os.path.join(path_dir, file)  # Get the full path of the file
-      os.remove(file_path)  # Remove the file
+    # If not empty, delete the files but keep the folder
+    list_of_files_name = os.listdir(path_dir)       # Get the list of file names in the folder
+    for file in list_of_files_name:                 # Iterate through the file names
+      file_path = os.path.join(path_dir, file)      # Get the full path of the file
+      os.remove(file_path)                          # Remove the file
     
   # If doesn't exist, create it
-  else:  # If the folder doesn't exist
-    os.mkdir(path_dir)  # Create the folder
+  else:                                             # If the folder doesn't exist
+    os.mkdir(path_dir)                              # Create the folder
 
   return True
 
@@ -113,46 +115,50 @@ def folder_cleaned() -> bool:
 
 def file_cleaned():
   """
+  For folder_cleaned == True :
   ...
   Then verify that each chr in txt is well formated
         If no : reformate it
         Then put the chr in the file
   """
-  path_file_orgl = "Speeches"
-  path_file_prime = "Cleaned"
+  path_file_orgl = "Speeches"                                 # Original path
+  path_file_prime = "Cleaned"                                 # New path
 
-  for file_name in os.listdir(path_file_orgl):
-    path_file_orgl = os.path.join(path_file_orgl, file_name)
-    path_file_prime = os.path.join(path_file_prime,file_name)
+  for file_name in os.listdir(path_file_orgl):                # For the file in the original folder do :
+    path_file_orgl = "Speeches"                                 # Original path
+    path_file_prime = "Cleaned"  
+    path_file_orgl = os.path.join(path_file_orgl, file_name)  # 
+    path_file_prime = os.path.join(path_file_prime,file_name) #
+    print(path_file_orgl)
+    print(path_file_prime)
     
-    with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'r', encoding='utf-8') as file_prime :
+    
+    with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime :
       lines = file_orgl.readlines()                           # "Read" each line of the orginal
       
-      for line in lines:
-        formatted_line = line.lower()
-        file_prime.write(formatted_line)
+      for line in lines:  
+        cleaned_line = ""  
+        
+        for character in line:                            # For each character in each line
+          formatted_character = character.lower()               # Lower the character A -> a
+      
+          if formatted_character in punct_chr:
+            
+            if formatted_character == "'" and cleaned_line and cleaned_line[-1] != ' ':
+              cleaned_line += ' ' + formatted_character 
+            elif formatted_character == '-':
+              cleaned_line += ' '
+              
+          else:
+            cleaned_line += formatted_character
+
+        file_prime.write(cleaned_line)                 # Re-write the lowered character in the new file
 
   return True
 
 
 
-"""
-- For each file stored in the "cleaned" directory, run through its text and remove any punctuation characters.
-The final result should be a file with words separated by spaces. Please note that some characters, such as
-the apostrophe (') or the dash (-), requires special treatment to avoid concatenating two words (e.g. "elle-
-même" should become "elle même" and not "ellemême"). Changes made at this phase should be stored
-in the same files in the "cleaned" directory.
-"""
 
-punctuation_chr ="?.!,;:"
-special_punctuation_chr = "-'"
-
-def del_punct(punctuation_chr : str, special_punctuation_chr : str, text : str):
-  for i in text:
-    if text[i] == punctuation_chr:
-      text[i] == ""
-    if text[i] == special_punctuation_chr:
-      text == " "
 
 
 
