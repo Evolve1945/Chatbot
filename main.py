@@ -13,7 +13,7 @@ dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles",
 directory = "Speeches"
 punct_chr ="?.!,;:"
 spe_punct_chr = "-'"
-acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü"}
+acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü", 'c' : "ç"}
 
 
 #FUNCTIONS
@@ -157,12 +157,44 @@ def file_cleaned():
   return True
 
 
+"""
+1. Display the list of least important words in the document corpus. 
+A word is said to be unimportant if its TD-IDF = 0 in all files.
+2. Display the word(s) with the highest TD-IDF score
+3. Indicate the most repeated word(s) by President Chirac
+4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
+times.
+5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
+6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
+"""
 
+def calculate_tf():
+  pass
 
+def calculate_idf():
+  pass
 
+def calculate_tfidf():
+  pass
 
+"""
+def unimportant_words():
+  least_important_words = []
+  for word in text:
+    if calculate_tfidf(word) == 0:
+      least_important_words.add(word)
+  return least_important_words
+    
+    
+def important_words():
+  most_important_words = []
+  for word in text:
+    if calculate_tfidf(word) == max(calculate_tfidf(text)):
+      most_important_words.add(word)
+  return most_important_words
 
-
+"""
+  
 # CALL
 president_full_names(get_names(directory))
 
