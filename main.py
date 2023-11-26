@@ -174,7 +174,9 @@ def tf(text : str) -> dict:                                                     
       frequency[word] = 1                                                               # If not, initialize the frequency of the word to 1
     else:
       frequency[word] += 1                                                              # If the word is already in the frequency dictionary, increment its frequency by 1
-  frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True))   # Sort the frequency dictionary by word in descending order
+  for word in frequency :                                                               # Iterate over each word in the frequency dictionary
+    frequency[word] = frequency[word] / len(text)                                       # Calculate the frequency of the word
+  frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True))   # Sort the frequency dictionary by value in descending order
   return frequency                                                                      # Return the dictionary of word frequencies
 
 
@@ -199,7 +201,7 @@ def idf(folder : str) -> dict:                                                  
       words = set(file.read().split())                                                          # Use a set to get unique words in the document
       
       for word in words:                                                                        # Iterate over each word in the document
-        if word in word_in_docs:                                                              # Check if the word is already in the word_in_docs dictionary
+        if word in word_in_docs:                                                                # Check if the word is already in the word_in_docs dictionary
           word_in_docs[word] += 1                                                               # If yes, increment the number of documents containing the word by 1
         else:                                                                                   # If not
           word_in_docs[word] = 1                                                                # If not, initialize the number of documents containing the word to 1
@@ -216,7 +218,7 @@ def calculate_tfidf(text, folder):                                              
   tf_values = tf(text)                                                                          # Calculate the TF of each word in the text
   idf_values = idf(folder)                                                                      # Calculate the IDF of each word in the folder
 
-  for word in tf_values.keys():                                                               # Iterate over each word in the TF dictionary
+  for word in tf_values.keys():                                                                 # Iterate over each word in the TF dictionary
     if word in idf_values:                                                                      # Check if the word is in the IDF dictionary
       tfidf[word] = tf_values[word] * idf_values[word]                                          # Calculate the TF-IDF of the word and store it in the TF-IDF dictionary
     else:
@@ -248,7 +250,7 @@ president_full_names(get_names(directory))
 folder_cleaned()
 file_cleaned()
 
-print(tf("Speeches mommy car car car bobby vive la france la France est un beau pays il faut se réveiller et aller travailler pour la france".lower()))
+print(tf("Speeches mommy car car car bobby vive la france la France est un beau pays il faut se reveiller et aller travailler pour la france".lower()))
 print(idf("Cleaned"))
 
 print(calculate_tfidf("doit", "Cleaned"))
