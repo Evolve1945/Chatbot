@@ -27,16 +27,16 @@ def president_last_name(file : str) -> str:
   OUT : the name of the president's name giving the speech
   Description : print the president's name present in the title of the file (without the number and the extention file)
   """
-  L = os.path.basename(file).split("_") 
+  file_name = os.path.basename(file).split("_") 
   #Split the name of the last file/folder of the
   #path into a list of strs, where we can find the first element, supposed   to be the
   #word "Nomination" and the second element, the name of the president with or without
   #a number, following with the extension of the file, here ".txt"
   cpt = 0
-  for i in range (len(L[1].split(".")[0])-1,1,-1) :#for loop to prevent from the name
+  for i in range (len(file_name[1].split(".")[0])-1,1,-1) :#for loop to prevent from the name
   #being followed by a number having more than 1 digit
-    if L[1].split(".")[0][i] in "abcdefghijklmnopqrstuvwxyz" and cpt == 0: 
-      name = L[1].split(".")[0][:i+1]
+    if file_name[1].split(".")[0][i] in "abcdefghijklmnopqrstuvwxyz" and cpt == 0: 
+      name = file_name[1].split(".")[0][:i+1]
       cpt += 1
   return name
 
