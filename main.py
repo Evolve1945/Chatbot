@@ -116,39 +116,37 @@ def file_cleaned():
   """
   acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
 
-  path_file_orgl = "Speeches"                                 # Original path
-  path_file_prime = "Cleaned"                                 # New path
+  path_file_orgl = "Speeches"                                                          # Original path
+  path_file_prime = "Cleaned"                                                          # New path
 
-  for file_name in os.listdir(path_file_orgl):                # For the file in the original folder do :
-    path_file_orgl = "Speeches"                               # Original path
+  for file_name in os.listdir(path_file_orgl):                                         # For the file in the original folder do :
+    path_file_orgl = "Speeches"                                                        # Original path
     path_file_prime = "Cleaned"  
-    path_file_orgl = os.path.join(path_file_orgl, file_name)  # path_file_orgl\file_name
-    path_file_prime = os.path.join(path_file_prime,file_name) # path_file_prime\file_name
+    path_file_orgl = os.path.join(path_file_orgl, file_name)                           # path_file_orgl\file_name
+    path_file_prime = os.path.join(path_file_prime,file_name)                          # path_file_prime\file_name
     #print(path_file_orgl)
     #print(path_file_prime)
 
     with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime:
-      lines = file_orgl.readlines()                           # "Read" each line of the orginal and return them as a list of str (a line = an element)
+      lines = file_orgl.readlines()                                                    # "Read" each line of the orginal and return them as a list of str (a line = an element)
 
       for line in lines:  
         cleaned_line = ""  
 
-        for character in line:                                # For each character in each line
-          formatted_character = character.lower()             # Lower the character A -> a
+        for character in line:                                                         # For each character in each line
+          formatted_character = character.lower()                                      # Lower the character A -> a
 
-          if formatted_character in ("'", "-",):              # if f_chr = ! . ? , ; :
-            formatted_character = ""
-          elif formatted_character in (".", ",", ":", ";", "!", "?"):       
-            formatted_character = ""
-          elif formatted_character == "\n":                    # If the character is a new line
-            formatted_character = ""                           # Delete it
+          if formatted_character in ("'", "-","\n"):                                   # If the character is a special character
+            formatted_character = " "
+          elif formatted_character in (".", ",", ":", ";", "!", "?"):                  # If the character is a new line
+            formatted_character = ""                                                   # Delete it            
 
           for key, value in acc.items():
-            formatted_character = formatted_character.replace(key, value) # Replace a special character by a "normal" one
+            formatted_character = formatted_character.replace(key, value)              # Replace a special character by a "normal" one
 
           cleaned_line += formatted_character
 
-        file_prime.write(cleaned_line)                        # Re-write the lowered character in the new file
+        file_prime.write(cleaned_line)                                                 # Re-write the lowered character in the new file
 
   return True
 
@@ -193,14 +191,23 @@ def idf(folder : str) -> dict:                                                  
   
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
   nb = 0                                                                                        # Initialize a counter variable to keep track of the number of files
-  
+  word_in_docs = {}                                                                             # Create an empty dictionary to store the number of documents containing each word
+
   for files in os.listdir(folder):                                                              # Iterate over each file in the specified folder
     with open(os.path.join(folder, files), 'r', encoding = 'utf-8') as file:                    # Open the file in read mode with UTF-8 encoding
       nb += 1                                                                                   # Increment the counter variable
-      words = file.read()                                                                       # Read the contents of the file
-      frequency = tf(words)                                                                     # Calculate the term frequency (TF) for each word in the file
-      for word in frequency:                                                                    # Iterate over each word in the frequency dictionary
-        idf_dict[word] = log(nb / frequency[word])                                              # Calculate the IDF value for the word and store it in the IDF dictionary
+      words = set(file.read().split())                                                          # Use a set to get unique words in the document
+      
+      for word in words:                                                                        # Iterate over each word in the document
+        if word if word_in_docs:                                                              # Check if the word is already in the word_in_docs dictionary
+          word_in_docs[word] += 1                                                               # If yes, increment the number of documents containing the word by 1
+        else:                                                                                   # If not
+          word_in_docs[word] = 1                                                                # If not, initialize the number of documents containing the word to 1
+
+  for word, count in word_in_docs.items():                                                      # Iterate over each word in the word_in_docs dictionary
+    idf_dict[word] = log(nb / count)                                                            # Calculate the IDF of the word and store it in the IDF dictionary
+  
+  idf_dict = dict(sorted(idf_dict.items(), key=lambda item: item[1], reverse=True))             # Sort the idf_dict by value in descending order
   return idf_dict                                                                               # Return the IDF dictionary
 
 
