@@ -257,7 +257,33 @@ president_full_names(get_names(directory))
 folder_cleaned()
 file_cleaned()
 
-print(tf("Nomination_Chirac1.txt","Cleaned"))
+#print(tf("Nomination_Chirac1.txt","Cleaned"))
 #print(idf("Cleaned"))
 
-print(calculate_tfidf("Cleaned"))
+#print(calculate_tfidf("Cleaned"))
+
+
+"""
+1. Display the list of least important words in the document corpus. 
+A word is said to be unimportant if its TD-IDF = 0 in all files.
+2. Display the word(s) with the highest TD-IDF score
+3. Indicate the most repeated word(s) by President Chirac
+4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
+times.
+5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
+6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
+"""
+
+#1
+def least_imp_words(tfidf_matrix):
+  nbr_words_display = int(input("How many words do you want to display ?"))
+  liw_list = []
+  tfidf_matrixpop = tfidf_matrix
+  for word in tfidf_matrix:
+    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))
+    del tfidf_matrixpop[tfidf_matrix.index(min_tfidf)]
+    liw_list.append(min_tfidf)
+  return liw_list[:nbr_words_display]
+
+
+#print(least_imp_words(calculate_tfidf("Cleaned")))
