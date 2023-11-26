@@ -321,7 +321,7 @@ def mentioned_nation(folder):
       doc = file.read()
       if 'nation' in doc and president_last_name(text) not in presidents_mentioning_nation:
         presidents_mentioning_nation.append(president_last_name(text))
-  return f"The word ecologie/climat was mentioned by {', '.join(presidents_mentioning_nation)}."
+  return f"The word nation was mentioned by {', '.join(presidents_mentioning_nation)}."
 
 def mentioned_climate(folder):
   presidents_mentioning_climate = []
