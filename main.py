@@ -128,6 +128,7 @@ def file_cleaned():
   for file_name in os.listdir(path_file_orgl):                # For the file in the original folder do :
     path_file_orgl = "Speeches"                               # Original path
     path_file_prime = "Cleaned"  
+    
     path_file_orgl = os.path.join(path_file_orgl, file_name)  # path_file_orgl\file_name
     path_file_prime = os.path.join(path_file_prime,file_name) # path_file_prime\file_name
     #print(path_file_orgl)
@@ -159,16 +160,7 @@ def file_cleaned():
   return True
 
 
-"""
-1. Display the list of least important words in the document corpus. 
-A word is said to be unimportant if its TD-IDF = 0 in all files.
-2. Display the word(s) with the highest TD-IDF score
-3. Indicate the most repeated word(s) by President Chirac
-4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
-times.
-5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
-6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
-"""
+
 
 def tf(text : str) -> dict:
   """
@@ -203,7 +195,7 @@ def idf(directory : str) -> dict:
         frequency = tf(words)
 
         for word in frequency:
-          idf_dict[word] = math.log(nb / frequency[word])
+          idf_dict[word] = math.log(nb / frequency[word] + 1)
 
 
   return idf_dict
@@ -249,13 +241,24 @@ def tf_idf_matrix( directory : str) -> dict:
 
   return tf_idf_dict
 
+"""
+1. Display the list of least important words in the document corpus. 
+A word is said to be unimportant if its TD-IDF = 0 in all files.
+2. Display the word(s) with the highest TD-IDF score
+3. Indicate the most repeated word(s) by President Chirac
+4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
+times.
+5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
+6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
+"""
+
 #1
 def least_imp_words(tf_idf_dict):
   """
   Get all words the find those which have a tf-idf == 0 in all files
   """
   words = []
-  liw = []
+  least_important_words = []
 
   for document in tf_idf_dict :
     liw.update(tf_idf_dict[words])
@@ -269,19 +272,23 @@ def least_imp_words(tf_idf_dict):
         unimportant = False
 
     if unimportant:
-      least_imp_words.append(word)
+      least_important_words.append(word)
 
   return word
 
 
-"""
-def important_words():
-  most_important_words = []
-  for word in text:
-    if calculate_tfidf(word) == max(calculate_tfidf(text)):
-      most_important_words.add(word)
-  return most_important_words
+#2
+def most_imp_words(tf_idf_dict):
+  most_important_worlds = {}
+  for document, tf_idf_freq_dict in tf_idf_dict.items():
+    max_freq = max(tf_idf_freq_dict, key = tf_idf_freq_dict.get)
+    most_important_worlds[document] == (max_freq, tf_idf_freq[max_freq])
 
+  for word, tfidf in most_important_worlds.items():
+    print(f"Word with the highest TF_IDF score : {word} ({tfidf})")
+
+
+#3
 
   
 # CALL
@@ -289,5 +296,5 @@ president_full_names(get_names(directory))
 
 folder_cleaned()
 file_cleaned()
-"""
+least_imp_words(tf_idf_matrix("./Cleaned"))
 
