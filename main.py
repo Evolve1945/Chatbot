@@ -162,22 +162,24 @@ times.
 6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
 """
 
-def tf(text : str) -> dict:                                                             # Defines a function named "tf" that takes one parameter: "text"
-  """IN : str, the text
-  OUT : dict, the frequency of each word in the text
-  Description : Calculate how many times a word appears in a text
+def tf(file_path : str, folder : str) -> dict:                                          # Defines a function named "tf" that takes two parameters: "file_path" and "folder"
+  """IN : str, the file path & str, the path of the folder
+  OUT : dict, the frequency of each word in the text file
+  Description : Calculate how many times a word appears in a text file
   """
   frequency = {}                                                                        # Create an empty dictionary to store the word frequencies
-  text = text.split(" ")                                                                # Split the text into individual words
-  for word in text:                                                                     # Iterate over each word in the text
-    if word not in frequency:                                                           # Check if the word is not already in the frequency dictionary
-      frequency[word] = 1                                                               # If not, initialize the frequency of the word to 1
-    else:
-      frequency[word] += 1                                                              # If the word is already in the frequency dictionary, increment its frequency by 1
-  for word in frequency :                                                               # Iterate over each word in the frequency dictionary
-    frequency[word] = frequency[word] / len(text)                                       # Calculate the frequency of the word
-  frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True))   # Sort the frequency dictionary by value in descending order
-  return frequency                                                                      # Return the dictionary of word frequencies
+  with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:                                  # Open the file in read mode with UTF-8 encoding
+    text = file.read()                                                                  # Read the contents of the file
+    words = text.split()                                                                # Split the text into individual words
+    for word in words:                                                                  # Iterate over each word in the text
+      if word not in frequency:                                                         # Check if the word is not already in the frequency dictionary
+        frequency[word] = 1                                                             # If not, initialize the frequency of the word to 1
+      else:
+        frequency[word] += 1                                                            # If the word is already in the frequency dictionary, increment its frequency by 1
+    for word in frequency :                                                             # Iterate over each word in the frequency dictionary
+      frequency[word] = frequency[word] / len(words)                                    # Calculate the frequency of the word
+    frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True)) # Sort the frequency dictionary by value in descending order
+    return frequency                                                                    # Return the dictionary of word frequencies
 
 
 
@@ -192,12 +194,11 @@ def idf(folder : str) -> dict:                                                  
   """
   
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
-  nb = 0                                                                                        # Initialize a counter variable to keep track of the number of files
+  nb = len(os.listdir(folder))                                                                                       # Initialize a counter variable to keep track of the number of files
   word_in_docs = {}                                                                             # Create an empty dictionary to store the number of documents containing each word
 
   for files in os.listdir(folder):                                                              # Iterate over each file in the specified folder
     with open(os.path.join(folder, files), 'r', encoding = 'utf-8') as file:                    # Open the file in read mode with UTF-8 encoding
-      nb += 1                                                                                   # Increment the counter variable
       words = set(file.read().split())                                                          # Use a set to get unique words in the document
       
       for word in words:                                                                        # Iterate over each word in the document
@@ -210,22 +211,23 @@ def idf(folder : str) -> dict:                                                  
     idf_dict[word] = log(nb / count)                                                            # Calculate the IDF of the word and store it in the IDF dictionary
   
   idf_dict = dict(sorted(idf_dict.items(), key=lambda item: item[1], reverse=True))             # Sort the idf_dict by value in descending order
-  return idf_dict                                                                               # Return the IDF dictionary
+  return idf_dict                                                                           # Return the IDF dictionary
 
 
 def calculate_tfidf(text, folder):                                                              # Calculates the tfidf of each word in the text
   tfidf = {}                                                                                    # Create an empty dictionary to store the TF-IDF values
-  tf_values = tf(text)                                                                          # Calculate the TF of each word in the text
+  tf_values = tf(text, folder)                                                                          # Calculate the TF of each word in the text
   idf_values = idf(folder)                                                                      # Calculate the IDF of each word in the folder
-
   for word in tf_values.keys():                                                                 # Iterate over each word in the TF dictionary
-    if word in idf_values:                                                                      # Check if the word is in the IDF dictionary
-      tfidf[word] = tf_values[word] * idf_values[word]                                          # Calculate the TF-IDF of the word and store it in the TF-IDF dictionary
+    if word in idf_values:
+      print(idf_values[word])                                                                     # Check if the word is in the IDF dictionary
+      tfidf[word] = tf_values[word] * idf_values[word]  
+      print (tfidf.items())                                        # Calculate the TF-IDF of the word and store it in the TF-IDF dictionary
     else:
       tfidf[word] = 0                                                                           # If the word is not in the IDF dictionary, initialize its TF-IDF to 0
   total_idf = sum(idf_values.values())                                                          # Calculate the total IDF of the folder
 
-  return tfidf, total_idf                                                                       # Return the TF-IDF dictionary and the total IDF of the folder
+  return total_idf#tfidf, total_idf                                                                       # Return the TF-IDF dictionary and the total IDF of the folder
 """
 def unimportant_words():
   least_important_words = []
@@ -250,7 +252,7 @@ president_full_names(get_names(directory))
 folder_cleaned()
 file_cleaned()
 
-print(tf("Speeches mommy car car car bobby vive la france la France est un beau pays il faut se reveiller et aller travailler pour la france".lower()))
+#print(tf("Nomination_Chirac1.txt","Cleaned"))
 print(idf("Cleaned"))
 
-print(calculate_tfidf("doit", "Cleaned"))
+#print(calculate_tfidf("Nomination_Chirac1.txt","Cleaned"))
