@@ -137,7 +137,7 @@ def file_cleaned():
           formatted_character = character.lower()             # Lower the character A -> a
 
           if formatted_character in ("'", "-",):              # if f_chr = ! . ? , ; :
-            formatted_character = " "
+            formatted_character = ""
           elif formatted_character in (".", ",", ":", ";", "!", "?"):       
             formatted_character = ""
           elif formatted_character == "\n":                    # If the character is a new line
