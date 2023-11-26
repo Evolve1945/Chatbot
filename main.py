@@ -316,14 +316,25 @@ def most_repeated_words_by(president: str, folder: str):
 #print(most_repeated_words_by("Chirac", "Cleaned"))
 
 
-def mentioned_nation(folder):
-  presidents_mentioning_nation = []
+def mentioned_climate(folder):
+  presidents_mentioning_climate = []
   for text in os.listdir(folder):
     with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:
       doc = file.read()
-      if 'nation' in doc and president_last_name(text) not in presidents_mentioning_nation:
-        presidents_mentioning_nation.append(president_last_name(text))
-  return f"The word nation was mentionned by {', '.join(presidents_mentioning_nation)}."
+      if ('ecologie' in doc or 'climat' in doc) and president_last_name(text) not in presidents_mentioning_climate:
+        presidents_mentioning_climate.append(president_last_name(text))
+  return f"The word ecologie/climat was mentioned by {', '.join(presidents_mentioning_climate)}."
+
+#print(mentioned_climate("Cleaned"))
+
+#6
+def words_mentioned_by_all_presidents(folder):
+  matrix = calculate_tfidf(folder)
+  words = []
+  for word in matrix:
+    if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] :
+      words.append(word[0])
+  return f"The words mentioned by all presidents are {', '.join(words)}."
 
 
-#print(mentioned_nation("Cleaned"))
+print(words_mentioned_by_all_presidents("Cleaned"))
