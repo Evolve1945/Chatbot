@@ -10,9 +10,9 @@ print("PART I\n")
 
 #VARIABLES
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
+
 directory = "Speeches"
-punct_chr = ",?.!;:"
-#acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü", 'c' : "ç"}
+
 
 #FUNCTIONS
 
@@ -38,13 +38,16 @@ def president_last_name(file : str) -> str:
   Description : print the president's name present in the title of the file (without the number and the extention file)
   """
   L = os.path.basename(file).split("_") 
+
   #Split the name of the last file/folder of the
-  #path into a list of strs, where we can find the first element, supposed   to be the
-  #word "Nomination" and the second element, the name of the president with or without
-  #a number, following with the extension of the file, here ".txt"
+  #path into a list of strs, where we can find the 
+  #first element, supposed to be the word "Nomination" 
+  #and the second element, the name of the president 
+  #with or without a number, following with the extension 
+  # of the file, here ".txt"
+
   cpt = 0
-  for i in range (len(L[1].split(".")[0])-1,1,-1) :   #for loop to prevent from the name
-                                                      #being followed by a number having more than 1 digit
+  for i in range (len(L[1].split(".")[0])-1,1,-1) :   #for loop to prevent from the name being followed by a number having more than 1 digit
     if L[1].split(".")[0][i] in "abcdefghijklmnopqrstuvwxyz" and cpt == 0: 
       name = L[1].split(".")[0][:i+1]
       cpt += 1
@@ -73,7 +76,7 @@ def president_full_names (list_of_files : list) -> None:
   """
   global dict_president_full_name                     # Declare a global variable
   names = []                                          # Declare an empty list to store the names
-  for text in list_of_files :                         # Loop through the list of files we gave as paramaters
+  for text in list_of_files :                         
     name = dict_president_full_name[text]+ " " + text # Concatenate the president's first name and last name
     names.append(name)                                # Append the name to the list of names
   print("|", " | ".join(names), "|")                  # Print the list of names in a formatted way
@@ -89,20 +92,18 @@ def folder_cleaned() -> bool:
   Out : bool, True
   Description : Create a folder named "Cleaned" if it doesn't exist, and delete all the files in it if it does already exist
   """
-  # Defined the path
   
-  #dirname = os.path.dirname 
   path_dir = 'Cleaned'                              # Set the path of the folder to be checked/created
   
   if os.path.exists(path_dir):                      # Check if the folder already exists
     
-    # If not empty, delete the files but keep the folder
+                                                    # If not empty, delete the files but keep the folder
     list_of_files_name = os.listdir(path_dir)       # Get the list of file names in the folder
-    for file in list_of_files_name:                 # Iterate through the file names
+    for file in list_of_files_name:                 
       file_path = os.path.join(path_dir, file)      # Get the full path of the file
       os.remove(file_path)                          # Remove the file
     
-  # If doesn't exist, create it
+                                                    
   else:                                             # If the folder doesn't exist
     os.mkdir(path_dir)                              # Create the folder
 
@@ -119,6 +120,8 @@ def file_cleaned():
         If no : reformate it
         Then put the chr in the file
   """
+  acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
+
   path_file_orgl = "Speeches"                                 # Original path
   path_file_prime = "Cleaned"                                 # New path
 
@@ -127,8 +130,8 @@ def file_cleaned():
     path_file_prime = "Cleaned"  
     path_file_orgl = os.path.join(path_file_orgl, file_name)  # path_file_orgl\file_name
     path_file_prime = os.path.join(path_file_prime,file_name) # path_file_prime\file_name
-    print(path_file_orgl)
-    print(path_file_prime)
+    #print(path_file_orgl)
+    #print(path_file_prime)
     
     
     with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime :
@@ -140,22 +143,16 @@ def file_cleaned():
         for character in line:                                # For each character in each line
           formatted_character = character.lower()             # Lower the character A -> a
       
-          if formatted_character in ("'", "-"):                # if f_chr = ! . ? , ; :
+          if formatted_character in ("'", "-",):               # if f_chr = ! . ? , ; :
               formatted_character = " "
-
-          """
-          elif formatted_character in acc.values():
-
-            for key, value in acc.items():
-
-              if value == formatted_character:
-                formatted_character = key
-                
-
-            formatted_character = acc.get(formatted_character, formatted_character)
+          elif formatted_character in (".", ",", ":", ";", "!", "?"):       
+              formatted_character = ""
+          
+          for key, value in acc.items():
+            formatted_character = formatted_character.replace(key, value) # Replace a special character by a "normal" one
           
           cleaned_line += formatted_character
-          """
+          
 
         file_prime.write(cleaned_line)                 # Re-write the lowered character in the new file
 
@@ -173,42 +170,54 @@ times.
 6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
 """
 
-def calculate_tf(text : str) -> dict:
+def tf(text : str) -> dict:
   """
   Calculate how many times a word appears in a text
   """
-  occurrence_word = {}
-  for word in text:
-    if word in occurrence_word:
-      occurrence_word[word] += 1
+  frequency = {}
+
+  for word in range(len(text)):
+    if text[word] not in frequency:
+      frequency[word] = 0
+
     else:
-      occurrence_word = 0
-  return occurrence_word
+      frequency[word] += 1
+
+  frequency = dict(sorted(frequency.items(), key = lambda item : item[0]))
+  return frequency
 
 
-"""
-# Besoin idée
-def calculate_idf(folder) -> dict:
 
-  cpt_in_text = 0
 
-  for file in os.listdir(folder):
-    file_path = os.path.join(folder, file)
 
-    with open(file, 'r', encoding = 'utf-8') as file:
-      cpt_in_text += 1
+def idf(folder : str) -> dict:
 
-      # Faut checker si le mot est présent dans le doc
-      #Puis trouver un moyen de calculer idf
-      return math.log(cpt / "x fois l occurence du mot" )
+  idf_dict = {}
+  nb = 0
+
+  for files in os.listdir(folder):
+      
+      with open(os.path.join(folder, files), 'r', encoding = 'utf-8') as file:
+        nb += 1
+        words = file.read().split
+        frequency = tf(words)
+
+        for word in frequency:
+          idf_dict[word] = math.log(nb / frequency[word])
+
+  
+  return idf_dict
+
 
 def calculate_tfidf(text, folder):
   tfidf = {}
-  tf = calculate_tf(text)
-  idf = calculate_idf(folder)
+  tf = tf(text)
+  idf = idf(folder)
 
   for word in tf.keys():
+    pass
 
+"""
 def unimportant_words():
   least_important_words = []
   for word in text:
