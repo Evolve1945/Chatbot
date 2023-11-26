@@ -255,4 +255,4 @@ file_cleaned()
 #print(tf("Nomination_Chirac1.txt","Cleaned"))
 print(idf("Cleaned"))
 
-#print(calculate_tfidf("Nomination_Chirac1.txt","Cleaned"))
+print(calculate_tfidf("Nomination_Chirac1.txt","Cleaned"))
