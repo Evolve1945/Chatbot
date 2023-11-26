@@ -190,22 +190,22 @@ def tf(text : str) -> dict:
 
 
 
-def idf(folder : str) -> dict:
+def idf(directory : str) -> dict:
 
   idf_dict = {}
   nb = 0
 
-  for files in os.listdir(folder):
+  for files in os.listdir(directory):
       
-      with open(os.path.join(folder, files), 'r', encoding = 'utf-8') as file:
+      with open(os.path.join(directory, files), 'r', encoding = 'utf-8') as file:
         nb += 1
         words = file.read().split
         frequency = tf(words)
 
         for word in frequency:
           idf_dict[word] = math.log(nb / frequency[word])
-
-  
+          
+            
   return idf_dict
 
 
@@ -216,6 +216,29 @@ def calculate_tfidf(text, folder):
 
   for word in tf.keys():
     pass
+
+
+def tf_idf_matrix( directory : str) -> dict:
+  """
+  Takes the files' directory and return a matrix
+  """
+
+  td_idf_matrix = []
+
+  for file in os.listdir(directory):
+    with open(os.path.join(directory, file), 'r', encoding = 'utf_8') as files:
+      tf_freq = tf(file.read().split())
+      idf_freq = idf(directory)
+      tf_idf_freq = []
+      tf_idf_dict = {}
+
+      for word in tf_freq:
+        if word in idf_freq:
+          tf_idf_freq = tf_freq[word] * idf_freq[word]
+          tf_idf_freq.append(tf_idf_freq)
+          tf_idf_dict = tf_idf_freq
+      tf_idf_matrix.append(tf_idf_freq)
+      tf_idf_dict[file] = tf_idf_dict
 
 """
 def unimportant_words():
