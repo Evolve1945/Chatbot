@@ -106,13 +106,13 @@ def folder_cleaned() -> bool:                       # Defines a function named "
 
 
 
-def file_cleaned():                                           # Defines a function named "file_cleaned" that takes no parameter
+def file_cleaned():
   """
   For folder_cleaned == True :
   ...
   Then verify that each chr in txt is well formated
-        If no : reformate it
-        Then put the chr in the file
+    If no : reformate it
+    Then put the chr in the file
   """
   acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
 
@@ -126,27 +126,27 @@ def file_cleaned():                                           # Defines a functi
     path_file_prime = os.path.join(path_file_prime,file_name) # path_file_prime\file_name
     #print(path_file_orgl)
     #print(path_file_prime)
-    
-    
-    with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime :
+
+    with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime:
       lines = file_orgl.readlines()                           # "Read" each line of the orginal and return them as a list of str (a line = an element)
-      
+
       for line in lines:  
         cleaned_line = ""  
-        
+
         for character in line:                                # For each character in each line
           formatted_character = character.lower()             # Lower the character A -> a
-      
+
           if formatted_character in ("'", "-",):              # if f_chr = ! . ? , ; :
-              formatted_character = " "
+            formatted_character = " "
           elif formatted_character in (".", ",", ":", ";", "!", "?"):       
-              formatted_character = " "
-          
+            formatted_character = ""
+          elif formatted_character == "\n":                    # If the character is a new line
+            formatted_character = ""                           # Delete it
+
           for key, value in acc.items():
             formatted_character = formatted_character.replace(key, value) # Replace a special character by a "normal" one
-          
+
           cleaned_line += formatted_character
-          
 
         file_prime.write(cleaned_line)                        # Re-write the lowered character in the new file
 
