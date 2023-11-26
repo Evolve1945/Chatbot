@@ -199,7 +199,7 @@ def idf(folder : str) -> dict:                                                  
       words = set(file.read().split())                                                          # Use a set to get unique words in the document
       
       for word in words:                                                                        # Iterate over each word in the document
-        if word if word_in_docs:                                                              # Check if the word is already in the word_in_docs dictionary
+        if word in word_in_docs:                                                              # Check if the word is already in the word_in_docs dictionary
           word_in_docs[word] += 1                                                               # If yes, increment the number of documents containing the word by 1
         else:                                                                                   # If not
           word_in_docs[word] = 1                                                                # If not, initialize the number of documents containing the word to 1
