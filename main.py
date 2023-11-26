@@ -42,7 +42,7 @@ def president_last_name(file : str) -> str:                                 # De
       cpt += 1                                                              #Increment the counter to prevent from the name being followed by a number having more than 1 digit
   return name                                                               #Return the name of the president
 
-#print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
+print(president_last_name("Speeches/Nomination_Giscard dEstaing23574657642746246247642464564754.txt"))
 
 
 def get_names (directory :str) -> list :                                    # Defines a function named "get_names" that takes one parameter: "directory"
@@ -314,3 +314,16 @@ def most_repeated_words_by(president: str, folder: str):
   return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}"
 
 #print(most_repeated_words_by("Chirac", "Cleaned"))
+
+
+def mentioned_nation(folder):
+  presidents_mentioning_nation = []
+  for text in os.listdir(folder):
+    with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:
+      doc = file.read()
+      if 'nation' in doc and president_last_name(text) not in presidents_mentioning_nation:
+        presidents_mentioning_nation.append(president_last_name(text))
+  return f"The word nation was mentionned by {', '.join(presidents_mentioning_nation)}."
+
+
+#print(mentioned_nation("Cleaned"))
