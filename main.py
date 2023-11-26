@@ -211,17 +211,19 @@ def idf(folder : str) -> dict:                                                  
   return idf_dict                                                                               # Return the IDF dictionary
 
 
-def calculate_tfidf(text, folder):
-  tfidf = {}
-  tf = tf(text)
-  idf = idf(folder)
+def calculate_tfidf(text, folder):                                                              # Calculates the tfidf of each word in the text
+  tfidf = {}                                                                                    # Create an empty dictionary to store the TF-IDF values
+  tf_values = tf(text)                                                                          # Calculate the TF of each word in the text
+  idf_values = idf(folder)                                                                      # Calculate the IDF of each word in the folder
 
-  for word in tf.keys():
-    tfidf[word] = tf[word] * idf[word]
+  for word in tf_values.keys():                                                               # Iterate over each word in the TF dictionary
+    if word in idf_values:                                                                      # Check if the word is in the IDF dictionary
+      tfidf[word] = tf_values[word] * idf_values[word]                                          # Calculate the TF-IDF of the word and store it in the TF-IDF dictionary
+    else:
+      tfidf[word] = 0                                                                           # If the word is not in the IDF dictionary, initialize its TF-IDF to 0
+  total_idf = sum(idf_values.values())                                                          # Calculate the total IDF of the folder
 
-  total_idf = sum(idf.values())  # Calculate the total final idf
-
-  return tfidf, total_idf
+  return tfidf, total_idf                                                                       # Return the TF-IDF dictionary and the total IDF of the folder
 """
 def unimportant_words():
   least_important_words = []
@@ -248,3 +250,5 @@ file_cleaned()
 
 print(tf("Speeches mommy car car car bobby vive la france la France est un beau pays il faut se réveiller et aller travailler pour la france".lower()))
 print(idf("Cleaned"))
+
+print(calculate_tfidf("doit", "Cleaned"))
