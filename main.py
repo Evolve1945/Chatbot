@@ -379,24 +379,24 @@ def choice_menu(choice, tf_idf_dict):
     second_choice = int(input("Enter the number : "))
 
     if second_choice == 1:
-      print("Least important words : ", least_imp_words(tf_idf_dict))
+      print("Least important words : ", least_imp_words("Cleaned"))
 
     elif second_choice == 2:
-      print("Most important words : ", most_imp_words(tf_idf_dict))
+      print("Most important words : ", most_imp_words("Cleaned"))
 
     elif second_choice == 3:
       president = "Chirac"
       print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, 'Cleaned')}")
 
     elif second_choice == 4:
-      print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
+      print("President(s) mentioning the Nation : ", mentioned_nation('Cleaned'))
     
     elif second_choice == 5:
-      print("1st president to mention climate : ", mentioned_climate("Cleaned"))
+      print("1st president to mention climate : ", mentioned_climate('Cleaned'))
 
     
     elif second_choice == 6:
-      print("Words mentionned by every president : ", words_mentioned_by_all_presidents("Cleaned"))
+      print("Words mentionned by every president : ", words_mentioned_by_all_presidents(tf_idf_dict))
 
     elif second_choice == 7:
       main_menu()
@@ -416,13 +416,13 @@ def run_chatbot():
   while True:
     main_menu()
     choice = int(input("Enter a number :"))
-    choice_menu(choice, tf_idf_dict)
+    choice_menu(choice, "Speeches")
 
 
 
   
 # CALL
-president_full_names(get_names(directory))
+president_full_names(get_names("Speeches"))
 
 folder_cleaned()
 file_cleaned()
