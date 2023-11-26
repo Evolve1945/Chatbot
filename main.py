@@ -274,7 +274,6 @@ times.
 6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
 """
 
-#1
 def least_imp_words(tfidf_matrix):
   nbr_words_display = int(input("How many words do you want to display ?"))
   liw_list = []
@@ -286,4 +285,32 @@ def least_imp_words(tfidf_matrix):
   return liw_list[:nbr_words_display]
 
 
+def most_imp_words(tfidf_matrix):
+  nbr_words_display = int(input("How many words do you want to display ?"))
+  miw_list = []
+  tfidf_matrixpop = tfidf_matrix
+  for word in tfidf_matrix:
+    max_tfidf = max(tfidf_matrix, key=lambda x: max(x[1]))
+    del tfidf_matrixpop[tfidf_matrix.index(max_tfidf)]
+    miw_list.append(max_tfidf)
+  return miw_list[:nbr_words_display]
+#print(most_imp_words(calculate_tfidf("Cleaned")))
+
+
 #print(least_imp_words(calculate_tfidf("Cleaned")))
+
+
+def most_repeated_words_by(president: str, folder: str):
+  president_speeches = [i for i in os.listdir(folder) if president in i]
+  most_repeated_words = []
+  nbr_words_display = int(input("How many words do you want to display ?"))
+
+  for text in president_speeches:
+    tf_values = tf(text, folder)
+    for _ in range(len(tf_values)):
+      max_word = max(tf_values, key=tf_values.get)
+      most_repeated_words.append(max_word)
+      del tf_values[max_word]
+  return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}"
+
+#print(most_repeated_words_by("Chirac", "Cleaned"))
