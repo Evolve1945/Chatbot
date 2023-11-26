@@ -11,10 +11,8 @@ print("PART I\n")
 #VARIABLES
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 directory = "Speeches"
-punct_chr ="?.!,;:"
-spe_punct_chr = "-'"
-acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü", 'c' : "ç"}
-
+punct_chr = ",?.!;:"
+#acc = {'a' : "àâä", 'e' : "éèêë", 'i' : "îï", 'o' : "ôö", 'u' : "ûü", 'c' : "ç"}
 
 #FUNCTIONS
 
@@ -125,32 +123,39 @@ def file_cleaned():
   path_file_prime = "Cleaned"                                 # New path
 
   for file_name in os.listdir(path_file_orgl):                # For the file in the original folder do :
-    path_file_orgl = "Speeches"                                 # Original path
+    path_file_orgl = "Speeches"                               # Original path
     path_file_prime = "Cleaned"  
-    path_file_orgl = os.path.join(path_file_orgl, file_name)  # 
-    path_file_prime = os.path.join(path_file_prime,file_name) #
+    path_file_orgl = os.path.join(path_file_orgl, file_name)  # path_file_orgl\file_name
+    path_file_prime = os.path.join(path_file_prime,file_name) # path_file_prime\file_name
     print(path_file_orgl)
     print(path_file_prime)
     
     
     with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime :
-      lines = file_orgl.readlines()                           # "Read" each line of the orginal
+      lines = file_orgl.readlines()                           # "Read" each line of the orginal and return them as a list of str (a line = an element)
       
       for line in lines:  
         cleaned_line = ""  
         
-        for character in line:                            # For each character in each line
-          formatted_character = character.lower()               # Lower the character A -> a
+        for character in line:                                # For each character in each line
+          formatted_character = character.lower()             # Lower the character A -> a
       
-          if formatted_character in punct_chr:
-            
-            if formatted_character == "'" and cleaned_line and cleaned_line[-1] != ' ':
-              cleaned_line += ' ' + formatted_character 
-            elif formatted_character == '-':
-              cleaned_line += ' '
-              
-          else:
-            cleaned_line += formatted_character
+          if formatted_character in ("'", "-"):                # if f_chr = ! . ? , ; :
+              formatted_character = " "
+
+          """
+          elif formatted_character in acc.values():
+
+            for key, value in acc.items():
+
+              if value == formatted_character:
+                formatted_character = key
+                
+
+            formatted_character = acc.get(formatted_character, formatted_character)
+          
+          cleaned_line += formatted_character
+          """
 
         file_prime.write(cleaned_line)                 # Re-write the lowered character in the new file
 
