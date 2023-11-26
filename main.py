@@ -261,7 +261,7 @@ def least_imp_words(tf_idf_dict):
   least_important_words = []
 
   for document in tf_idf_dict :
-    liw.update(tf_idf_dict[words])
+    least_important_words.update(tf_idf_dict[words])
 
   for word in words:
     unimportant = True
@@ -304,15 +304,47 @@ def most_repeated_words_by(president : str, tf_idf_dict):
 
   return most_repeated_words
 
-#3
+#4
 def mentioned_nation(tf_idf_dict):
   presidents_mentioning_nation = []
 
   for document in tf_idf_dict:
     if 'Nation' in tf_idf_dict[document]:
-      president_name = get_president_name(document)
+      president_name = get_names(document)
       presidents_mentioning_nation.append(president_name)
   return presidents_mentioning_nation
+
+#5
+def mentioned_climate(tf_idf_dict):
+  for document in tf_idf_dict:
+    if 'climat' in tf_idf_dict[document] or 'ecologie' in tf_idf_dict[document]:
+      return get_names(document)
+    
+  return None
+
+#6
+def unimportant_words_mentioned(tf_idf_dict):
+
+  common_words = []
+
+  for document in tf_idf_dict:
+    first_document = document
+  
+  for word in tf_idf_dict[first_document]:
+    common = True
+
+    for document in tf_idf_dict:
+      if word not in tf_idf_dict[document] or tf_idf_dict[document][word] == 0:
+        common = False
+
+    if common:
+      common_words.append(word)
+
+
+  return common_words
+
+
+
   
 # CALL
 president_full_names(get_names(directory))
@@ -327,3 +359,9 @@ president = "Chirac"
 print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, tf_idf_dict)}")
 
 print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
+
+print("1st president to mention climate : ", mentioned_climate(tf_idf_dict))
+
+print("Words mentionned by every president : ", unimportant_words_mentioned(tf_idf_dict))
+
+
