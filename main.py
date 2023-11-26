@@ -344,7 +344,7 @@ def words_mentioned_by_all_presidents(folder):
   return f"The words mentioned by all presidents are {', '.join(words)}."
 
 
-print(words_mentioned_by_all_presidents("Cleaned"))
+#print(words_mentioned_by_all_presidents("Cleaned"))
 
 """
 MAIN MENU
@@ -386,7 +386,7 @@ def choice_menu(choice, tf_idf_dict):
 
     elif second_choice == 3:
       president = "Chirac"
-      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, "Cleaned")}")
+      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, 'Cleaned')}")
 
     elif second_choice == 4:
       print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
@@ -396,7 +396,7 @@ def choice_menu(choice, tf_idf_dict):
 
     
     elif second_choice == 6:
-      print("Words mentionned by every president : ", unimportant_words_mentioned("Cleaned"))
+      print("Words mentionned by every president : ", words_mentioned_by_all_presidents("Cleaned"))
 
     elif second_choice == 7:
       main_menu()
@@ -426,9 +426,6 @@ president_full_names(get_names(directory))
 
 folder_cleaned()
 file_cleaned()
-
-td_idf_dict(tf_idf_matrix("./Cleaned"))
-
 run_chatbot()
 
 
