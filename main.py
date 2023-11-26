@@ -289,7 +289,7 @@ def most_imp_words(tf_idf_dict) -> str:
 
 
 #3
-def most_repeated_words_by(president : str, tf_idf_dict) -> str:
+def most_repeated_words_by(president : str, tf_idf_dict):
   
   president_speeches = []
   most_repeated_words = []
@@ -300,11 +300,30 @@ def most_repeated_words_by(president : str, tf_idf_dict) -> str:
 
   for document in president_speeches:
     max_words = max(tf_idf_dict[document], key = tf_idf_dict[document].get)
+    max_words.append(most_repeated_words)
+
+  return most_repeated_words
+
+#3
+def mentioned_nation(tf_idf_dict):
+  presidents_mentioning_nation = []
+
+  for document in tf_idf_dict:
+    if 'Nation' in tf_idf_dict[document]:
+      president_name = get_president_name(document)
+      presidents_mentioning_nation.append(president_name)
+  return presidents_mentioning_nation
   
 # CALL
 president_full_names(get_names(directory))
 
 folder_cleaned()
 file_cleaned()
-least_imp_words(tf_idf_matrix("./Cleaned"))
 
+least_imp_words(tf_idf_matrix("./Cleaned"))
+most_imp_words(tf_idf_matrix("Cleaned"))
+
+president = "Chirac"
+print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, tf_idf_dict)}")
+
+print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
