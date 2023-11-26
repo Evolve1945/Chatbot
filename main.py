@@ -278,7 +278,7 @@ def least_imp_words(tf_idf_dict):
 
 
 #2
-def most_imp_words(tf_idf_dict):
+def most_imp_words(tf_idf_dict) -> str:
   most_important_worlds = {}
   for document, tf_idf_freq_dict in tf_idf_dict.items():
     max_freq = max(tf_idf_freq_dict, key = tf_idf_freq_dict.get)
@@ -289,7 +289,17 @@ def most_imp_words(tf_idf_dict):
 
 
 #3
+def most_repeated_words_by(president : str, tf_idf_dict) -> str:
+  
+  president_speeches = []
+  most_repeated_words = []
 
+  for document in tf_idf_dict:
+    if president in document:
+      president_speeches.append(document)
+
+  for document in president_speeches:
+    max_words = max(tf_idf_dict[document], key = tf_idf_dict[document].get)
   
 # CALL
 president_full_names(get_names(directory))
