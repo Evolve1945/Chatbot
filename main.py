@@ -282,7 +282,7 @@ def most_imp_words(tf_idf_dict) -> str:
   most_important_worlds = {}
   for document, tf_idf_freq_dict in tf_idf_dict.items():
     max_freq = max(tf_idf_freq_dict, key = tf_idf_freq_dict.get)
-    most_important_worlds[document] == (max_freq, tf_idf_freq[max_freq])
+    most_important_worlds[document] == (max_freq, tf_idf_freq_dict[max_freq])
 
   for word, tfidf in most_important_worlds.items():
     print(f"Word with the highest TF_IDF score : {word} ({tfidf})")
@@ -344,6 +344,79 @@ def unimportant_words_mentioned(tf_idf_dict):
   return common_words
 
 
+"""
+MAIN MENU
+"""
+
+def main_menu():
+  print("--- CHATBOT ---")
+  print("1. List Presidents' Full Names")
+  print("2. Reformat the text and put them in the 'Cleaned' folder")
+  print("3. Analyze text and display results")
+  print("4. Exit")
+
+def choice_menu(choice, tf_idf_dict):
+  if choice == "1":
+    president_full_names(get_names(directory))
+  elif choice == "2":
+    folder_cleaned()
+    file_cleaned()
+
+    print("Texts cleaned and moved to the 'Cleaned' folder")
+
+  elif choice == "3":
+    print("--- CHATBOT ---")
+    print("1. Display the list of least important words")
+    print("2. Display words with the highest TF-IDF score")
+    print("3. Display the most used words by president Chirac")
+    print("4. Display the name(s) of the president(s) who used the word 'Nation'")
+    print("5. Identify the first president to talk about climate")
+    print("6. Display the most common word used by all the presidents")
+    print("7. Exit")
+
+    second_choice = int(input("Enter the number : "))
+
+    if second_choice == 1:
+      print("Least important words : ", least_imp_words(tf_idf_dict))
+
+    elif second_choice == 2:
+      print("Most important words : ", most_imp_words(tf_idf_dict))
+
+    elif second_choice == 3:
+      president = "Chirac"
+      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, tf_idf_dict)}")
+
+    elif second_choice == 4:
+      print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
+    
+    elif second_choice == 5:
+      print("1st president to mention climate : ", mentioned_climate(tf_idf_dict))
+
+    
+    elif second_choice == 6:
+      print("Words mentionned by every president : ", unimportant_words_mentioned(tf_idf_dict))
+
+    elif second_choice == 7:
+      main_menu()
+
+    else :
+      print("Invalid")
+
+
+  elif choice == "4":
+    print("End.")
+    exit()
+
+  else:
+    print("Invalid")
+
+def run_chatbot():
+  while True:
+    main_menu()
+    choice = int(input("Enter a number :"))
+    choice_menu(choice, tf_idf_dict)
+
+
 
   
 # CALL
@@ -352,16 +425,8 @@ president_full_names(get_names(directory))
 folder_cleaned()
 file_cleaned()
 
-least_imp_words(tf_idf_matrix("./Cleaned"))
-most_imp_words(tf_idf_matrix("Cleaned"))
+td_idf_dict(tf_idf_matrix("./Cleaned"))
 
-president = "Chirac"
-print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, tf_idf_dict)}")
-
-print("President(s) mentioning the Nation : ", mentioned_nation(tf_idf_dict))
-
-print("1st president to mention climate : ", mentioned_climate(tf_idf_dict))
-
-print("Words mentionned by every president : ", unimportant_words_mentioned(tf_idf_dict))
+run_chatbot()
 
 
