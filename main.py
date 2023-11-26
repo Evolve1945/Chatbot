@@ -204,11 +204,11 @@ def idf(directory : str) -> dict:
 
         for word in frequency:
           idf_dict[word] = math.log(nb / frequency[word])
-          
-            
+
+
   return idf_dict
 
-
+"""
 def calculate_tfidf(text, folder):
   tfidf = {}
   tf = tf(text)
@@ -216,39 +216,65 @@ def calculate_tfidf(text, folder):
 
   for word in tf.keys():
     pass
-
+"""
 
 def tf_idf_matrix( directory : str) -> dict:
   """
   Takes the files' directory and return a matrix
   """
 
-  td_idf_matrix = []
+  tf_idf_matrix = []
 
   for file in os.listdir(directory):
+
     with open(os.path.join(directory, file), 'r', encoding = 'utf_8') as files:
+
       tf_freq = tf(file.read().split())
       idf_freq = idf(directory)
       tf_idf_freq = []
       tf_idf_dict = {}
 
       for word in tf_freq:
+
         if word in idf_freq:
           tf_idf_freq = tf_freq[word] * idf_freq[word]
           tf_idf_freq.append(tf_idf_freq)
-          tf_idf_dict = tf_idf_freq
+          tf_idf_freq_dict = tf_idf_freq
+
       tf_idf_matrix.append(tf_idf_freq)
       tf_idf_dict[file] = tf_idf_dict
 
+  for file, tf_idf_freq_dict in tf_idf_dict.items():
+    tf_idf_freq_dict['tf_idf_matrix'] = tf_idf_matrix
+
+  return tf_idf_dict
+
+#1
+def least_imp_words(tf_idf_dict):
+  """
+  Get all words the find those which have a tf-idf == 0 in all files
+  """
+  words = []
+  liw = []
+
+  for document in tf_idf_dict :
+    liw.update(tf_idf_dict[words])
+
+  for word in words:
+    unimportant = True
+
+    for document in tf_idf_dict:
+
+      if tf_idf_dict[document] and tf_idf_dict[document][word] != 0:
+        unimportant = False
+
+    if unimportant:
+      least_imp_words.append(word)
+
+  return word
+
+
 """
-def unimportant_words():
-  least_important_words = []
-  for word in text:
-    if calculate_tfidf(word) == 0:
-      least_important_words.add(word)
-  return least_important_words
-    
-    
 def important_words():
   most_important_words = []
   for word in text:
@@ -256,12 +282,12 @@ def important_words():
       most_important_words.add(word)
   return most_important_words
 
-"""
+
   
 # CALL
 president_full_names(get_names(directory))
 
 folder_cleaned()
 file_cleaned()
-
+"""
 
