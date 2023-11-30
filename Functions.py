@@ -189,7 +189,7 @@ def idf(folder : str) -> dict:                                                  
   OUT : dict, the idf of each word in the folder
   Description : Function that takes a folder as input and returns a dictionary of the idf of each word in the folder
   """
-  
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                     #Checks if the folder is a str
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
   nb = len(os.listdir(folder))                                                                  # Initialize a counter variable to keep track of the number of files
   word_in_docs = {}                                                                             # Create an empty dictionary to store the number of documents containing each word
@@ -212,107 +212,169 @@ def idf(folder : str) -> dict:                                                  
 
 
 def calculate_tfidf(folder):
-  idf_values = idf(folder)
-  tfidf_matrix = []
-  for filename in os.listdir(folder):
-    tf_values = tf(filename, folder)
-    for key in idf_values.keys():
-      found = False
-      for i in range(len(tfidf_matrix)):
-        if tfidf_matrix[i][0] == key:
-          if key in tf_values :
-            tfidf_matrix[i][1].append(idf_values[key] * tf_values[key])
-          else:
-            tfidf_matrix[i][1].append(0)
-          found = True
-      if found == False:
-        if key in tf_values:
-          tfidf_matrix.append([key, [idf_values[key] * tf_values[key]]])
-        else:
-          tfidf_matrix.append([key, [0]])
-  return tfidf_matrix
+  assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
+  idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder
+  tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
+
+  for filename in os.listdir(folder):                                                   # Iterate over each file in the folder
+    tf_values = tf(filename, folder)                                                    # Get the TF values of the words in the file
+
+    for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
+      found = False                                                                     # Initialize a boolean variable to keep track of whether the word is in the TF-IDF matrix or not
+
+      for i in range(len(tfidf_matrix)):                                                # Iterate over each word in the TF-IDF matrix
+        
+        if tfidf_matrix[i][0] == key:                                                   # Check if the word is already in the TF-IDF matrix
+          
+          if key in tf_values :                                                         # If yes, check if the word is in the TF dictionary
+            tfidf_matrix[i][1].append(idf_values[key] * tf_values[key])                 # If yes, append the TF-IDF value of the word to the list of TF-IDF values of the word
+          
+          else:                                                                         # If not
+            tfidf_matrix[i][1].append(0)                                                # Append 0 to the list of TF-IDF values of the word
+          found = True                                                                  # Set the boolean variable to True
+      
+      if found == False:                                                                # If the word is not in the TF-IDF matrix
+        
+        if key in tf_values:                                                            # Check if the word is in the TF dictionary
+          tfidf_matrix.append([key, [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
+        
+        else:                                                                           # If not
+          tfidf_matrix.append([key, [0]])                                               # Append the word and 0 to the TF-IDF matrix
+  
+  return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
   
 
 
 
-"""
-1. Display the list of least important words in the document corpus. 
-A word is said to be unimportant if its TD-IDF = 0 in all files.
-2. Display the word(s) with the highest TD-IDF score
-3. Indicate the most repeated word(s) by President Chirac
-4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
-times.
-5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
-6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
-"""
 
-def least_imp_words(tfidf_matrix):
-  nbr_words_display = int(input("How many words do you want to display ?"))
-  liw_list = []
-  tfidf_matrixpop = tfidf_matrix
-  for word in tfidf_matrix:
-    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))
-    del tfidf_matrixpop[tfidf_matrix.index(min_tfidf)]
-    liw_list.append(min_tfidf)
-  return liw_list[:nbr_words_display]
+#1. Display the list of least important words in the document corpus. 
+#A word is said to be unimportant if its TD-IDF = 0 in all files.
+#2. Display the word(s) with the highest TD-IDF score
+#3. Indicate the most repeated word(s) by President Chirac
+#4. Indicate the name(s) of the president(s) who spoke of the "Nation" and the one who repeated it the most
+#times.
+#5. Identify the first president to talk about climate (“climat”) and/or ecology (“écologie”)
+#6. Excepti the so-called "unimportant" words, which word(s) did all the president mention?
 
+def least_imp_words(tfidf_matrix : list) -> list:                                       # Defines a function named "least_imp_words" that takes one parameter: "tfidf_matrix"
+  """
+  IN : list of lists, the tfidf matrix
+  OUT : list of lists, the least important words
+  Description : Function that takes a tfidf matrix as input and returns a list of the least important words
+  """
+  assert type(tfidf_matrix) == list and tfidf_matrix != [], "Insert a valid list tf-idf matrix" #Checks if the tfidf matrix is a list
+  nbr_words_display = int(input("How many words do you want to display ?"))             # Ask the user how many words he wants to display
+  liw_list = []                                                                         # Create an empty list to store the least important words
+  tfidf_matrixpop = tfidf_matrix                                                        # Create a copy of the TF-IDF matrix to avoid modifying the original matrix
 
-def most_imp_words(tfidf_matrix):
-  nbr_words_display = int(input("How many words do you want to display ?"))
-  miw_list = []
-  tfidf_matrixpop = tfidf_matrix
-  for word in tfidf_matrix:
-    max_tfidf = max(tfidf_matrix, key=lambda x: max(x[1]))
-    del tfidf_matrixpop[tfidf_matrix.index(max_tfidf)]
-    miw_list.append(max_tfidf)
-  return miw_list[:nbr_words_display]
+  for word in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
+    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))-                             # Get the word with the minimum TF-IDF value
+    del tfidf_matrixpop[tfidf_matrix.index(min_tfidf)]                                  # Delete the word from the TF-IDF matrix
+    liw_list.append(min_tfidf)                                                          # Append the word to the list of least important words
+  
+  return liw_list[:nbr_words_display]                                                   # Return the list of least important words
 
 
+def most_imp_words(tfidf_matrix : list) -> list:                                        # Defines a function named "most_imp_words" that takes one parameter: "tfidf_matrix"
+  """
+  IN : list of lists, the tfidf matrix
+  OUT : list of lists, the most important words
+  Description : Function that takes a tfidf matrix as input and returns a list of the most important words
+  """
+  assert type(tfidf_matrix) == list and tfidf_matrix != [], "Insert a valid list tf-idf matrix" #Checks if the tfidf matrix is a list
+  nbr_words_display = int(input("How many words do you want to display ?"))             # Ask the user how many words he wants to display
+  miw_list = []                                                                         # Create an empty list to store the most important words
+  tfidf_matrixpop = tfidf_matrix                                                        # Create a copy of the TF-IDF matrix to avoid modifying the original matrix
+  
+  for word in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
+    max_tfidf = max(tfidf_matrix, key=lambda x: max(x[1]))                              # Get the word with the maximum TF-IDF value
+    del tfidf_matrixpop[tfidf_matrix.index(max_tfidf)]                                  # Delete the word from the TF-IDF matrix
+    miw_list.append(max_tfidf)                                                          # Append the word to the list of most important words
+
+  return miw_list[:nbr_words_display]                                                   # Return the list of most important words
 
 
 
 
-def most_repeated_words_by(president: str, folder: str):
-  president_speeches = [i for i in os.listdir(folder) if president in i]
-  most_repeated_words = []
-  nbr_words_display = int(input("How many words do you want to display ?"))
-
-  for text in president_speeches:
-    tf_values = tf(text, folder)
-    for _ in range(len(tf_values)):
-      max_word = max(tf_values, key=tf_values.get)
-      most_repeated_words.append(max_word)
-      del tf_values[max_word]
-  return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}"
 
 
-def mentioned_nation(folder):
-  presidents_mentioning_nation = []
-  for text in os.listdir(folder):
-    with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:
-      doc = file.read()
-      if 'nation' in doc and president_last_name(text) not in presidents_mentioning_nation:
-        presidents_mentioning_nation.append(president_last_name(text))
-  return f"The word nation was mentioned by {', '.join(presidents_mentioning_nation)}."
+def most_repeated_words_by(president: str, folder: str) -> str :
+  """
+  IN : str, the name of the president & str, the path of the folder
+  OUT : str, the most repeated words by the president
+  Description : Function that takes a president and a folder as input and returns a string of the most repeated words by the president
+  """
+  assert type(president) == str and president != "" and type(folder) == str and folder != "", "Insert a valid str president and folder" #Checks if the president and the folder are str
+  president_speeches = [i for i in os.listdir(folder) if president in i]            # Get the list of the president's speeches
+  most_repeated_words = []                                                          # Create an empty list to store the most repeated words
+  nbr_words_display = int(input("How many words do you want to display ?"))         # Ask the user how many words he wants to display
 
-def mentioned_climate(folder):
-  presidents_mentioning_climate = []
-  for text in os.listdir(folder):
-    with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:
-      doc = file.read()
-      if ('ecologie' in doc or 'climat' in doc) and president_last_name(text) not in presidents_mentioning_climate:
-        presidents_mentioning_climate.append(president_last_name(text))
-  return f"The word ecologie/climat was mentioned by {', '.join(presidents_mentioning_climate)}."
+  for text in president_speeches:                                                   # Iterate over each speech of the president
+    tf_values = tf(text, folder)                                                    # Get the TF values of the words in the speech
+
+    for _ in range(len(tf_values)):                                                 # Iterate over each word in the TF dictionary
+      max_word = max(tf_values, key=tf_values.get)                                  # Get the word with the maximum TF value
+      most_repeated_words.append(max_word)                                          # Append the word to the list of most repeated words
+      del tf_values[max_word]                                                       # Delete the word from the TF dictionary
+
+  return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}" # Return the string of the most repeated words by the president
+
+
+def mentioned_nation(folder : str) -> str:
+  """
+  IN : str, the path of the folder
+  OUT : str, the president(s) who mentioned the word "Nation"
+  Description : Function that takes a folder as input and returns a string of the president(s) who mentioned the word "Nation"
+  """
+  assert type(folder) == str and folder != "", "Insert a valid str folder" #Checks if the folder is a str
+  presidents_mentioning_nation = []                                                                 # Create an empty list to store the presidents who mentioned the word "Nation"
+  
+  for text in os.listdir(folder):                                                                   # Iterate over each file in the folder
+    with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:                           # Open the file in read mode with UTF-8 encoding
+      doc = file.read()                                                                             # Read the contents of the file
+      
+      if 'nation' in doc and president_last_name(text) not in presidents_mentioning_nation:         # Check if the word "Nation" is in the file and if the president is not already in the list of presidents who mentioned the word "Nation"
+        presidents_mentioning_nation.append(president_last_name(text))                              # If yes, append the president to the list of presidents who mentioned the word "Nation"
+
+  return f"The word nation was mentioned by {', '.join(presidents_mentioning_nation)}."             # Return the string of the president(s) who mentioned the word "Nation"
+
+
+def mentioned_climate(folder : str)-> str :
+  """
+  IN : str, the path of the folder
+  OUT : str, the first president to mention the word "Climate"
+  Description : Function that takes a folder as input and returns a string of the first president to mention the word "Climate"
+  """
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                                              #Checks if the folder is a str
+  presidents_mentioning_climate = []                                                                                    # Create an empty list to store the presidents who mentioned the word "Climate"
+  
+  for text in os.listdir(folder):                                                                                       # Iterate over each file in the folder
+    with open(os.path.join(folder, text), 'r', encoding='utf-8') as file:                                               # Open the file in read mode with UTF-8 encoding
+      doc = file.read()                                                                                                 # Read the contents of the file
+
+      if ('ecologie' in doc or 'climat' in doc) and president_last_name(text) not in presidents_mentioning_climate:     # Check if the word "Ecologie" or "Climat" is in the file and if the president is not already in the list of presidents who mentioned the word "Climate"
+        presidents_mentioning_climate.append(president_last_name(text))                                                 # If yes, append the president to the list of presidents who mentioned the word "Climate"
+
+  return f"The word ecologie/climat was mentioned by {', '.join(presidents_mentioning_climate)}."                       # Return the string of the first president to mention the word "Climate"
 
 
 
 #6
-def words_mentioned_by_all_presidents(folder):
-  matrix = calculate_tfidf(folder)
-  words = []
-  for word in matrix:
-    if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] :
-      words.append(word[0])
-  return f"The words mentioned by all presidents are {', '.join(words)}."
+def words_mentioned_by_all_presidents(folder : str)-> str :                         # Defines a function named "words_mentioned_by_all_presidents" that takes one parameter: "folder"
+  """
+  IN : str, the path of the folder
+  OUT : str, the words mentioned by all presidents
+  Description : Function that takes a folder as input and returns a string of the words mentioned by all presidents
+  """
+  assert type(folder) == str and folder != "", "Insert a valid str folder"          #Checks if the folder is a str
+  matrix = calculate_tfidf(folder)                                                  # Get the TF-IDF matrix of the folder
+  words = []                                                                        # Create an empty list to store the words mentioned by all presidents
+  
+  for word in matrix:                                                               # Iterate over each word in the TF-IDF matrix
+    
+    if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] :                               # Check if the word is mentioned by all presidents
+      words.append(word[0])                                                         # If yes, append the word to the list of words mentioned by all presidents
+  
+  return f"The words mentioned by all presidents are {', '.join(words)}."           # Return the string of the words mentioned by all presidents
