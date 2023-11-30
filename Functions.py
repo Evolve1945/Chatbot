@@ -270,7 +270,7 @@ def least_imp_words(tfidf_matrix : list) -> list:                               
   tfidf_matrixpop = tfidf_matrix                                                        # Create a copy of the TF-IDF matrix to avoid modifying the original matrix
 
   for word in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
-    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))-                             # Get the word with the minimum TF-IDF value
+    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))                              # Get the word with the minimum TF-IDF value
     del tfidf_matrixpop[tfidf_matrix.index(min_tfidf)]                                  # Delete the word from the TF-IDF matrix
     liw_list.append(min_tfidf)                                                          # Append the word to the list of least important words
   
