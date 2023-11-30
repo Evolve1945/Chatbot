@@ -316,6 +316,3 @@ def words_mentioned_by_all_presidents(folder):
     if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] :
       words.append(word[0])
   return f"The words mentioned by all presidents are {', '.join(words)}."
-
-
-
