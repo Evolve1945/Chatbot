@@ -163,7 +163,9 @@ def tf(file_path : str, folder : str) -> dict:                                  
   Description : Calculate how many times a word appears in a text file
   """
   assert type(file_path) == str and file_path != "" and type(folder) == str and folder != "", "Insert a valid str file path and folder" #Checks if the file path and the folder are str
+ 
   frequency = {}                                                                        # Create an empty dictionary to store the word frequencies
+  
   with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:          # Open the file in read mode with UTF-8 encoding
     text = file.read()                                                                  # Read the contents of the file
     words = text.split()                                                                # Split the text into individual words
@@ -189,6 +191,7 @@ def idf(folder : str) -> dict:                                                  
   Description : Function that takes a folder as input and returns a dictionary of the idf of each word in the folder
   """
   assert type(folder) == str and folder != "", "Insert a valid str folder"                     #Checks if the folder is a str
+  
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
   nb = len(os.listdir(folder))                                                                  # Initialize a counter variable to keep track of the number of files
   word_in_docs = {}                                                                             # Create an empty dictionary to store the number of documents containing each word
@@ -297,6 +300,7 @@ def most_imp_words(tfidf_matrix : list) -> list:                                
 
 
 
+unimportant_words_mentionned = ['qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
 
 
 def most_repeated_words_by(president: str, folder: str) -> str :
@@ -314,8 +318,10 @@ def most_repeated_words_by(president: str, folder: str) -> str :
     tf_values = tf(text, folder)                                                    # Get the TF values of the words in the speech
 
     for _ in range(len(tf_values)):                                                 # Iterate over each word in the TF dictionary
-      max_word = max(tf_values, key=tf_values.get)                                  # Get the word with the maximum TF value
-      most_repeated_words.append(max_word)                                          # Append the word to the list of most repeated words
+      max_word = max(tf_values, key = tf_values.get)                                  # Get the word with the maximum TF value
+      if max_word not in unimportant_words_mentionned:                              # Check if the word is not in the list of unimportant words
+        most_repeated_words.append(max_word)                                        # Append the word to the list of most repeated words
+                                                    # If yes, increment the number of words to display by 1
       del tf_values[max_word]                                                       # Delete the word from the TF dictionary
 
   return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}" # Return the string of the most repeated words by the president
@@ -377,3 +383,9 @@ def words_mentioned_by_all_presidents(folder : str)-> str :                     
       words.append(word[0])                                                         # If yes, append the word to the list of words mentioned by all presidents
   
   return f"The words mentioned by all presidents are {', '.join(words)}."           # Return the string of the words mentioned by all presidents
+
+
+
+
+
+
