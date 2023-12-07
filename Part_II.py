@@ -65,9 +65,33 @@ def words_in_question(phrase : str) -> list:
 
 
 
-
+"""
 
 def question_word_in_corpus():
-  tf()
-  idf()
+
+  common_words = [] 
+
+  question = input("Enter a question : ")
+  user_question = words_in_question(question)
+  print(user_question)
+
+  for file in os.listdir("Speeches"):
+    if file.endswith(".txt"):
+      file_path = os.path.join("Speeches", file)
+      file_content = open(file_path, "r", encoding="utf-8").read()
+      file_content = words_in_question(file_content)
+      print(file_content)
+      print("")
+
+      for word in file_content:
+        if word in user_question:
+          print(word)
+          common_words.append(word)
+          print("")
+     
+
+print(question_word_in_corpus())
+
+"""
+ 
 

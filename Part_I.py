@@ -246,7 +246,6 @@ def calculate_tfidf(folder):
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
-  
 
 
 
