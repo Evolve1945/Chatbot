@@ -72,7 +72,7 @@ def special_words_in_question() -> list:
 
   return set(list_of_words_in_question)                                        # Return the list of words in the question
  
-print(special_words_in_question())
+#special_words_in_question()
 
 
 
@@ -85,10 +85,10 @@ def question_word_in_corpus():
 
   
   for file in os.listdir("Speeches"):                                  # For each file in the Speeches folder
-      file_path = os.path.join("Speeches", file)                       # Get the path of the file
+      file_path = os.path.join("Speeches", file)                  # Get the path of the file
       file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
       file_content = words_in_question(file_content)                   # Get the list of words in the file       
-      print(file_content)
+      print(file_content) #return None ??
       print("")
 
       for word in file_content:                                         # For each word in the file content
