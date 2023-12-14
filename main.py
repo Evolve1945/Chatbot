@@ -1,8 +1,8 @@
 from Part_I import *
 from Part_II import *
 
-directory = "./speeches"
-
+directory = "Speeches"
+new_directory = "Cleaned"
 """
 MAIN MENU
 """
@@ -42,20 +42,20 @@ def choice_menu(choice, tf_idf_dict):
     second_choice = int(input("Enter the number : "))
 
     if second_choice == 1:
-      print("Least important words : ", least_imp_words("Cleaned"))
+      print("Least important words : ", least_imp_words(calculate_tfidf(new_directory)))
 
     elif second_choice == 2:
-      print("Most important words : ", most_imp_words("Cleaned"))
+      print("Most important words : ", most_imp_words(calculate_tfidf(new_directory)))
 
     elif second_choice == 3:
       president = "Chirac"
-      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, 'Cleaned')}")
+      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, new_directory)}")
 
     elif second_choice == 4:
-      print("President(s) mentioning the Nation : ", mentioned_nation('Cleaned'))
+      print("President(s) mentioning the Nation : ", mentioned_nation(new_directory))
     
     elif second_choice == 5:
-      print("1st president to mention climate : ", mentioned_climate('Cleaned'))
+      print("1st president to mention climate : ", mentioned_climate(new_directory))
 
     
     elif second_choice == 6:
