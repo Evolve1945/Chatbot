@@ -76,32 +76,28 @@ def special_words_in_question() -> list:
 
 
 
-def question_word_in_corpus():
+def question_word_in_corpus(directory : str):
 
   common_words = []
-
+  files = os.listdir("Speeches")
   user_question = special_words_in_question()
   print(user_question)
+  for i in range(len(files)) :
+    print(i,".", files[i]) 
+  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
 
   # Utiliser intersection pour trouver les mots en commun entre la question et les discours
-  
-  for file in os.listdir("Speeches"):                                  # For each file in the Speeches folder
-      file_path = os.path.join("Speeches/", file)                       # Get the path of the file
-      file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
-      file_content = words_in_question(file_content)                   # Get the list of words in the file       
-      #print(file_content) 
-      print("")
-
-      for word in file_content:                                         # For each word in the file content
-        if word in user_question:                                       # If the word is in the user question
-          
-          print(word)                                                   # Print the word
-          common_words.append(word)                                     # Add the word to the list of common words
+  file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
+  file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
+  file_content = words_in_question(file_content)                   # Get the list of words in the file
+  for word in file_content:                                         # For each word in the file content
+    if word in user_question and word not in common_words :                                       # If the word is in the user question
+      common_words.append(word)                                     # Add the word to the list of common words
   print(common_words)                                    
   
 
-print(question_word_in_corpus())
+print(question_word_in_corpus(directory))
 
 
  
