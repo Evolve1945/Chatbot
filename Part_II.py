@@ -38,66 +38,41 @@ def words_in_question(phrase : str) -> list:
 
     #BONUS
 
-def special_words_in_question() -> list:
-
-  words_in_question(input("Enter a question : ")) 
-  
+def special_words_in_question() -> set:
+  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}
+  words_in_question(input("Enter a question : "))
   for item in range(len(list_of_words_in_question)):                        # For each item in the list of words in the question
-    if list_of_words_in_question[item] == 'l':                              # Check if the current item is 'l'
-      list_of_words_in_question[item] = 'la'                                # Replace 'l' with 'la'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'qu':                           # Check if the current item is 'qu'
-      list_of_words_in_question[item] = 'que'                               # Replace 'qu' with 'que'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'n':                            # Check if the current item is 'n'
-      list_of_words_in_question[item] = 'ne'                                # Replace 'n' with 'ne'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'j':                            # Check if the current item is 'j'
-      list_of_words_in_question[item] = 'je'                                # Replace 'j' with 'je'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 'm':                            # Check if the current item is 'm' 
-      list_of_words_in_question[item] = 'me'                                # Replace 'm' with 'me'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 't':                            # Check if the current item is 't'  
-      list_of_words_in_question[item] = 'te'                                # Replace 't' with 'te'
-      #print(list_of_words_in_question[item])
-
-    else:
-      continue
-
-  return set(list_of_words_in_question)                                        # Return the list of words in the question
+    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # Replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
+  return list_of_words_in_question
  
-#special_words_in_question()
+print(special_words_in_question())
 
 
 
-def question_word_in_corpus(directory : str):
+def question_word_in_corpus(directory : str) -> list:
+  """
+  IN : str, the directory of the corpus
+  OUT : list, the list of words in the question that are in the corpus
+  Description : Function that takes a directory as an input and returns a list of words in the question that are in the corpus
+  """
+  common_words = []                                                       #list of words in the question that are in the corpus
+  files = os.listdir("Speeches")                                          #list of files in the corpus
+  user_question = special_words_in_question()                             #list of words in the question
 
-  common_words = []
-  files = os.listdir("Speeches")
-  user_question = special_words_in_question()
-  print(user_question)
-  for i in range(len(files)) :
-    print(i,".", files[i]) 
-  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
+  for i in range(len(files)) :                                            #print the list of files in the corpus
+    print(i,".", files[i])                                                #print the list of files in the corpus
+  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : ")) #ask the user to choose a speech
 
-
-  # Utiliser intersection pour trouver les mots en commun entre la question et les discours
-  file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
-  file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
-  file_content = words_in_question(file_content)                   # Get the list of words in the file
-  for word in file_content:                                         # For each word in the file content
-    if word in user_question and word not in common_words :                                       # If the word is in the user question
-      common_words.append(word)                                     # Add the word to the list of common words
-  print(common_words)                                    
+  file_path = os.path.join("Speeches",files[chosen_speech])               #path of the chosen speech
+  file_content = open(file_path, "r", encoding="utf-8").read()            #content of the chosen speech
+  file_content = words_in_question(file_content)                          #list of words in the chosen speech
+  for word in file_content:                                               #for each word in the chosen speech
+    if word in user_question and word not in common_words :               #if the word is in the question and not in the list of common words
+      common_words.append(word)                                           #add the word to the list of common words
+  return common_words                                                     #return the list of common words
   
 
-print(question_word_in_corpus(directory))
+#print(question_word_in_corpus(directory))
 
 
  
