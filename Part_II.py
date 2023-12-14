@@ -75,7 +75,7 @@ def question_word_in_corpus(directory : str) -> list:
       common_words.append(word)                                           #add the word to the list of common words
   return common_words                                                     #return the list of common words
   
-
+  
 #print(question_word_in_corpus(directory))
 
 
