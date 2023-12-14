@@ -7,6 +7,9 @@ from Part_I import *
 
 print("Part II")
 
+directory = "Speeches"
+new_directory = "Cleaned"
+
 def words_in_question(phrase : str) -> list:
   """
   IN : str, the input phrase
@@ -71,23 +74,24 @@ def question_word_in_corpus(directory : str):
     if word in user_question and word not in common_words :                                       # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
   
-  for word in common_words:
-    if word in dico:
-      dico[word] += 1
-    else:
-      dico[word] = 1
+    for word in common_words:
+      if word in dico:
+        dico[word] += 1
+      else:
+        dico[word] = 1
   
-  return common_words, dico                                  
-  
-
-  
-
-    
+  #print(common_words)
+  return dico                                    
 
 print(question_word_in_corpus(directory))
 
-def TF_IDF_vector(n, m):
 
+def TF_IDF_vector():
+  calculate_tfidf("Cleaned")
+
+
+
+  """
   files = os.listdir("Cleaned")
 
   tab = [0] * m
@@ -97,11 +101,11 @@ def TF_IDF_vector(n, m):
     for j in range(len(files)):
       pass
     
+  """
 
 
 
-
-print(TF_IDF_vector(8, 160))
+print(TF_IDF_vector())
 
  
 

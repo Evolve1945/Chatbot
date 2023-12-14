@@ -247,7 +247,7 @@ def calculate_tfidf(folder):
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
-#print(calculate_tfidf("Speeches"))
+#print(calculate_tfidf("Cleaned"))
 
 
 
