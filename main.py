@@ -1,23 +1,92 @@
-import os
+from Part_I import *
+from Part_II import *
 
-#PART I
-print("PART I\n")
-
-#Variables
-dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 directory = "Speeches"
+new_directory = "Cleaned"
+"""
+MAIN MENU
+"""
 
-#Functions
+def main_menu():
+  print("--- CHATBOT ---")
+  print("--- Part I ---")
+  print("1. List Presidents' Full Names")
+  print("2. Reformat the text and put them in the 'Cleaned' folder")
+  print("3. Analyze text and display results")
+  print()
+  print("--- Part II ---")
+  print("4. Rewrite a phrase or a question in a more 'readable' way")
+  print("5. Exit")
 
-def list_of_files(directory, extension):
-  files_names = []
-  for filename in os.listdir(directory):
-    if filename.endswith(extension):
-      files_names.append(filename)
-  return files_names
+def choice_menu(choice, tf_idf_dict):
+  if choice == 1:
+    president_full_names(get_names(directory))
 
-directory = "./speeches"
-files_names = list_of_files(directory, "txt")
+  elif choice == 2:
+    folder_cleaned()
+    file_cleaned()
+
+    print("Texts cleaned and moved to the 'Cleaned' folder")
+
+  elif choice == 3:
+    print("--- CHATBOT ---")
+    print("--- Part I ---")
+    print("1. Display the list of least important words")
+    print("2. Display words with the highest TF-IDF score")
+    print("3. Display the most used words by president Chirac")
+    print("4. Display the name(s) of the president(s) who used the word 'Nation'")
+    print("5. Identify the first president to talk about climate")
+    print("6. Display the most common word used by all the presidents")
+    print("7. Exit")
+
+    second_choice = int(input("Enter the number : "))
+
+    if second_choice == 1:
+      print("Least important words : ", least_imp_words(calculate_tfidf(new_directory)))
+
+    elif second_choice == 2:
+      print("Most important words : ", most_imp_words(calculate_tfidf(new_directory)))
+
+    elif second_choice == 3:
+      president = "Chirac"
+      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, new_directory)}")
+
+    elif second_choice == 4:
+      print("President(s) mentioning the Nation : ", mentioned_nation(new_directory))
+    
+    elif second_choice == 5:
+      print("1st president to mention climate : ", mentioned_climate(new_directory))
+
+    
+    elif second_choice == 6:
+      print("Words mentionned by every president : ", words_mentioned_by_all_presidents(tf_idf_dict))
+
+    elif second_choice == 7:
+      main_menu()
+
+    else :
+      print("Invalid")
+
+  elif choice == 4:
+    phrase = input("Phrase : ")
+    print(words_in_question(phrase))
+
+  elif choice == 5:
+    print("End.")
+    exit()
+
+  else:
+    print("Invalid")
+
+def run_chatbot():
+  while True:
+    main_menu()
+    choice = int(input("Enter a number :"))
+    choice_menu(choice, "Speeches")
+
+
+
+  
 
 #print(files_names)
 
@@ -28,10 +97,12 @@ def president_last_name(file : str) -> str:
   Description : print the president's name present in the title of the file (without the number and the extention file)
   """
   L = os.path.basename(file).split("_") 
-  #Split the name of the last file/folder of the
-  #path into a list of strs, where we can find the first element, supposed   to be the
-  #word "Nomination" and the second element, the name of the president with or without
-  #a number, following with the extension of the file, here ".txt"
+  """
+  Split the name of the last file/folder of the path into a list of strs, where we can 
+  find the first element, supposed   to be the word "Nomination" and the second element, 
+  the name of the president with or without a number, following with the extension of 
+  the file, here ".txt"
+  """
   cpt = 0
   for i in range (len(L[1].split(".")[0])-1,1,-1) :#for loop to prevent from the name
   #being followed by a number having more than 1 digit
@@ -70,3 +141,7 @@ def president_full_names (list_of_files : list) -> None:
 
 
 president_full_names(get_names(directory))
+run_chatbot()
+
+
+
