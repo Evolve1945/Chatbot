@@ -1,6 +1,8 @@
 from Part_I import *
 from Part_II import *
 
+directory = "./speeches"
+
 """
 MAIN MENU
 """

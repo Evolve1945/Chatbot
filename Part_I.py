@@ -246,7 +246,7 @@ def calculate_tfidf(folder):
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
-
+#print(calculate_tfidf("Speeches"))
 
 
 
@@ -277,6 +277,7 @@ def least_imp_words(tfidf_matrix : list) -> list:                               
   
   return liw_list[:nbr_words_display]                                                   # Return the list of least important words
 
+#print(least_imp_words(calculate_tfidf("Speeches")))
 
 def most_imp_words(tfidf_matrix : list) -> list:                                        # Defines a function named "most_imp_words" that takes one parameter: "tfidf_matrix"
   """
@@ -296,7 +297,7 @@ def most_imp_words(tfidf_matrix : list) -> list:                                
 
   return miw_list[:nbr_words_display]                                                   # Return the list of most important words
 
-
+print(most_imp_words(calculate_tfidf("Speeches")))
 
 
 unimportant_words_mentionned = ['qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']

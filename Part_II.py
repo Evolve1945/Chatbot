@@ -34,7 +34,7 @@ def words_in_question(phrase : str) -> list:
     cleaned_character += character
    
   list_of_words_in_question = cleaned_character.split()             # Split the text into individual words and put it in a list
-  #print(list_of_words_in_question)
+  return list_of_words_in_question
 
     #BONUS
 
@@ -78,27 +78,30 @@ def special_words_in_question() -> list:
 
 def question_word_in_corpus():
 
-  common_words = set()
+  common_words = []
 
   user_question = special_words_in_question()
   print(user_question)
 
+
+  # Utiliser intersection pour trouver les mots en commun entre la question et les discours
   
   for file in os.listdir("Speeches"):                                  # For each file in the Speeches folder
-      file_path = os.path.join("Speeches", file)                  # Get the path of the file
+      file_path = os.path.join("Speeches", file)                       # Get the path of the file
       file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
       file_content = words_in_question(file_content)                   # Get the list of words in the file       
-      print(file_content) #return None ??
+      #print(file_content) 
       print("")
 
       for word in file_content:                                         # For each word in the file content
         if word in user_question:                                       # If the word is in the user question
+          
           print(word)                                                   # Print the word
           common_words.append(word)                                     # Add the word to the list of common words
-                                                            
+  print(common_words)                                    
   
 
-print(question_word_in_corpus())
+#print(question_word_in_corpus())
 
 
  
