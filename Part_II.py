@@ -70,7 +70,7 @@ def special_words_in_question() -> list:
     else:
       continue
 
-  return set(list_of_words_in_question)                                        # Return the list of words in the question
+  return list_of_words_in_question                                          # Return the list of words in the question
  
 #special_words_in_question()
 
@@ -78,27 +78,51 @@ def special_words_in_question() -> list:
 
 def question_word_in_corpus(directory : str):
 
-  common_words = []
-  files = os.listdir("Speeches")
+  common_words = {}
+  files = os.listdir(directory)
   user_question = special_words_in_question()
-  print(user_question)
   for i in range(len(files)) :
     print(i,".", files[i]) 
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
 
-  # Utiliser intersection pour trouver les mots en commun entre la question et les discours
+  # Idée : Utiliser intersection pour trouver les mots en commun entre la question et les discours
   file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
   file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
   file_content = words_in_question(file_content)                   # Get the list of words in the file
   for word in file_content:                                         # For each word in the file content
+   for key, value in common_words.items:
+    if word == key:
+      common_words[value] += 1
+    else:
+
+      common_words[value] == 1
+   
+    """
     if word in user_question and word not in common_words :                                       # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
-  print(common_words)                                    
+    """
+  return common_words                                    
   
 
 print(question_word_in_corpus(directory))
 
+def TF_IDF_vector(n, m):
+
+  files = os.listdir("Cleaned")
+
+  tab = [0] * m
+  matrix = [tab] * n
+  
+  for i in range(len(files)):
+    for j in range(len(files)):
+      pass
+    
+
+
+
+
+#print(TF_IDF_vector(8, 160))
 
  
 
