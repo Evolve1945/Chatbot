@@ -62,7 +62,7 @@ def question_word_in_corpus(directory : str):
   files = os.listdir(directory)
   user_question = special_words_in_question()
   for i in range(len(files)) :
-    print(i,".", files[i]) 
+    print(i+1,".", files[i]) 
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
 
@@ -83,20 +83,18 @@ def question_word_in_corpus(directory : str):
   #print(common_words)
   return dico                                    
 
-print(question_word_in_corpus(directory))
+#print(question_word_in_corpus(directory))
 
 
 def TF_IDF_vector():
-  calculate_tfidf("Cleaned")
 
+  #tfidf_matrix = calculate_tfidf("Cleaned")  
 
+  ini_M = [0] * 8
+  M = [ini_M] * 1655
+  print(M)
 
   """
-  files = os.listdir("Cleaned")
-
-  tab = [0] * m
-  matrix = [tab] * n
-  
   for i in range(len(files)):
     for j in range(len(files)):
       pass
@@ -105,7 +103,7 @@ def TF_IDF_vector():
 
 
 
-print(TF_IDF_vector())
+TF_IDF_vector()
 
  
 
