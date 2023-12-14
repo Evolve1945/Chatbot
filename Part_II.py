@@ -38,40 +38,17 @@ def words_in_question(phrase : str) -> list:
 
     #BONUS
 
-def special_words_in_question() -> list:
-
-  words_in_question(input("Enter a question : ")) 
-  
-  for item in range(len(list_of_words_in_question)):                        # For each item in the list of words in the question
-    if list_of_words_in_question[item] == 'l':                              # Check if the current item is 'l'
-      list_of_words_in_question[item] = 'la'                                # Replace 'l' with 'la'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'qu':                           # Check if the current item is 'qu'
-      list_of_words_in_question[item] = 'que'                               # Replace 'qu' with 'que'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'n':                            # Check if the current item is 'n'
-      list_of_words_in_question[item] = 'ne'                                # Replace 'n' with 'ne'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'j':                            # Check if the current item is 'j'
-      list_of_words_in_question[item] = 'je'                                # Replace 'j' with 'je'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 'm':                            # Check if the current item is 'm' 
-      list_of_words_in_question[item] = 'me'                                # Replace 'm' with 'me'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 't':                            # Check if the current item is 't'  
-      list_of_words_in_question[item] = 'te'                                # Replace 't' with 'te'
-      #print(list_of_words_in_question[item])
-
-    else:
-      continue
-
-  return set(list_of_words_in_question)                                        # Return the list of words in the question
- 
+def special_words_in_question() -> set:
+  """
+  IN : None
+  OUT : set, the set of words in the question without the special words
+  Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
+  """
+  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
+  words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
+  for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
+    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
+  return list_of_words_in_question
 #special_words_in_question()
 
 
