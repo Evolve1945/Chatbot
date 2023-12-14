@@ -14,6 +14,7 @@ def words_in_question(phrase : str) -> list:
   Description : Function that takes a sentence as an input and returns a list of words in the question
   """
   global list_of_words_in_question
+  assert phrase != "", "The phrase is empty"                        # If the phrase is empty, raise an error
 
   acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
   cleaned_character = ""
@@ -39,13 +40,16 @@ def words_in_question(phrase : str) -> list:
     #BONUS
 
 def special_words_in_question() -> set:
-  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}
-  words_in_question(input("Enter a question : "))
-  for item in range(len(list_of_words_in_question)):                        # For each item in the list of words in the question
-    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # Replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
-  return list_of_words_in_question
- 
-print(special_words_in_question())
+  """
+  IN : None
+  OUT : set, the set of words in the question without the special words
+  Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
+  """
+  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
+  words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
+  for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
+    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
+  return list_of_words_in_question                                                                                      # return the list of words in the question
 
 
 
