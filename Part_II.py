@@ -47,6 +47,7 @@ def special_words_in_question() -> set:
   OUT : set, the set of words in the question without the special words
   Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
   """
+  
   clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
   words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
   for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
@@ -80,30 +81,54 @@ def question_word_in_corpus(directory : str):
       else:
         dico[word] = 1
   
-  #print(common_words)
+  print(common_words)
   return dico                                    
 
-#print(question_word_in_corpus(directory))
+print(question_word_in_corpus(directory))
 
 
 def TF_IDF_vector():
+  """1655 mots, 8 docs
+  """
+  #list_of_words_in_question = words_in_question() 
 
-  #tfidf_matrix = calculate_tfidf("Cleaned")  
-
+  list_of_words_in_question = special_words_in_question()
   ini_M = [0] * 8
-  M = [ini_M] * 1655
+  M = [ini_M] * len(list_of_words_in_question)
   print(M)
 
-  """
-  for i in range(len(files)):
-    for j in range(len(files)):
-      pass
-    
-  """
 
 
 
 TF_IDF_vector()
 
  
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
