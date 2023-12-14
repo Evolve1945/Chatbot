@@ -84,27 +84,43 @@ def question_word_in_corpus(directory : str):
   print(common_words)
   return dico                                    
 
-print(question_word_in_corpus(directory))
+#print(question_word_in_corpus(directory))
 
 
-def TF_IDF_vector():
-  """1655 mots, 8 docs
+def tf_vector():
+  """
+  1655 mots, 8 docs
   """
   #list_of_words_in_question = words_in_question() 
 
-  list_of_words_in_question = special_words_in_question()
-  ini_M = [0] * 8
-  M = [ini_M] * len(list_of_words_in_question)
-  print(M)
+  tab_words = []
+
+  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+  
+  word = list_of_words_in_question[0]
+
+  for i in range(len(list_of_words_in_question)):
+    for j in range(len(list_of_words_in_question)):
+      frequence = 0
+      if list_of_words_in_question[i] == list_of_words_in_question[j]:
+        frequence += 1
+        tab_words.append(frequence/len(list_of_words_in_question))
+    
+  return tab_words
+    
 
 
 
 
-TF_IDF_vector()
+print(tf_vector())
 
  
 
+def idf_vector():
+  pass
 
+def calculate_tdidf_vector():
+  pass
 
 
 
