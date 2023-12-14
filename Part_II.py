@@ -11,7 +11,7 @@ def words_in_question(phrase : str) -> list:
   """
   IN : str, the input phrase
   OUT : list, the list of words in the question
-  Description : Function that takes a phrase as input and returns a list of words in the question
+  Description : Function that takes a sentence as an input and returns a list of words in the question
   """
   global list_of_words_in_question
 
@@ -87,7 +87,7 @@ def question_word_in_corpus():
   # Utiliser intersection pour trouver les mots en commun entre la question et les discours
   
   for file in os.listdir("Speeches"):                                  # For each file in the Speeches folder
-      file_path = os.path.join("Speeches", file)                       # Get the path of the file
+      file_path = os.path.join("Speeches/", file)                       # Get the path of the file
       file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
       file_content = words_in_question(file_content)                   # Get the list of words in the file       
       #print(file_content) 
@@ -101,7 +101,7 @@ def question_word_in_corpus():
   print(common_words)                                    
   
 
-#print(question_word_in_corpus())
+print(question_word_in_corpus())
 
 
  
