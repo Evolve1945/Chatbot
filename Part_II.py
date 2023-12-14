@@ -38,24 +38,48 @@ def words_in_question(phrase : str) -> list:
 
     #BONUS
 
-def special_words_in_question() -> set:
-  """
-  IN : None
-  OUT : set, the set of words in the question without the special words
-  Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
-  """
-  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
-  words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
-  for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
-    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
-  return list_of_words_in_question
+def special_words_in_question() -> list:
+
+  words_in_question(input("Enter a question : ")) 
+  
+  for item in range(len(list_of_words_in_question)):                        # For each item in the list of words in the question
+    if list_of_words_in_question[item] == 'l':                              # Check if the current item is 'l'
+      list_of_words_in_question[item] = 'la'                                # Replace 'l' with 'la'
+      #print(list_of_words_in_question[item])
+
+    elif list_of_words_in_question[item] == 'qu':                           # Check if the current item is 'qu'
+      list_of_words_in_question[item] = 'que'                               # Replace 'qu' with 'que'
+      #print(list_of_words_in_question[item])
+
+    elif list_of_words_in_question[item] == 'n':                            # Check if the current item is 'n'
+      list_of_words_in_question[item] = 'ne'                                # Replace 'n' with 'ne'
+      #print(list_of_words_in_question[item])
+
+    elif list_of_words_in_question[item] == 'j':                            # Check if the current item is 'j'
+      list_of_words_in_question[item] = 'je'                                # Replace 'j' with 'je'
+      #print(list_of_words_in_question[item])
+          
+    elif list_of_words_in_question[item] == 'm':                            # Check if the current item is 'm' 
+      list_of_words_in_question[item] = 'me'                                # Replace 'm' with 'me'
+      #print(list_of_words_in_question[item])
+          
+    elif list_of_words_in_question[item] == 't':                            # Check if the current item is 't'  
+      list_of_words_in_question[item] = 'te'                                # Replace 't' with 'te'
+      #print(list_of_words_in_question[item])
+
+    else:
+      continue
+
+  return list_of_words_in_question                                          # Return the list of words in the question
+ 
 #special_words_in_question()
 
 
 
 def question_word_in_corpus(directory : str):
 
-  common_words = {}
+  dico = {}
+  common_words = []
   files = os.listdir(directory)
   user_question = special_words_in_question()
   for i in range(len(files)) :
@@ -68,19 +92,21 @@ def question_word_in_corpus(directory : str):
   file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
   file_content = words_in_question(file_content)                   # Get the list of words in the file
   for word in file_content:                                         # For each word in the file content
-   for key, value in common_words.items:
-    if word == key:
-      common_words[value] += 1
-    else:
-
-      common_words[value] == 1
-   
-    """
     if word in user_question and word not in common_words :                                       # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
-    """
-  return common_words                                    
   
+  for word in common_words:
+    if word in dico:
+      dico[word] += 1
+    else:
+      dico[word] = 1
+  
+  return common_words, dico                                  
+  
+
+  
+
+    
 
 print(question_word_in_corpus(directory))
 
@@ -99,7 +125,7 @@ def TF_IDF_vector(n, m):
 
 
 
-#print(TF_IDF_vector(8, 160))
+print(TF_IDF_vector(8, 160))
 
  
 
