@@ -7,6 +7,9 @@ from Part_I import *
 
 print("Part II")
 
+directory = "Speeches"
+new_directory = "Cleaned"
+
 def words_in_question(phrase : str) -> list:
   """
   IN : str, the input phrase
@@ -44,6 +47,7 @@ def special_words_in_question() -> set:
   OUT : set, the set of words in the question without the special words
   Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
   """
+  
   clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
   words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
   for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
@@ -59,7 +63,7 @@ def question_word_in_corpus(directory : str):
   files = os.listdir(directory)
   user_question = special_words_in_question()
   for i in range(len(files)) :
-    print(i,".", files[i]) 
+    print(i+1,".", files[i]) 
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
 
@@ -71,37 +75,76 @@ def question_word_in_corpus(directory : str):
     if word in user_question and word not in common_words :                                       # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
   
-  for word in common_words:
-    if word in dico:
-      dico[word] += 1
-    else:
-      dico[word] = 1
+    for word in common_words:
+      if word in dico:
+        dico[word] += 1
+      else:
+        dico[word] = 1
   
-  return common_words, dico                                  
-  
+  print(common_words)
+  return dico                                    
 
-  
+#print(question_word_in_corpus(directory))
 
+
+def tf_vector():
+  """
+  1655 mots, 8 docs
+  """
+  #list_of_words_in_question = words_in_question() 
+
+  tab_words = []
+
+  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+  
+  word = list_of_words_in_question[0]
+
+  for i in range(len(list_of_words_in_question)):
+    for j in range(len(list_of_words_in_question)):
+      frequence = 0
+      if list_of_words_in_question[i] == list_of_words_in_question[j]:
+        frequence += 1
+        tab_words.append(frequence/len(list_of_words_in_question))
+    
+  return tab_words
     
 
-print(question_word_in_corpus(directory))
-
-def TF_IDF_vector(n, m):
-
-  files = os.listdir("Cleaned")
-
-  tab = [0] * m
-  matrix = [tab] * n
-  
-  for i in range(len(files)):
-    for j in range(len(files)):
-      pass
-    
 
 
 
-
-print(TF_IDF_vector(8, 160))
+print(tf_vector())
 
  
+
+def idf_vector():
+  pass
+
+def calculate_tdidf_vector():
+  pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

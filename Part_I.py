@@ -11,6 +11,7 @@ dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles",
 dict_year_president = {1995 : "Chirac", 2007 : "Sarkozy", 2012 : "Hollande", 2017 : "Macron", 1981 : "Mitterrand", 1974 : "Giscard dEstaing"}
 directory = "Speeches"
 
+
 #Functions
 
 def list_of_files(directory : str, extension : str) -> list:  # Defines a function named "list_of_files" that takes two parameters: "directory" and "extension"
@@ -214,6 +215,7 @@ def idf(folder : str) -> dict:                                                  
 
 
 def calculate_tfidf(folder):
+
   assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
   idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder
   tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
@@ -247,7 +249,8 @@ def calculate_tfidf(folder):
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
-#print(calculate_tfidf("Speeches"))
+
+#print(calculate_tfidf("Cleaned"))
 
 
 
