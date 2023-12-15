@@ -166,10 +166,20 @@ display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
 def scalar_product(a, b):
   return sqrt(a * b)
 
-def scalar_operation(tfidf_question_matrix, tfidf_corpus_matrix):
-  
+
+def norm_vector(a):
+  return sqrt(sum([x**2 for x in a]))
 
 
+def cosine_similarity(a, b):
+  return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
+
+
+def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+  for row in range(len(tfidf_question_matrix)):
+    for column in range (len(tfidf_corpus_matrix[row][1])):
+      cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
+      
 
 
 
