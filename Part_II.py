@@ -28,7 +28,7 @@ def words_in_question(phrase : str) -> list:
     if character in ("'", "-","\n"):                                # If the character is a special character or a new line
       character = " "                                               # Replace it by a space
 
-    elif character in (".", ",", ":", ";", "!", "?"):               # If the character is a ne or a special character
+    elif character in (".", ",", ":", ";", "!", "?", '"'):          # If the character is a ne or a special character
       character = ""                                                # Delete it            
 
     for key, value in acc.items():                                  # For each key and value in the acc dictionary
@@ -87,41 +87,57 @@ def question_word_in_corpus(directory : str):
 #print(question_word_in_corpus(directory))
 
 
-def tf_vector():
+def tf_vector(file_path, folder):
   """
   1655 mots, 8 docs
   """
-  #list_of_words_in_question = words_in_question() 
+  assert type(file_path) == str and file_path != "" and type(folder) == str and folder != "", "Insert a valid str file path and folder" #Checks if the file path and the folder are str
+ 
+  frequency = {}                                                                        # Create an empty dictionary to store the word frequencies
+  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 
-  tab_words = []
+  with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:          # Open the file in read mode with UTF-8 encoding
+    text = file.read()                                                                  # Read the contents of the file
+    words = text.split()                                                                # Split the text into individual words
+    for word in words: 
+      
+      if word not in list_of_words_in_question:                                                                 # Iterate over each word in the text
+        frequency[word] = 0
+
+      else:
+
+        if word not in frequency:                                                         # Check if the word is not already in the frequency dictionary
+          frequency[word] = 1                                                             # If not, initialize the frequency of the word to 1
+        
+        else:                                                                             # If the word is already in the frequency dictionary
+          frequency[word] += 1                                                            # Increment its frequency by 1
+    frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True)) # Sort the frequency dictionary by value in descending order
+    return frequency
+  
+  """
+  dico_words = {}
 
   list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-  
-  word = list_of_words_in_question[0]
 
-  for i in range(len(list_of_words_in_question)):
-    for j in range(len(list_of_words_in_question)):
-      frequence = 0
-      if list_of_words_in_question[i] == list_of_words_in_question[j]:
-        frequence += 1
-        tab_words.append(frequence/len(list_of_words_in_question))
+  for word in list_of_words_in_question:
+    if word not in dico_words:
+      dico_words[word] = 1
+    else:
+      dico_words[word] += 1
+
+  return dico_words
     
-  return tab_words
-    
+  """
+files = os.listdir(new_directory)
+for i in range(len(files)) :
+  print(i+1,".", files[i]) 
+file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
+print(tf_vector(files[file_path], new_directory))
 
 
-
-
-print(tf_vector())
-
- 
-
-def idf_vector():
-  pass
 
 def calculate_tdidf_vector():
-  pass
-
+  idf()
 
 
 

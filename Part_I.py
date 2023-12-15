@@ -143,7 +143,7 @@ def file_cleaned()-> bool:                          # Defines a function named "
           if formatted_character in ("'", "-","\n"):                                   # If the character is a special character
             formatted_character = " "                                                  # Replace it by a space
 
-          elif formatted_character in (".", ",", ":", ";", "!", "?"):                  # If the character is a new line
+          elif formatted_character in (".", ",", ":", ";", "!", "?", '"'):             # If the character is a new line
             formatted_character = ""                                                   # Delete it            
 
           for key, value in acc.items():                                               # For each key and value in the acc dictionary
