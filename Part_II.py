@@ -87,15 +87,14 @@ def question_word_in_corpus(directory : str):
 #print(question_word_in_corpus(directory))
 
 
-def tf_vector(file_path, folder):
+def tf_question(file_path, folder, list_of_words_in_question):
   """
   1655 mots, 8 docs
   """
   assert type(file_path) == str and file_path != "" and type(folder) == str and folder != "", "Insert a valid str file path and folder" #Checks if the file path and the folder are str
  
   frequency = {}                                                                        # Create an empty dictionary to store the word frequencies
-  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-
+  
   with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:          # Open the file in read mode with UTF-8 encoding
     text = file.read()                                                                  # Read the contents of the file
     words = text.split()                                                                # Split the text into individual words
@@ -113,34 +112,51 @@ def tf_vector(file_path, folder):
           frequency[word] += 1                                                            # Increment its frequency by 1
     frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True)) # Sort the frequency dictionary by value in descending order
     return frequency
+ 
+
+
   
-  """
-  dico_words = {}
-
-  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-
-  for word in list_of_words_in_question:
-    if word not in dico_words:
-      dico_words[word] = 1
-    else:
-      dico_words[word] += 1
-
-  return dico_words
-    
-  """
-files = os.listdir(new_directory)
-for i in range(len(files)) :
-  print(i+1,".", files[i]) 
-file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
-print(tf_vector(files[file_path], new_directory))
 
 
 
-def calculate_tdidf_vector():
-  idf()
+def calculate_tdidf_vector(list_of_words_in_question):
+  
+  idf_values = idf(new_directory)
+  tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
+
+  for filename in os.listdir(new_directory):                                                   # Iterate over each file in the folder
+    tf_values = tf_question(filename, new_directory, list_of_words_in_question)                                                    # Get the TF values of the words in the file
+
+    for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
+      found = False                                                                     # Initialize a boolean variable to keep track of whether the word is in the TF-IDF matrix or not
+
+      for i in range(len(tfidf_matrix)):                                                # Iterate over each word in the TF-IDF matrix
+        
+        if tfidf_matrix[i][0] == key:                                                   # Check if the word is already in the TF-IDF matrix
+          
+          if key in tf_values :                                                         # If yes, check if the word is in the TF dictionary
+            tfidf_matrix[i][1].append(idf_values[key] * tf_values[key])                 # If yes, append the TF-IDF value of the word to the list of TF-IDF values of the word
+          
+          else:                                                                         # If not
+            tfidf_matrix[i][1].append(0)                                                # Append 0 to the list of TF-IDF values of the word
+          found = True                                                                  # Set the boolean variable to True
+      
+      if found == False:                                                                # If the word is not in the TF-IDF matrix
+        
+        if key in tf_values:                                                            # Check if the word is in the TF dictionary
+          tfidf_matrix.append([key.lower(), [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
+        
+
+        else:                                                                           # If not
+          tfidf_matrix.append([key.lower(), [0]])                                               # Append the word and 0 to the TF-IDF matrix
+  
+  return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
 
+list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+
+print(calculate_tdidf_vector(list_of_words_in_question))
 
 
 
