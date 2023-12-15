@@ -81,7 +81,7 @@ def choice_menu(choice, tf_idf_dict):
     for i in range(len(files)) :
       print(i + 1,".", files[i]) 
     file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
-    print(tf_question(files[file_path], new_directory))
+    print(tf_question(files[file_path], new_directory, list_of_words_in_question))
 
   elif choice == 0:
     print("End.")

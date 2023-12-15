@@ -150,13 +150,24 @@ def calculate_tdidf_vector(list_of_words_in_question):
         else:                                                                           # If not
           tfidf_matrix.append([key.lower(), [0]])                                               # Append the word and 0 to the TF-IDF matrix
   
-  return tfidf_matrix                                                                   # Return the TF-IDF matrix
+  return tfidf_matrix                                                                  # Return the TF-IDF matrix
 
-
+def display_tfidf_matrix (tfidf_matrix) :
+  for lign in tfidf_matrix :
+      print (lign)
 
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 
-print(calculate_tdidf_vector(list_of_words_in_question))
+display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
+
+
+#Part II.2
+
+def scalar_product(a, b):
+  return sqrt(a * b)
+
+def scalar_operation(tfidf_question_matrix, tfidf_corpus_matrix):
+  
 
 
 

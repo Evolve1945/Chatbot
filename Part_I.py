@@ -1,5 +1,5 @@
 import os
-from math import log
+from math import *
 # -*- coding: utf-8 -*-
 
 
@@ -213,6 +213,12 @@ def idf(folder : str) -> dict:                                                  
   idf_dict = dict(sorted(idf_dict.items(), key=lambda item: item[1], reverse=True))             # Sort the idf_dict by value in descending order
   return idf_dict                                                                           # Return the IDF dictionary
 
+
+"""
+"Together, these vectors form a matrix called a "TF-IDF matrix", where each row represents a word 
+and each column represents a document."
+
+"""
 
 def calculate_tfidf(folder):
 
