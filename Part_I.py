@@ -11,6 +11,7 @@ dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles",
 dict_year_president = {1995 : "Chirac", 2007 : "Sarkozy", 2012 : "Hollande", 2017 : "Macron", 1981 : "Mitterrand", 1974 : "Giscard dEstaing"}
 directory = "Speeches"
 
+
 #Functions
 
 def list_of_files(directory : str, extension : str) -> list:  # Defines a function named "list_of_files" that takes two parameters: "directory" and "extension"
@@ -26,7 +27,7 @@ def list_of_files(directory : str, extension : str) -> list:  # Defines a functi
       files_names.append(filename)                            # Adds the file name to the "files_names" list
   return files_names                                          # Returns the list of file names
   
-directory = "./speeches"
+directory = "Speeches"
 files_names = list_of_files(directory, "txt")
 
 
@@ -190,7 +191,7 @@ def idf(folder : str) -> dict:                                                  
   OUT : dict, the idf of each word in the folder
   Description : Function that takes a folder as input and returns a dictionary of the idf of each word in the folder
   """
-  assert type(folder) == str and folder != "", "Insert a valid str folder"                     #Checks if the folder is a str
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                      #Checks if the folder is a str
   
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
   nb = len(os.listdir(folder))                                                                  # Initialize a counter variable to keep track of the number of files
@@ -214,9 +215,10 @@ def idf(folder : str) -> dict:                                                  
 
 
 def calculate_tfidf(folder):
+
   assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
   idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder
-  tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
+  tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
 
   for filename in os.listdir(folder):                                                   # Iterate over each file in the folder
     tf_values = tf(filename, folder)                                                    # Get the TF values of the words in the file
@@ -238,15 +240,17 @@ def calculate_tfidf(folder):
       if found == False:                                                                # If the word is not in the TF-IDF matrix
         
         if key in tf_values:                                                            # Check if the word is in the TF dictionary
-          tfidf_matrix.append([key, [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
+          tfidf_matrix.append([key.lower(), [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
         
+
         else:                                                                           # If not
-          tfidf_matrix.append([key, [0]])                                               # Append the word and 0 to the TF-IDF matrix
+          tfidf_matrix.append([key.lower(), [0]])                                               # Append the word and 0 to the TF-IDF matrix
   
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
 
+#print(calculate_tfidf("Cleaned"))
 
 
 
@@ -277,6 +281,7 @@ def least_imp_words(tfidf_matrix : list) -> list:                               
   
   return liw_list[:nbr_words_display]                                                   # Return the list of least important words
 
+#print(least_imp_words(calculate_tfidf("Speeches")))
 
 def most_imp_words(tfidf_matrix : list) -> list:                                        # Defines a function named "most_imp_words" that takes one parameter: "tfidf_matrix"
   """
@@ -296,10 +301,10 @@ def most_imp_words(tfidf_matrix : list) -> list:                                
 
   return miw_list[:nbr_words_display]                                                   # Return the list of most important words
 
+#print(most_imp_words(calculate_tfidf("Speeches")))
 
 
-
-unimportant_words_mentionned = ['qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
+unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
 
 
 def most_repeated_words_by(president: str, folder: str) -> str :
@@ -317,10 +322,10 @@ def most_repeated_words_by(president: str, folder: str) -> str :
     tf_values = tf(text, folder)                                                    # Get the TF values of the words in the speech
 
     for _ in range(len(tf_values)):                                                 # Iterate over each word in the TF dictionary
-      max_word = max(tf_values, key = tf_values.get)                                  # Get the word with the maximum TF value
+      max_word = max(tf_values, key = tf_values.get)                                # Get the word with the maximum TF value
       if max_word not in unimportant_words_mentionned:                              # Check if the word is not in the list of unimportant words
         most_repeated_words.append(max_word)                                        # Append the word to the list of most repeated words
-                                                    # If yes, increment the number of words to display by 1
+      nbr_words_display += 1                                                        # If yes, increment the number of words to display by 1
       del tf_values[max_word]                                                       # Delete the word from the TF dictionary
 
   return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}" # Return the string of the most repeated words by the president

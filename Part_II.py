@@ -7,11 +7,14 @@ from Part_I import *
 
 print("Part II")
 
+directory = "Speeches"
+new_directory = "Cleaned"
+
 def words_in_question(phrase : str) -> list:
   """
   IN : str, the input phrase
   OUT : list, the list of words in the question
-  Description : Function that takes a phrase as input and returns a list of words in the question
+  Description : Function that takes a sentence as an input and returns a list of words in the question
   """
   global list_of_words_in_question
 
@@ -34,72 +37,114 @@ def words_in_question(phrase : str) -> list:
     cleaned_character += character
    
   list_of_words_in_question = cleaned_character.split()             # Split the text into individual words and put it in a list
-  #print(list_of_words_in_question)
+  return list_of_words_in_question
 
     #BONUS
 
-def special_words_in_question() -> list:
-
-  words_in_question(input("Enter a question : ")) 
+def special_words_in_question() -> set:
+  """
+  IN : None
+  OUT : set, the set of words in the question without the special words
+  Description : Function that takes a sentence as an input and returns a set of words in the question without the special words
+  """
   
-  for item in range(len(list_of_words_in_question)):                        # For each item in the list of words in the question
-    if list_of_words_in_question[item] == 'l':                              # Check if the current item is 'l'
-      list_of_words_in_question[item] = 'la'                                # Replace 'l' with 'la'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'qu':                           # Check if the current item is 'qu'
-      list_of_words_in_question[item] = 'que'                               # Replace 'qu' with 'que'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'n':                            # Check if the current item is 'n'
-      list_of_words_in_question[item] = 'ne'                                # Replace 'n' with 'ne'
-      #print(list_of_words_in_question[item])
-
-    elif list_of_words_in_question[item] == 'j':                            # Check if the current item is 'j'
-      list_of_words_in_question[item] = 'je'                                # Replace 'j' with 'je'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 'm':                            # Check if the current item is 'm' 
-      list_of_words_in_question[item] = 'me'                                # Replace 'm' with 'me'
-      #print(list_of_words_in_question[item])
-          
-    elif list_of_words_in_question[item] == 't':                            # Check if the current item is 't'  
-      list_of_words_in_question[item] = 'te'                                # Replace 't' with 'te'
-      #print(list_of_words_in_question[item])
-
-    else:
-      continue
-
-  return set(list_of_words_in_question)                                        # Return the list of words in the question
- 
-#special_words_in_question()
+  clean_words = {"l": "la", "qu": "que", "n": "ne", "j": "je", "m": "me", "t": "te"}                                    # dictionary of words to replace
+  words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
+  for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
+    list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
+  return list_of_words_in_question
 
 
 
-def question_word_in_corpus():
+def question_word_in_corpus(directory : str):
 
-  common_words = set()
-
+  dico = {}
+  common_words = []
+  files = os.listdir(directory)
   user_question = special_words_in_question()
-  print(user_question)
+  for i in range(len(files)) :
+    print(i+1,".", files[i]) 
+  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
+
+  # Idée : Utiliser intersection pour trouver les mots en commun entre la question et les discours
+  file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
+  file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
+  file_content = words_in_question(file_content)                   # Get the list of words in the file
+  for word in file_content:                                         # For each word in the file content
+    if word in user_question and word not in common_words :                                       # If the word is in the user question
+      common_words.append(word)                                     # Add the word to the list of common words
   
-  for file in os.listdir("Speeches"):                                  # For each file in the Speeches folder
-      file_path = os.path.join("Speeches", file)                  # Get the path of the file
-      file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
-      file_content = words_in_question(file_content)                   # Get the list of words in the file       
-      print(file_content) #return None ??
-      print("")
-
-      for word in file_content:                                         # For each word in the file content
-        if word in user_question:                                       # If the word is in the user question
-          print(word)                                                   # Print the word
-          common_words.append(word)                                     # Add the word to the list of common words
-                                                            
+    for word in common_words:
+      if word in dico:
+        dico[word] += 1
+      else:
+        dico[word] = 1
   
+  print(common_words)
+  return dico                                    
 
-print(question_word_in_corpus())
+#print(question_word_in_corpus(directory))
 
-#
+
+def tf_vector():
+  """
+  1655 mots, 8 docs
+  """
+  #list_of_words_in_question = words_in_question() 
+
+  tab_words = []
+
+  list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+  
+  word = list_of_words_in_question[0]
+
+  for i in range(len(list_of_words_in_question)):
+    for j in range(len(list_of_words_in_question)):
+      frequence = 0
+      if list_of_words_in_question[i] == list_of_words_in_question[j]:
+        frequence += 1
+        tab_words.append(frequence/len(list_of_words_in_question))
+    
+  return tab_words
+    
+
+
+
+
+print(tf_vector())
+
  
+
+def idf_vector():
+  pass
+
+def calculate_tdidf_vector():
+  pass
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

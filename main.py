@@ -1,6 +1,8 @@
 from Part_I import *
 from Part_II import *
 
+directory = "Speeches"
+new_directory = "Cleaned"
 """
 MAIN MENU
 """
@@ -14,7 +16,8 @@ def main_menu():
   print()
   print("--- Part II ---")
   print("4. Rewrite a phrase or a question in a more 'readable' way")
-  print("5. Exit")
+  print("5. Give the list of words in the question and in the text")
+  print("0. Exit")
 
 def choice_menu(choice, tf_idf_dict):
   if choice == 1:
@@ -35,31 +38,31 @@ def choice_menu(choice, tf_idf_dict):
     print("4. Display the name(s) of the president(s) who used the word 'Nation'")
     print("5. Identify the first president to talk about climate")
     print("6. Display the most common word used by all the presidents")
-    print("7. Exit")
+    print("0. Exit")
 
     second_choice = int(input("Enter the number : "))
 
     if second_choice == 1:
-      print("Least important words : ", least_imp_words("Cleaned"))
+      print("Least important words : ", least_imp_words(calculate_tfidf(new_directory)))
 
     elif second_choice == 2:
-      print("Most important words : ", most_imp_words("Cleaned"))
+      print("Most important words : ", most_imp_words(calculate_tfidf(new_directory)))
 
     elif second_choice == 3:
       president = "Chirac"
-      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, 'Cleaned')}")
+      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, new_directory)}")
 
     elif second_choice == 4:
-      print("President(s) mentioning the Nation : ", mentioned_nation('Cleaned'))
+      print("President(s) mentioning the Nation : ", mentioned_nation(new_directory))
     
     elif second_choice == 5:
-      print("1st president to mention climate : ", mentioned_climate('Cleaned'))
+      print("1st president to mention climate : ", mentioned_climate(new_directory))
 
     
     elif second_choice == 6:
       print("Words mentionned by every president : ", words_mentioned_by_all_presidents(tf_idf_dict))
 
-    elif second_choice == 7:
+    elif second_choice == 0:
       main_menu()
 
     else :
@@ -70,6 +73,9 @@ def choice_menu(choice, tf_idf_dict):
     print(words_in_question(phrase))
 
   elif choice == 5:
+    print(question_word_in_corpus(new_directory))
+
+  elif choice == 0:
     print("End.")
     exit()
 
@@ -80,7 +86,7 @@ def run_chatbot():
   while True:
     main_menu()
     choice = int(input("Enter a number :"))
-    choice_menu(choice, "Speeches")
+    choice_menu(choice, directory)
 
 
 
