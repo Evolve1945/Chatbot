@@ -190,7 +190,7 @@ def idf(folder : str) -> dict:                                                  
   OUT : dict, the idf of each word in the folder
   Description : Function that takes a folder as input and returns a dictionary of the idf of each word in the folder
   """
-  assert type(folder) == str and folder != "", "Insert a valid str folder"                     #Checks if the folder is a str
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                      #Checks if the folder is a str
   
   idf_dict = {}                                                                                 # Create an empty dictionary to store the IDF values
   nb = len(os.listdir(folder))                                                                  # Initialize a counter variable to keep track of the number of files
