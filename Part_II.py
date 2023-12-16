@@ -215,10 +215,11 @@ def document_name_similarity(folder):
 
 print(document_name_similarity(new_directory), '\n')
 
-# dico_title_text = document_name_similarity(new_directory)
-# print(tf_question(file_path, new_directory, dico_title_text))
+list_word_in_title_text = document_name_similarity(new_directory)
+print(tf_question(file_path, new_directory, list_word_in_title_text))
 
-
+print(calculate_tdidf_vector(list_of_words_in_question))
+# display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
 
 
 
