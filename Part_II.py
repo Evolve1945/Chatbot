@@ -205,12 +205,22 @@ def document_name_similarity(folder):
       if word_in_title_text[i][j].endswith(".txt"):
         word_in_title_text[i][j] = word_in_title_text[i][j][:-4]
   
-  print(title_of_text, '\n')
-  print(word_in_title_text, '\n')
-      
   for i in range(len(title_of_text)):
     
     list_word_in_title_text.append([title_of_text[i], word_in_title_text[i]])
+  
+  for i in list_word_in_title_text :
+    nbr = ""
+    cpt = -1
+    for j in i[1] :
+      if j in "1234567890" :
+        cpt +=1
+        nbr += j
+    i[1] = i[1][0:len(i)-cpt]
+    if nbr != "" :
+      i[1].append(nbr)
+    
+    
 
   return list_word_in_title_text
 
