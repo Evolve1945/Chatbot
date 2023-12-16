@@ -17,6 +17,7 @@ def words_in_question(phrase : str) -> list:
   Description : Function that takes a sentence as an input and returns a list of words in the question
   """
   global list_of_words_in_question
+  assert phrase != "", "The phrase is empty"                        # If the phrase is empty, raise an error
 
   acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
   cleaned_character = ""
