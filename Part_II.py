@@ -165,13 +165,14 @@ def scalar_product(a, b):
   return sqrt(sum([x * y for x, y in zip(a, b)]))
 
 
-def norm_vector(a):
-  return sqrt(sum([x**2 for x in a]))
+def norm_vector(a): 
+  #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
+  return sqrt(a**2)
 
 
 def cosine_similarity(a, b):
-  if norm_vector(a) == 0 or norm_vector(b) == 0:
-    return 1
+  if norm_vector(a) * norm_vector(b) == 0:
+    return 0
   else:
     return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
 
@@ -192,6 +193,7 @@ tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
+
 
 print(display_cosine_similarity(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix)))
       
