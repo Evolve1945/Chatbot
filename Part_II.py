@@ -124,30 +124,14 @@ def calculate_tdidf_question(list_of_words_in_question):
   tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
 
   for filename in os.listdir(new_directory):                                            # Iterate over each file in the folder
-    tf_values = tf_question(filename, new_directory, list_of_words_in_question)                                                    # Get the TF values of the words in the file
+    tf_values = tf_question(filename, new_directory, list_of_words_in_question)         # Get the TF values of the words in the file
 
     for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
-      found = False                                                                     # Initialize a boolean variable to keep track of whether the word is in the TF-IDF matrix or not
-
-      for i in range(len(tfidf_matrix)):                                                # Iterate over each word in the TF-IDF matrix
-        
-        if tfidf_matrix[i][0] == key:                                                   # Check if the word is already in the TF-IDF matrix
-          
-          if key in tf_values :                                                         # If yes, check if the word is in the TF dictionary
-            tfidf_matrix[i][1].append(idf_values[key] * tf_values[key])                 # If yes, append the TF-IDF value of the word to the list of TF-IDF values of the word
-          
-          else:                                                                         # If not
-            tfidf_matrix[i][1].append(0)                                                # Append 0 to the list of TF-IDF values of the word
-          found = True                                                                  # Set the boolean variable to True
-      
-      if found == False:                                                                # If the word is not in the TF-IDF matrix
-        
-        if key in tf_values:                                                            # Check if the word is in the TF dictionary
-          tfidf_matrix.append([key.lower(), [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
-        
-
-        else:                                                                           # If not
-          tfidf_matrix.append([key.lower(), [0]])                                       # Append the word and 0 to the TF-IDF matrix
+      if key in list_of_words_in_question:                                               # Check if the word is in the list of words in the question
+        tfidf_value = idf_values[key] * tf_values.get(key, 0)                            # Calculate the TF-IDF value if the word is in the TF dictionary, otherwise set it to 0
+        tfidf_matrix.append([key.lower(), [tfidf_value]])                                 # Append the word and its TF-IDF value to the TF-IDF matrix
+      else:
+        tfidf_matrix.append([key, [0]])                                           # Append the word and 0 as its TF-IDF value to the TF-IDF matrix
   
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
@@ -162,7 +146,7 @@ def display_tfidf_matrix (tfidf_matrix) :
 #Part II.2
 
 def scalar_product(list_a, list_b):
-  return sqrt(sum([x * y for x, y in zip(a, b)]))
+  return sqrt(sum([list_a[i] * list_b[i] for i in range(len(list_a))]))
 
 
 def norm_vector(list_a): 
@@ -180,7 +164,7 @@ def cosine_similarity(list_a, list_b):
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   list_of_cosine_similarity = []
   for row in range(len(tfidf_question_matrix)):
-    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]
+    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][0], tfidf_corpus_matrix[row][1])]
     list_of_cosine_similarity.append(word_and_value)
   return list_of_cosine_similarity
 
@@ -192,8 +176,8 @@ tfidf_corpus_matrix = calculate_tfidf(new_directory)
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
 
-print(tfidf_corpus_matrix)
-print("\n\n\n",tfidf_question_matrix)
+#print(tfidf_corpus_matrix)
+#print("\n\n\n",tfidf_question_matrix)
 
 
 print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
