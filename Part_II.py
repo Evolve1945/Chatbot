@@ -145,26 +145,27 @@ def display_tfidf_matrix (tfidf_matrix) :
 
 #Part II.2
 
-def scalar_product(list_a, list_b):
-  return sqrt(sum([list_a[i] * list_b[i] for i in range(len(list_a))]))
+def scalar_product(list_a,list_b):
+  return sum([list_a[i]*list_b[i] for i in range(len(list_a))])
 
 
-def norm_vector(list_a): 
+def norm_vector(a): 
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
-  return sqrt(sum(x**2 for x in list_a))
+  return sqrt(sum(i**2 for i in a))
 
 
 def cosine_similarity(list_a, list_b):
-  if norm_vector(list_a) * norm_vector(list_b) == 0:
+  if list_a * list_b == 0:
     return 0.0
   else:
-    return scalar_product(list_a, list_b) / (norm_vector(list_a) * norm_vector(list_b))
+    return scalar_product(list_a, list_b) / (norm_vector(list_a) * norm_vector (list_b))
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   list_of_cosine_similarity = []
+  nbr_doc = int(input("Enter the number of the document to compare with the question : "))
   for row in range(len(tfidf_corpus_matrix)):
-    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]
+    word_and_value = [tfidf_corpus_matrix[row][1][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][nbr_doc])]
     list_of_cosine_similarity.append(word_and_value)
   return list_of_cosine_similarity
 
@@ -177,7 +178,7 @@ list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
 
 #print(tfidf_corpus_matrix)
-print("\n\n\n",tfidf_question_matrix)
+#print("\n\n\n",tfidf_question_matrix)
 
 
 print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
