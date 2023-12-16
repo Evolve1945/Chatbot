@@ -203,29 +203,13 @@ def document_name_similarity(folder):
       if title_of_text[i] not in dico_title_text:
         dico_title_text[title_of_text[i]] = word_in_title_text[i]
 
+  
 
-    """
-      if title_of_text[i] not in dico_title_text:
-        dico_title_text[title_of_text[i]] = 
-    """
-
-    """
-    word = text.split("_")
-    for i in range(len(word)):
-      word_in_title_text.append(word[i])
-      for j in range(len(word_in_title_text)):
-        if word_in_title_text[j].endswith(".txt"):
-          word_in_title_text[j] = word_in_title_text[j][:-4]
-        else:
-          for k in "0123456789":
-            if k in word_in_title_text[j]:
-              word_in_title_text[j] = word_in_title_text[j].replace(k, "")
-    """
 
   return dico_title_text
 
 
-print(document_name_similarity(new_directory))
+print(document_name_similarity(new_directory).items())
 
 
 
