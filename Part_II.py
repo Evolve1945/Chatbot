@@ -37,6 +37,7 @@ def words_in_question(phrase : str) -> list:
     cleaned_character += character
    
   list_of_words_in_question = cleaned_character.split()             # Split the text into individual words and put it in a list
+  
   return list_of_words_in_question
 
     #BONUS
@@ -52,6 +53,7 @@ def special_words_in_question() -> set:
   words_in_question(input("Enter a question : "))                                                                       # ask the user to enter a question
   for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
     list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
+  
   return list_of_words_in_question
 
 
@@ -109,11 +111,9 @@ def tf_question(file_path, folder, list_of_words_in_question):
         else:                                                                             # If the word is already in the frequency dictionary
           frequency[word] += 1                                                            # Increment its frequency by 1
     frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True)) # Sort the frequency dictionary by value in descending order
+    
     return frequency
  
-
-
-  
 
 
 
@@ -202,29 +202,12 @@ def document_name_similarity(folder):
       if title_of_text[i] not in dico_title_text:
         dico_title_text[title_of_text[i]] = word_in_title_text[i]
 
-
-    """
-      if title_of_text[i] not in dico_title_text:
-        dico_title_text[title_of_text[i]] = 
-    """
-
-    """
-    word = text.split("_")
-    for i in range(len(word)):
-      word_in_title_text.append(word[i])
-      for j in range(len(word_in_title_text)):
-        if word_in_title_text[j].endswith(".txt"):
-          word_in_title_text[j] = word_in_title_text[j][:-4]
-        else:
-          for k in "0123456789":
-            if k in word_in_title_text[j]:
-              word_in_title_text[j] = word_in_title_text[j].replace(k, "")
-    """
-
   return dico_title_text
 
-
 print(document_name_similarity(new_directory))
+
+dico_title_text = document_name_similarity(new_directory)
+print(tf_question(file_path, new_directory, dico_title_text))
 
 
 
