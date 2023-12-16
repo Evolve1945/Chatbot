@@ -163,10 +163,12 @@ def cosine_similarity(list_a, list_b):
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   list_of_cosine_similarity = []
+
   for row in range(len(tfidf_corpus_matrix)):
     word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]
     list_of_cosine_similarity.append(word_and_value)
-  return list_of_cosine_similarity
+
+  return dirpath(list_of_cosine_similarity)
 
 
 
@@ -177,10 +179,9 @@ list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
 
 #print(tfidf_corpus_matrix)
-print("\n\n\n",tfidf_question_matrix)
+# print("\n\n\n",tfidf_question_matrix)
 
-
-print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+# print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 """
 def document_cleaned_title(folder):
 
@@ -236,7 +237,25 @@ def most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corp
   pass
 
 
+def equivalent_text(name_files_in_cleaned_folder):
+  
 
+  names_files_in_speeches = os.listdir("Speeches")
+  names_files_in_cleaned = os.listdir("Cleaned")
+  for name_files_in_cleaned_folder in names_files_in_cleaned:
+    for text in names_files_in_speeches:
+      if name_files_in_cleaned_folder == text:
+        original_file_path = os.path.join("Cleaned", name_files_in_cleaned_folder)
+        file_path = os.path.join("Speeches", name_files_in_cleaned_folder)
+
+        original_file_path = file_path
+      else:
+        print("Not such file in the folder")
+      
+
+  return file_path
+
+print(equivalent_text("Nomination_Chirac1.txt"))
 
 
 
