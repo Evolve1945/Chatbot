@@ -341,7 +341,7 @@ def mentioned_nation(folder : str) -> str:
   OUT : str, the president(s) who mentioned the word "Nation"
   Description : Function that takes a folder as input and returns a string of the president(s) who mentioned the word "Nation"
   """
-  assert type(folder) == str and folder != "", "Insert a valid str folder" #Checks if the folder is a str
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                          #Checks if the folder is a str
   presidents_mentioning_nation = []                                                                 # Create an empty list to store the presidents who mentioned the word "Nation"
   
   for text in os.listdir(folder):                                                                   # Iterate over each file in the folder
@@ -394,4 +394,4 @@ def words_mentioned_by_all_presidents(folder : str)-> str :                     
 
 
 
-
+#
