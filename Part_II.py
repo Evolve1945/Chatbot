@@ -170,13 +170,16 @@ def norm_vector(a):
 
 
 def cosine_similarity(a, b):
-  return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
+  if norm_vector(a) * norm_vector(b) == 0:
+    return 0
+  else:
+    return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
 
 
-def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix, folder):
   for row in range(len(tfidf_question_matrix)):
-    for column in range (len(tfidf_corpus_matrix[row][1])):
-      cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
+    for column in range (len(os.listdir(folder))):
+      cosine_similarity(round(tfidf_question_matrix[row][1][column], 4), round(tfidf_corpus_matrix[row][1][column], 4)) 
 
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
@@ -184,7 +187,7 @@ tfidf_corpus_matrix = calculate_tfidf(new_directory)
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
 
-print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix, new_directory))
       
 
 """
