@@ -184,9 +184,7 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
     list_of_cosine_similarity.append(word_and_value)
   return list_of_cosine_similarity
 
-def display_cosine_similarity(list_of_cosine_similarity):
-  for lign in list_of_cosine_similarity :
-      print (lign)
+
 
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
@@ -195,9 +193,7 @@ list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
 
 
-print(display_cosine_similarity(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix)))
-      
-
+print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 """
 def document_cleaned_title(folder):
 
