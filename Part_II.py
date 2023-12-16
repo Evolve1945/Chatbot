@@ -163,8 +163,8 @@ def cosine_similarity(list_a, list_b):
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   list_of_cosine_similarity = []
-  for row in range(len(tfidf_question_matrix)):
-    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][0], tfidf_corpus_matrix[row][1])]
+  for row in range(len(tfidf_corpus_matrix)):
+    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]
     list_of_cosine_similarity.append(word_and_value)
   return list_of_cosine_similarity
 
@@ -177,7 +177,7 @@ list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
 
 #print(tfidf_corpus_matrix)
-#print("\n\n\n",tfidf_question_matrix)
+print("\n\n\n",tfidf_question_matrix)
 
 
 print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
