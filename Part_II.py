@@ -167,12 +167,12 @@ def scalar_product(a, b):
 
 def norm_vector(a): 
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
-  return sqrt(a**2)
+  return sqrt(sum(x**2 for x in a))
 
 
 def cosine_similarity(a, b):
   if norm_vector(a) * norm_vector(b) == 0:
-    return 0
+    return 0.0
   else:
     return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
 
