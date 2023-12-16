@@ -118,7 +118,7 @@ def tf_question(file_path, folder, list_of_words_in_question):
 
 
 
-def calculate_tdidf_vector(list_of_words_in_question):
+def calculate_tdidf_question(list_of_words_in_question):
   
   idf_values = idf(new_directory)
   tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
@@ -155,26 +155,26 @@ def display_tfidf_matrix (tfidf_matrix) :
   for lign in tfidf_matrix :
       print (lign)
 
-# list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-# display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
+#list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+#display_tfidf_matrix(calculate_tdidf_question(list_of_words_in_question))
 
 
 #Part II.2
 
-def scalar_product(a, b):
+def scalar_product(list_a, list_b):
   return sqrt(sum([x * y for x, y in zip(a, b)]))
 
 
-def norm_vector(a): 
+def norm_vector(list_a): 
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
-  return sqrt(sum(x**2 for x in a))
+  return sqrt(sum(x**2 for x in list_a))
 
 
-def cosine_similarity(a, b):
-  if norm_vector(a) * norm_vector(b) == 0:
+def cosine_similarity(list_a, list_b):
+  if norm_vector(list_a) * norm_vector(list_b) == 0:
     return 0.0
   else:
-    return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
+    return scalar_product(list_a, list_b) / (norm_vector(list_a) * norm_vector(list_b))
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
@@ -190,10 +190,13 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
+tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
+
+print(tfidf_corpus_matrix)
+print("\n\n\n",tfidf_question_matrix)
 
 
-print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 """
 def document_cleaned_title(folder):
 
