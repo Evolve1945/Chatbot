@@ -162,7 +162,7 @@ def display_tfidf_matrix (tfidf_matrix) :
 #Part II.2
 
 def scalar_product(a, b):
-  return sqrt(sum([x * y for x, y in zip(a, b)]))
+  return sqrt(sum(a[i] * b[i] for i in range(len(a))))
 
 
 def norm_vector(a): 
