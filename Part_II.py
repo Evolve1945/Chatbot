@@ -162,14 +162,17 @@ def display_tfidf_matrix (tfidf_matrix) :
 #Part II.2
 
 def scalar_product(a, b):
+  #Sum of AixBi = A1xB1 + A2xB2 + ... + AnxBn
   return sqrt(a * b)
 
 
-def norm_vector(a):
-  return sqrt(sum([x**2 for x in a]))
+def norm_vector(a): 
+  #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
+  return sqrt(a**2)
 
 
 def cosine_similarity(a, b):
+  #A1xB1 + A2xB2 + ... + AnxBn / sqrt(A1² + A2² + ... + An²) x sqrt(B1² + B2² + ... + Bn²)
   if norm_vector(a) * norm_vector(b) == 0:
     return 0
   else:
@@ -186,6 +189,7 @@ tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
+
 
 print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix, new_directory))
       
