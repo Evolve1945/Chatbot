@@ -69,11 +69,11 @@ def question_word_in_corpus(directory : str):
     print(i+1,".", files[i]) 
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
-  file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
-  file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
-  file_content = words_in_question(file_content)                   # Get the list of words in the file
+  file_path = os.path.join("Speeches",files[chosen_speech])         # Get the path of the file
+  file_content = open(file_path, "r", encoding="utf-8").read()      # Open the file and read it
+  file_content = words_in_question(file_content)                    # Get the list of words in the file
   for word in file_content:                                         # For each word in the file content
-    if word in user_question and word not in common_words :                                       # If the word is in the user question
+    if word in user_question and word not in common_words :         # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
   
     for word in common_words:
@@ -94,14 +94,14 @@ def tf_question(file_path, folder, list_of_words_in_question):
   """
   assert type(file_path) == str and file_path != "" and type(folder) == str and folder != "", "Insert a valid str file path and folder" #Checks if the file path and the folder are str
  
-  frequency = {}                                                                        # Create an empty dictionary to store the word frequencies
+  frequency = {}                                                                          # Create an empty dictionary to store the word frequencies
   
-  with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:          # Open the file in read mode with UTF-8 encoding
-    text = file.read()                                                                  # Read the contents of the file
-    words = text.split()                                                                # Split the text into individual words
+  with open(os.path.join(folder, file_path), 'r', encoding = 'utf-8') as file:            # Open the file in read mode with UTF-8 encoding
+    text = file.read()                                                                    # Read the contents of the file
+    words = text.split()                                                                  # Split the text into individual words
     for word in words: 
       
-      if word not in list_of_words_in_question:                                                                 # Iterate over each word in the text
+      if word not in list_of_words_in_question:                                           # Iterate over each word in the text
         frequency[word] = 0
 
       else:
@@ -111,7 +111,7 @@ def tf_question(file_path, folder, list_of_words_in_question):
         
         else:                                                                             # If the word is already in the frequency dictionary
           frequency[word] += 1                                                            # Increment its frequency by 1
-    frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True)) # Sort the frequency dictionary by value in descending order
+    frequency = dict(sorted(frequency.items(), key=lambda item: item[1], reverse=True))   # Sort the frequency dictionary by value in descending order
     
     return frequency
  
@@ -121,9 +121,9 @@ def tf_question(file_path, folder, list_of_words_in_question):
 def calculate_tdidf_vector(list_of_words_in_question):
   
   idf_values = idf(new_directory)
-  tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
+  tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
 
-  for filename in os.listdir(new_directory):                                                   # Iterate over each file in the folder
+  for filename in os.listdir(new_directory):                                            # Iterate over each file in the folder
     tf_values = tf_question(filename, new_directory, list_of_words_in_question)                                                    # Get the TF values of the words in the file
 
     for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
@@ -147,9 +147,9 @@ def calculate_tdidf_vector(list_of_words_in_question):
         
 
         else:                                                                           # If not
-          tfidf_matrix.append([key.lower(), [0]])                                               # Append the word and 0 to the TF-IDF matrix
+          tfidf_matrix.append([key.lower(), [0]])                                       # Append the word and 0 to the TF-IDF matrix
   
-  return tfidf_matrix                                                                  # Return the TF-IDF matrix
+  return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 def display_tfidf_matrix (tfidf_matrix) :
   for lign in tfidf_matrix :
@@ -177,9 +177,18 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   for row in range(len(tfidf_question_matrix)):
     for column in range (len(tfidf_corpus_matrix[row][1])):
       cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
+
+
+tfidf_corpus_matrix = calculate_tfidf(new_directory)
+
+list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
+
+print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
       
 
-def document_name_similarity(folder):
+"""
+def document_cleaned_title(folder):
 
   list_of_folder = list_of_files(folder, ".txt")
   title_of_text = []
@@ -224,15 +233,13 @@ def document_name_similarity(folder):
 
   return list_word_in_title_text
 
-print(document_name_similarity(new_directory), '\n')
+print(document_cleaned_title(new_directory), '\n')
 
-list_word_in_title_text = document_name_similarity(new_directory)
-print(tf_question(file_path, new_directory, list_word_in_title_text))
+"""
 
-print(calculate_tdidf_vector(list_of_words_in_question))
-# display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
+def most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus):
 
-
+  pass
 
 
 
