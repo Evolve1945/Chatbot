@@ -182,21 +182,46 @@ def document_name_similarity(folder):
   list_of_folder = list_of_files(folder, ".txt")
   title_of_text = []
   word_in_title_text = []
+  dico_title_text = {}
 
   for text in list_of_folder:
+    title_of_text.append(text)
+
+  for i in range(len(title_of_text)):
+    for k in "1234567890":
+        if k in title_of_text[i]:
+          title_of_text[i] = title_of_text[i].replace(k, "_" + k)
+
+    word_in_title_text.append(title_of_text[i].split("_"))
+    for j in range(len(word_in_title_text[i])):
+      if word_in_title_text[i][j].endswith(".txt"):
+        word_in_title_text[i][j] = word_in_title_text[i][j][:-4]
+      
+  for i in range(len(title_of_text)):
+    for j in range(len(word_in_title_text[i])):
+      if title_of_text[i] not in dico_title_text:
+        dico_title_text[title_of_text[i]] = word_in_title_text[i]
+
+
+    """
+      if title_of_text[i] not in dico_title_text:
+        dico_title_text[title_of_text[i]] = 
+    """
+
+    """
     word = text.split("_")
     for i in range(len(word)):
-      title_of_text.append(word[i])
-      for j in range(len(title_of_text)):
-        if title_of_text[j].endswith(".txt"):
-          title_of_text[j] = title_of_text[j][:-4]
+      word_in_title_text.append(word[i])
+      for j in range(len(word_in_title_text)):
+        if word_in_title_text[j].endswith(".txt"):
+          word_in_title_text[j] = word_in_title_text[j][:-4]
         else:
           for k in "0123456789":
-            if k in title_of_text[j]:
-              title_of_text[j] = title_of_text[j].replace(k, "")
+            if k in word_in_title_text[j]:
+              word_in_title_text[j] = word_in_title_text[j].replace(k, "")
+    """
 
-  return title_of_text
-
+  return dico_title_text
 
 
 print(document_name_similarity(new_directory))

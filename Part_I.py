@@ -48,8 +48,6 @@ def president_last_name(file : str) -> str:                                 # De
   return name                                                               #Return the name of the president
 
 
-
-
 def get_names (directory :str) -> list :                                    # Defines a function named "get_names" that takes one parameter: "directory"
   """  
   IN : str corresponding to the location of the directory
