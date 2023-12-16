@@ -66,8 +66,6 @@ def question_word_in_corpus(directory : str):
     print(i+1,".", files[i]) 
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
 
-
-  # Idée : Utiliser intersection pour trouver les mots en commun entre la question et les discours
   file_path = os.path.join("Speeches",files[chosen_speech])                      # Get the path of the file
   file_content = open(file_path, "r", encoding="utf-8").read()     # Open the file and read it
   file_content = words_in_question(file_content)                   # Get the list of words in the file
@@ -156,9 +154,8 @@ def display_tfidf_matrix (tfidf_matrix) :
   for lign in tfidf_matrix :
       print (lign)
 
-list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-
-display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
+#list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+#display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
 
 
 #Part II.2
@@ -181,6 +178,28 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
       cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
       
 
+def document_name_similarity(folder):
+  list_of_folder = list_of_files(folder, ".txt")
+  title_of_text = []
+  word_in_title_text = []
+
+  for text in list_of_folder:
+    word = text.split("_")
+    for i in range(len(word)):
+      title_of_text.append(word[i])
+      for j in range(len(title_of_text)):
+        if title_of_text[j].endswith(".txt"):
+          title_of_text[j] = title_of_text[j][:-4]
+        else:
+          for k in "0123456789":
+            if k in title_of_text[j]:
+              title_of_text[j] = title_of_text[j].replace(k, "")
+
+  return title_of_text
+
+
+
+print(document_name_similarity(new_directory))
 
 
 
