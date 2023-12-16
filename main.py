@@ -17,6 +17,7 @@ def main_menu():
   print("--- Part II ---")
   print("4. Rewrite a phrase or a question in a more 'readable' way")
   print("5. Give the list of words in the question and in the text")
+  print("6. Give the list of words in the question and in the text with the TF-IDF score")
   print("0. Exit")
 
 def choice_menu(choice, tf_idf_dict):
@@ -75,6 +76,13 @@ def choice_menu(choice, tf_idf_dict):
   elif choice == 5:
     print(question_word_in_corpus(new_directory))
 
+  elif choice == 6:
+    files = os.listdir(new_directory)
+    for i in range(len(files)) :
+      print(i + 1,".", files[i]) 
+    file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
+    print(tf_question(files[file_path], new_directory, list_of_words_in_question))
+
   elif choice == 0:
     print("End.")
     exit()
@@ -88,6 +96,9 @@ def run_chatbot():
     choice = int(input("Enter a number :"))
     choice_menu(choice, directory)
 
+
+
+  
 
 run_chatbot()
 

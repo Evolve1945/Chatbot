@@ -1,5 +1,5 @@
 import os
-from math import log
+from math import *
 # -*- coding: utf-8 -*-
 
 
@@ -46,8 +46,6 @@ def president_last_name(file : str) -> str:                                 # De
       name = L[1].split(".")[0][:i+1]                                       #We have the name of the president
       cpt += 1                                                              #Increment the counter to prevent from the name being followed by a number having more than 1 digit
   return name                                                               #Return the name of the president
-
-
 
 
 def get_names (directory :str) -> list :                                    # Defines a function named "get_names" that takes one parameter: "directory"
@@ -143,7 +141,7 @@ def file_cleaned()-> bool:                          # Defines a function named "
           if formatted_character in ("'", "-","\n"):                                   # If the character is a special character
             formatted_character = " "                                                  # Replace it by a space
 
-          elif formatted_character in (".", ",", ":", ";", "!", "?"):                  # If the character is a new line
+          elif formatted_character in (".", ",", ":", ";", "!", "?", '"'):             # If the character is a new line
             formatted_character = ""                                                   # Delete it            
 
           for key, value in acc.items():                                               # For each key and value in the acc dictionary
@@ -213,6 +211,12 @@ def idf(folder : str) -> dict:                                                  
   idf_dict = dict(sorted(idf_dict.items(), key=lambda item: item[1], reverse=True))             # Sort the idf_dict by value in descending order
   return idf_dict                                                                           # Return the IDF dictionary
 
+
+"""
+"Together, these vectors form a matrix called a "TF-IDF matrix", where each row represents a word 
+and each column represents a document."
+
+"""
 
 def calculate_tfidf(folder):
 
