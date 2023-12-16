@@ -155,8 +155,8 @@ def display_tfidf_matrix (tfidf_matrix) :
   for lign in tfidf_matrix :
       print (lign)
 
-# list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-# display_tfidf_matrix(calculate_tdidf_vector(list_of_words_in_question))
+list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+print(calculate_tdidf_vector(list_of_words_in_question)[0][1])
 
 
 #Part II.2
@@ -180,71 +180,4 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
       
 
 def document_name_similarity(folder):
-
-  list_of_folder = list_of_files(folder, ".txt")
-  title_of_text = []
-  word_in_title_text = []
-  list_word_in_title_text = []
-
-  #All titles in title_of_text
-  for text in list_of_folder:
-    title_of_text.append(text)
-
-
-  #Separate the text and the numbers of the title in title_of_text
-  for i in range(len(title_of_text)):
-    for k in "1234567890":
-        if k in title_of_text[i]:
-          title_of_text[i] = title_of_text[i].replace(k, "_" + k)
-
-    #Words in title goes in word_in_title_text after being split at the "_" 
-    word_in_title_text.append(title_of_text[i].split("_"))
-
-    #Cleaned the ".txt" of the title
-    for j in range(len(word_in_title_text[i])):
-      if word_in_title_text[i][j].endswith(".txt"):
-        word_in_title_text[i][j] = word_in_title_text[i][j][:-4]
-  
-  for i in range(len(title_of_text)):
-    
-    list_word_in_title_text.append([title_of_text[i], word_in_title_text[i]])
-  
-  for i in list_word_in_title_text :
-    nbr = ""
-    cpt = -1
-    for j in i[1] :
-      if j in "1234567890" :
-        cpt +=1
-        nbr += j
-    i[1] = i[1][0:len(i)-cpt]
-    if nbr != "" :
-      i[1].append(nbr)
-    
-    
-
-  return list_word_in_title_text
-
-print(document_name_similarity(new_directory), '\n')
-
-# dico_title_text = document_name_similarity(new_directory)
-# print(tf_question(file_path, new_directory, dico_title_text))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+  pass
