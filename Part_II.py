@@ -162,7 +162,7 @@ def display_tfidf_matrix (tfidf_matrix) :
 #Part II.2
 
 def scalar_product(a, b):
-  return sqrt(a * b)
+  return sqrt(sum([x * y for x, y in zip(a, b)]))
 
 
 def norm_vector(a):
@@ -170,13 +170,22 @@ def norm_vector(a):
 
 
 def cosine_similarity(a, b):
-  return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
+  if norm_vector(a) == 0 or norm_vector(b) == 0:
+    return 1
+  else:
+    return scalar_product(a, b) / (norm_vector(a) * norm_vector(b))
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+  list_of_cosine_similarity = []
   for row in range(len(tfidf_question_matrix)):
-    for column in range (len(tfidf_corpus_matrix[row][1])):
-      cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
+    word_and_value = [tfidf_corpus_matrix[row][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]
+    list_of_cosine_similarity.append(word_and_value)
+  return list_of_cosine_similarity
+
+def display_cosine_similarity(list_of_cosine_similarity):
+  for lign in list_of_cosine_similarity :
+      print (lign)
 
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
@@ -184,7 +193,7 @@ tfidf_corpus_matrix = calculate_tfidf(new_directory)
 list_of_words_in_question = words_in_question(input("Enter a question (*): "))
 tfidf_question_matrix = calculate_tdidf_vector(list_of_words_in_question)
 
-print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+print(display_cosine_similarity(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix)))
       
 
 """
