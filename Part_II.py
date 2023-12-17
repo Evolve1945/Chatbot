@@ -149,32 +149,65 @@ def display_tfidf_matrix (tfidf_matrix):
 
 #Part II.2
 
-def scalar_product(list_a,list_b):
-  return sum([list_a[i]*list_b[i] for i in range(len(list_a))])
+def scalar_product(tfidf_question_matrix,tfidf_corpus_matrix):
+  list_value = []
+  #return sum([tfidf_question_matrix[i] * tfidf_corpus_matrix[i] for i in range(tfidf_question_matrix)])
+  for i in range(len(tfidf_corpus_matrix)):
+    for j in range(len(tfidf_question_matrix)):
+      tot = tfidf_corpus_matrix[i] * tfidf_question_matrix[j]
+      list_value.append(tot)
+  return sum(list_value)
 
 
 def norm_vector(a): 
+  b = a.copy()
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
-  return sqrt(sum(i**2 for i in a))
+  for i in range(len(a)):
+    b[i] = a[i] ** 2
+  return sqrt(sum(b))
 
 
-def cosine_similarity(list_a, list_b):
-  if list_a * list_b == 0:
+
+def cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+  if norm_vector(tfidf_question_matrix) * norm_vector(tfidf_corpus_matrix) == 0:
     return 0.0
   else:
-    return scalar_product(list_a, list_b) / (norm_vector(list_a) * norm_vector (list_b))
+    return scalar_product(tfidf_question_matrix, tfidf_corpus_matrix) / (norm_vector(tfidf_question_matrix) * norm_vector (tfidf_corpus_matrix))
+
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+
 
   list_of_cosine_similarity = []
   #nbr_doc = int(input("Enter the number of the document to compare with the question : "))
 
   for row in range(len(tfidf_corpus_matrix)):
-    word_and_value = [tfidf_corpus_matrix[row][1][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][nbr_doc])]
-    list_of_cosine_similarity.append(word_and_value)
+    for column in range(len(tfidf_corpus_matrix[row][1])):
+      test1 = tfidf_corpus_matrix[row][0]
+      test2 = cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])
+      word_and_value = [test1,test2]
+      list_of_cosine_similarity.append(word_and_value)
+
+
+    #print(cosine_similarity(tfidf_corpus_matrix[row][1], tfidf_question_matrix[row[nbr_doc]]))
 
   return list_of_cosine_similarity 
+
+tfidf_corpus_matrix = calculate_tfidf(new_directory)
+
+list_of_words_in_question = words_in_question(input("Enter a question (**): "))
+tfidf_question_matrix = calculate_tfidf_question(list_of_words_in_question)
+
+#print(tfidf_question_matrix)
+#print(tfidf_corpus_matrix)
+#print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+
+# def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+#   for row in range(len(tfidf_question_matrix)):
+#     for column in range (len(tfidf_corpus_matrix[row][1])):
+#       cosine_similarity(tfidf_question_matrix[row][1][column], tfidf_corpus_matrix[row][1][column])
+      
 
 """
 Censé renvoyer :
@@ -231,7 +264,7 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):  
       most_relevant_document = list_names_files_corpus[i]
 
     else:
-      most_relevant_document = list_names_files_corpus[i+1]*
+      most_relevant_document = list_names_files_corpus[i+1]
 
   most_relevant_document_final = equivalent_text(most_relevant_document)
   
@@ -246,7 +279,7 @@ tfidf_matrix_corpus = calculate_tfidf(new_directory)
 list_names_files_corpus = list_of_files(new_directory, ".txt")  
 
 
-#print(most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus))
+print(most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_names_files_corpus))
 
 
 
@@ -292,14 +325,14 @@ def first_occurrence_in_most_relevant_document(most_relevant_document, word_high
 
 #CALL
 
-word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+# word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+# tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
 
-tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
+# tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
 
-list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
+# list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
 
-in_most_relevant_document = most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
+# in_most_relevant_document = most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
 
 # print(tfidf_matrix_question)
 # print(in_most_relevant_document)
