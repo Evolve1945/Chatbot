@@ -188,7 +188,7 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 # print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 
 
-def most_relevant_document(tf_idf_matrix_corpus, tfidf_matrix_question, list_name_corpus):                                #Get the most relevant document based on the vectors -> tfidf of the question and tfidf of the corpus
+def most_relevant_document(tf_idf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus):                                #Get the most relevant document based on the vectors -> tfidf of the question and tfidf of the corpus
   most_relevant_document = list_names_files_corpus[0]
   for i in range(len(tf_idf_matrix_corpus)):
     if cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i][1]) > cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i+1][1]):
