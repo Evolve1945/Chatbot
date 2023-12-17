@@ -168,13 +168,13 @@ def cosine_similarity(list_a, list_b):
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 
   list_of_cosine_similarity = []
-  nbr_doc = int(input("Enter the number of the document to compare with the question : "))
+  #nbr_doc = int(input("Enter the number of the document to compare with the question : "))
 
   for row in range(len(tfidf_corpus_matrix)):
     word_and_value = [tfidf_corpus_matrix[row][1][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][nbr_doc])]
     list_of_cosine_similarity.append(word_and_value)
 
-  return dirpath(list_of_cosine_similarity) 
+  return list_of_cosine_similarity 
 
 """
 Censé renvoyer :
@@ -275,6 +275,19 @@ def highest_tfidf_score(most_relevant_document):
 
   
   return tfidf_score
+
+
+def first_occurrence_in_most_relevant_document(most_relevant_document, word_highest_tfidf_score):
+  
+  phrase = ""
+
+  for word in most_relevant_document:
+    if word == word_highest_tfidf_score:
+      pass
+
+
+
+
 
 
 #CALL
