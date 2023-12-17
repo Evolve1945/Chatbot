@@ -1,6 +1,7 @@
 import os
 from math import *
 from Part_I import *
+import os
 # -*- coding: utf-8 -*-
 
 #Part II.1
@@ -173,10 +174,10 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 
 
 
-tfidf_corpus_matrix = calculate_tfidf(new_directory)
+# tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
-list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
+# list_of_words_in_question = words_in_question(input("Enter a question (**): "))
+# tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
 
 #print(tfidf_corpus_matrix)
 #print("\n\n\n",tfidf_question_matrix)
@@ -236,31 +237,41 @@ def most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corp
 
   pass
 
+"""
+def equivalent_text(file_name):
+  cleaned_folder = "Cleaned"
+  speeches_folder = "Speeches"
 
-def equivalent_text(name_files_in_cleaned_folder):
-  
+  cleaned_file_path = os.path.join(cleaned_folder, file_name)
+  speeches_file_path = os.path.join(speeches_folder, file_name)
 
-  names_files_in_speeches = os.listdir("Speeches")
-  names_files_in_cleaned = os.listdir("Cleaned")
-  for name_files_in_cleaned_folder in names_files_in_cleaned:
-    for text in names_files_in_speeches:
-      if name_files_in_cleaned_folder == text:
-        original_file_path = os.path.join("Cleaned", name_files_in_cleaned_folder)
-        file_path = os.path.join("Speeches", name_files_in_cleaned_folder)
+  if os.path.exists(speeches_file_path):
+    return speeches_file_path
+  else:
+    print("No such file in the folder")
+    return None
 
-        original_file_path = file_path
-      else:
-        print("Not such file in the folder")
-      
+file_name = "Nomination_Chirac1.txt"
+equivalent_file_path = equivalent_text(file_name)
+print(equivalent_file_path)
+"""
 
-  return file_path
+def equivalent_text(file_name):
+  cleaned_folder = "Cleaned"
+  speeches_folder = "Speeches"
 
-print(equivalent_text("Nomination_Chirac1.txt"))
+  cleaned_file_path = os.path.join(cleaned_folder, file_name)
+  speeches_file_path = os.path.join(speeches_folder, file_name)
 
+  if os.path.exists(speeches_file_path):
+    return cleaned_file_path + " -> " + speeches_file_path
+  else:
+    print()
+    return "No such file in the folder"
 
-
-
-
+file_name = "Nomination_Chirac1.txt" #Remplacer par la fonction most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus)
+equivalent_file_path = equivalent_text(file_name)
+print(equivalent_file_path)
 
 
 
