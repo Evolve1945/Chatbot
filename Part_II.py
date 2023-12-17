@@ -128,20 +128,23 @@ def calculate_tdidf_question(list_of_words_in_question):
     tf_values = tf_question(filename, new_directory, list_of_words_in_question)         # Get the TF values of the words in the file
 
     for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
-      if key in list_of_words_in_question:                                               # Check if the word is in the list of words in the question
-        tfidf_value = idf_values[key] * tf_values.get(key, 0)                            # Calculate the TF-IDF value if the word is in the TF dictionary, otherwise set it to 0
-        tfidf_matrix.append([key.lower(), [tfidf_value]])                                 # Append the word and its TF-IDF value to the TF-IDF matrix
+      if key in list_of_words_in_question:                                              # Check if the word is in the list of words in the question
+        tfidf_value = idf_values[key] * tf_values.get(key, 0)                           # Calculate the TF-IDF value if the word is in the TF dictionary, otherwise set it to 0
+        tfidf_matrix.append([key.lower(), [tfidf_value]])                               # Append the word and its TF-IDF value to the TF-IDF matrix
       else:
-        tfidf_matrix.append([key, [0]])                                           # Append the word and 0 as its TF-IDF value to the TF-IDF matrix
+        tfidf_matrix.append([key, [0]])                                                 # Append the word and 0 as its TF-IDF value to the TF-IDF matrix
   
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
-def display_tfidf_matrix (tfidf_matrix) :
-  for lign in tfidf_matrix :
-      print (lign)
+#print(calculate_tdidf_question(words_in_question(input("Enter a question : "))))
 
-#list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-#display_tfidf_matrix(calculate_tdidf_question(list_of_words_in_question))
+def display_tfidf_matrix (tfidf_matrix):
+  
+  for lign in tfidf_matrix :
+    print(lign)
+
+# list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+# display_tfidf_matrix(calculate_tdidf_question(list_of_words_in_question))
 
 
 #Part II.2
@@ -264,7 +267,8 @@ def equivalent_text(file_name):
   speeches_file_path = os.path.join(speeches_folder, file_name)
 
   if os.path.exists(speeches_file_path):
-    return cleaned_file_path + " -> " + speeches_file_path
+    print( cleaned_file_path + " -> " + speeches_file_path)
+    return speeches_file_path
   else:
     print()
     return "No such file in the folder"
@@ -274,8 +278,29 @@ equivalent_file_path = equivalent_text(file_name)
 print(equivalent_file_path)
 
 
+def highest_tfidf_score(tfidf_matrix_question):
 
+  unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
 
+  tfidf_score = tfidf_matrix_question[0][1]
+  tfidf_mot = tfidf_matrix_question[0][0]
+  print(tfidf_mot, " = ", tfidf_score)
+
+  for i in range(len(tfidf_matrix_question)):
+    if tfidf_matrix_question[i][1] > tfidf_score and tfidf_matrix_question[i][0] not in unimportant_words_mentionned:
+      tfidf_score = tfidf_matrix_question[i][1]
+    
+  for j in range(len(tfidf_matrix_question)):
+    if tfidf_score == tfidf_matrix_question[j][1]:
+      tfidf_mot = tfidf_matrix_question[j][0]
+      print(tfidf_mot, " = ", tfidf_score)
+
+  
+  return tfidf_score
+
+word_in_question = words_in_question(input("Enter a question : "))
+tdidf_question = calculate_tdidf_question(word_in_question)
+print(highest_tfidf_score(tdidf_question))
 
 
 

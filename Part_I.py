@@ -10,6 +10,7 @@ print("PART I\n")
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 dict_year_president = {1995 : "Chirac", 2007 : "Sarkozy", 2012 : "Hollande", 2017 : "Macron", 1981 : "Mitterrand", 1974 : "Giscard dEstaing"}
 directory = "Speeches"
+global unimportant_words_mentionned
 
 
 #Functions
