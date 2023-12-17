@@ -119,7 +119,7 @@ def tf_question(file_path, folder, list_of_words_in_question):
 
 
 
-def calculate_tdidf_question(list_of_words_in_question):
+def calculate_tfidf_question(list_of_words_in_question):
   
   idf_values = idf(new_directory)
   tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
@@ -136,7 +136,7 @@ def calculate_tdidf_question(list_of_words_in_question):
   
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
-#print(calculate_tdidf_question(words_in_question(input("Enter a question : "))))
+#print(calculate_tfidf_question(words_in_question(input("Enter a question : "))))
 
 def display_tfidf_matrix (tfidf_matrix):
   
@@ -144,7 +144,7 @@ def display_tfidf_matrix (tfidf_matrix):
     print(lign)
 
 # list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-# display_tfidf_matrix(calculate_tdidf_question(list_of_words_in_question))
+# display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
 
 
 #Part II.2
@@ -180,12 +180,161 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 # tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
 # list_of_words_in_question = words_in_question(input("Enter a question (**): "))
-# tfidf_question_matrix = calculate_tdidf_question(list_of_words_in_question)
+# tfidf_question_matrix = calculate_tfidf_question(list_of_words_in_question)
 
 #print(tfidf_corpus_matrix)
 #print("\n\n\n",tfidf_question_matrix)
 
 # print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+
+
+def most_relevant_document(tf_idf_matrix_corpus, tfidf_matrix_question, list_name_corpus):                                #Get the most relevant document based on the vectors -> tfidf of the question and tfidf of the corpus
+  most_relevant_document = list_names_files_corpus[0]
+  for i in range(len(tf_idf_matrix_corpus)):
+    if cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i][1]) > cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i+1][1]):
+      most_relevant_document = list_names_files_corpus[i]
+    else:
+      most_relevant_document = list_names_files_corpus[i+1]
+  
+  return most_relevant_document
+
+
+word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+
+tfidf_matrix_corpus = calculate_tfidf(new_directory)
+
+list_names_files_corpus = list_of_files(new_directory, ".txt")  
+
+
+#print(most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus))
+
+
+def equivalent_text(file_name):
+  cleaned_folder = "Cleaned"
+  speeches_folder = "Speeches"
+
+  cleaned_file_path = os.path.join(cleaned_folder, file_name)
+  speeches_file_path = os.path.join(speeches_folder, file_name)
+
+  if os.path.exists(speeches_file_path):
+    print( cleaned_file_path + " -> " + speeches_file_path)
+    return speeches_file_path
+  else:
+    print()
+    return "No such file in the folder"
+
+# file_name = "Nomination_Chirac1.txt" #Remplacer par la fonction most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus)
+# equivalent_file_path = equivalent_text(file_name)
+# print(equivalent_file_path)
+
+
+def highest_tfidf_score(most_relevant_document):
+
+  unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
+
+  tfidf_score = most_relevant_document[0][1][0]
+  tfidf_mot = most_relevant_document[0][0]
+  many_word_with_same_score = []
+  print(tfidf_mot, " = ", tfidf_score)
+
+  for i in range(len(most_relevant_document)):
+    if most_relevant_document[i][1][0] > tfidf_score and most_relevant_document[i][0] not in unimportant_words_mentionned:
+      tfidf_score = most_relevant_document[i][1][0]
+      print(most_relevant_document[i][0], " = ", tfidf_score)
+    
+  for j in range(len(most_relevant_document)):
+    if tfidf_score == most_relevant_document[j][1][0]:
+      many_word_with_same_score.append(most_relevant_document[j][0])
+      tfidf_mot = most_relevant_document[j][0]
+      print(many_word_with_same_score)
+      print(tfidf_mot, " = ", tfidf_score)
+
+  
+  return tfidf_score
+
+
+#CALL
+
+word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+
+tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
+
+list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
+
+in_most_relevant_document = most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
+
+# print(tfidf_matrix_question)
+# print(in_most_relevant_document)
+
+# print(highest_tfidf_score(in_most_relevant_document))                                                                    #Get the word with the highest tfidf score of the most relevant document
+
+"""
+Problème avec la phrase "La France est-elle écologique ?" 
+-> print 
+
+competition  =  0
+est  =  2.237877677471286
+est  =  2.237877677471286
+france  =  2.237877677471286
+2.237877677471286
+"""
+
+"""
+Probleme avec tfidf_question_matrix :
+Renvoie =
+france  =  0.11778303565638346
+france  =  0.9422642852510676
+ecologique  =  1.5040773967762742
+france  =  1.531179463532985
+france  =  2.237877677471286
+['est']
+est  =  2.237877677471286
+['est', 'france']
+france  =  2.237877677471286
+['est', 'france', 'est']
+est  =  2.237877677471286
+2.237877677471286
+-> France plusieurs fois avec différent coef (en fonction textes ?) -> solution : "most_relevant_document" ?
+"""
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+#???
+
 """
 def document_cleaned_title(folder):
 
@@ -236,10 +385,6 @@ print(document_cleaned_title(new_directory), '\n')
 
 """
 
-def most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus):
-
-  pass
-
 """
 def equivalent_text(file_name):
   cleaned_folder = "Cleaned"
@@ -258,74 +403,3 @@ file_name = "Nomination_Chirac1.txt"
 equivalent_file_path = equivalent_text(file_name)
 print(equivalent_file_path)
 """
-
-def equivalent_text(file_name):
-  cleaned_folder = "Cleaned"
-  speeches_folder = "Speeches"
-
-  cleaned_file_path = os.path.join(cleaned_folder, file_name)
-  speeches_file_path = os.path.join(speeches_folder, file_name)
-
-  if os.path.exists(speeches_file_path):
-    print( cleaned_file_path + " -> " + speeches_file_path)
-    return speeches_file_path
-  else:
-    print()
-    return "No such file in the folder"
-
-file_name = "Nomination_Chirac1.txt" #Remplacer par la fonction most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus)
-equivalent_file_path = equivalent_text(file_name)
-print(equivalent_file_path)
-
-
-def highest_tfidf_score(tfidf_matrix_question):
-
-  unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
-
-  tfidf_score = tfidf_matrix_question[0][1][0]
-  tfidf_mot = tfidf_matrix_question[0][0]
-  many_word_with_same_score = []
-  print(tfidf_mot, " = ", tfidf_score)
-
-  for i in range(len(tfidf_matrix_question)):
-    if tfidf_matrix_question[i][1][0] > tfidf_score and tfidf_matrix_question[i][0] not in unimportant_words_mentionned:
-      tfidf_score = tfidf_matrix_question[i][1][0]
-      print(tfidf_matrix_question[i][0], " = ", tfidf_score)
-    
-  for j in range(len(tfidf_matrix_question)):
-    if tfidf_score == tfidf_matrix_question[j][1][0]:
-      many_word_with_same_score.append(tfidf_matrix_question[j][0])
-      tfidf_mot = tfidf_matrix_question[j][0]
-      print(many_word_with_same_score)
-      print(tfidf_mot, " = ", tfidf_score)
-
-  
-  return tfidf_score
-
-word_in_question = words_in_question(input("Enter a question : "))
-tdidf_question = calculate_tdidf_question(word_in_question)
-print(tdidf_question)
-print(highest_tfidf_score(tdidf_question)) #Problème avec la phrase "La France est-elle écologique ?" -> print competition  =  0, est  =  2.237877677471286, est  =  2.237877677471286, france  =  2.237877677471286, 2.237877677471286
-
-
-"""
-Probleme avec tfidf_question_matrix :
-Renvoie =
-france  =  0.11778303565638346
-france  =  0.9422642852510676
-ecologique  =  1.5040773967762742
-france  =  1.531179463532985
-france  =  2.237877677471286
-['est']
-est  =  2.237877677471286
-['est', 'france']
-france  =  2.237877677471286
-['est', 'france', 'est']
-est  =  2.237877677471286
-2.237877677471286
--> France plusieurs fois avec différent coef (en fonction textes ?)
-"""
-
-
-
-
