@@ -166,15 +166,25 @@ def cosine_similarity(list_a, list_b):
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
+
   list_of_cosine_similarity = []
   nbr_doc = int(input("Enter the number of the document to compare with the question : "))
+
   for row in range(len(tfidf_corpus_matrix)):
     word_and_value = [tfidf_corpus_matrix[row][1][0],cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][nbr_doc])]
     list_of_cosine_similarity.append(word_and_value)
 
-  return dirpath(list_of_cosine_similarity)
+  return dirpath(list_of_cosine_similarity) 
 
-
+"""
+Censé renvoyer :
+[[mot 1 de la question[Cs texte1, Cs texte2, ..., Cstexte8]], 
+ [mot 2 de la question[Cs texte1, Cs texte2, ..., Cstexte8]], 
+ .
+ .
+ .
+ [mot n de la question[Cs texte1, Cs texte2, ..., Cstexte8]]]
+"""
 
 
 # tfidf_corpus_matrix = calculate_tfidf(new_directory)
@@ -188,11 +198,19 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 # print("\n\n\n",matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 
 
-def most_relevant_document(tf_idf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus):                                #Get the most relevant document based on the vectors -> tfidf of the question and tfidf of the corpus
+def most_relevant_document(matrix_cosine_similarity, tf_idf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus):                                #Get the most relevant document based on the vectors -> tfidf of the question and tfidf of the corpus
+  
+  values_matrix_vector = []
   most_relevant_document = list_names_files_corpus[0]
-  for i in range(len(tf_idf_matrix_corpus)):
-    if cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i][1]) > cosine_similarity(tfidf_matrix_question, tf_idf_matrix_corpus[i+1][1]):
+
+  for i in range(len(matrix_cosine_similarity)):
+    for j in range(len(matrix_cosine_similarity)):
+      values_matrix_vector[i] = sum(matrix_cosine_similarity[i][1][j])
+
+  for i in range(len(values_matrix_vector)):
+    if values_matrix_vector[i] > values_matrix_vector[i+1][1]:
       most_relevant_document = list_names_files_corpus[i]
+
     else:
       most_relevant_document = list_names_files_corpus[i+1]
   
