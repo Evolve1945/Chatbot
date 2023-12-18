@@ -127,8 +127,6 @@ def file_cleaned()-> bool:                          # Defines a function named "
     path_file_prime = "Cleaned"  
     path_file_orgl = os.path.join(path_file_orgl, file_name)                           # path_file_orgl\file_name
     path_file_prime = os.path.join(path_file_prime,file_name)                          # path_file_prime\file_name
-    #print(path_file_orgl)
-    #print(path_file_prime)
 
     with open(path_file_orgl, 'r', encoding='utf-8') as file_orgl, open(path_file_prime, 'w', encoding='utf-8') as file_prime:
       lines = file_orgl.readlines()                                                    # "Read" each line of the orginal and return them as a list of str (a line = an element)
@@ -255,10 +253,6 @@ def calculate_tfidf(folder):
 
 
 
-#print(calculate_tfidf("Cleaned"))
-
-
-
 #1. Display the list of least important words in the document corpus. 
 #A word is said to be unimportant if its TD-IDF = 0 in all files.
 #2. Display the word(s) with the highest TD-IDF score
@@ -286,7 +280,6 @@ def least_imp_words(tfidf_matrix : list) -> list:                               
   
   return liw_list[:nbr_words_display]                                                   # Return the list of least important words
 
-#print(least_imp_words(calculate_tfidf("Speeches")))
 
 def most_imp_words(tfidf_matrix : list) -> list:                                        # Defines a function named "most_imp_words" that takes one parameter: "tfidf_matrix"
   """
@@ -305,8 +298,6 @@ def most_imp_words(tfidf_matrix : list) -> list:                                
     miw_list.append(max_tfidf)                                                          # Append the word to the list of most important words
 
   return miw_list[:nbr_words_display]                                                   # Return the list of most important words
-
-#print(most_imp_words(calculate_tfidf("Speeches")))
 
 
 unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']

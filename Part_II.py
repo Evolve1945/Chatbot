@@ -293,7 +293,10 @@ def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, wor
 
   final_question_matrix = sorted(final_question_matrix, key = lambda x : x[1], reverse = True)           #Sort the final_question_matrix by value in descending order
 
-  return final_question_matrix[0]
+  if final_question_matrix:
+    return final_question_matrix[0]
+  else:
+    return "No word found"
 
 
 
@@ -332,11 +335,11 @@ def cleaned_response(question, phrase):
   IN : str, the question, str, the first occurrence of the word in the text
   OUT : str, the cleaned response
   """
-  answer = {"comment": "Après analyse, ", "pourquoi": "Car, ", "peux tu": "Oui, bien sûr! Dans les faits, ", "quoi": "En ce qui concerne cela, ", "qui": "En termes de personnes, ", "quel": "Concernant ce choix, ", "est ce que": "Bien entendu, ", "penses tu que": "De mon point de vue, ", "explique": "Pour mieux comprendre, ", "decris": "En détail, ", "imagine": "En imaginant, ", "en quoi consiste": "En ce qui concerne cela, "}
+  answer = {"comment": "Après analyse ; ", "pourquoi": "Car ; ", "peux tu": "Oui, bien sûr! Dans les faits ; ", "quoi": "En ce qui concerne cela ; ", "qui": "En termes de personnes ; ", "quel": "Concernant ce choix ; ", "est ce que": "Bien entendu ; ", "penses tu que": "De mon point de vue ; ", "explique": "Pour mieux comprendre ; ", "decris": "En détail ; ", "imagine": "En imaginant ; ", "en quoi consiste": "En ce qui concerne cela ; "}
 
   for key, value in answer.items():                                           #For each key and value in the answer dictionary
     if key in question:                                                       #If the key is in the question
-      phrase = value + phrase                                                 #phrase = value + phrase
+      phrase = value + phrase + "."                                                #phrase = value + phrase
   return phrase                                                               #Return the phrase
          
           

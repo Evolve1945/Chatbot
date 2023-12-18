@@ -8,9 +8,9 @@ MAIN MENU
 """
 
 def main_menu():
-  print("----------------------------------------")
-  print("--------------- CHATBOT ----------------")
-  print("----------------------------------------")
+  print("-----------------------------------------------------------------------------------------------")
+  print("------------------------------------------- CHATBOT -------------------------------------------")
+  print("-----------------------------------------------------------------------------------------------")
 
   print("--- Part I ---")
   print("1. List Presidents' Full Names")
@@ -19,9 +19,11 @@ def main_menu():
   print()
 
   print("--- Part II ---")
-  print("---------------------------------------IMPORTANT MESSAGE---------------------------------------")
+  print("-------------------------------------- IMPORTANT MESSAGE --------------------------------------")
   print("!!! This section doesn't answer your question, it is just to show you how the chatbot works !!!")
-  print("------------------------------------------HOW IT WORKS-----------------------------------------")
+  print("-----------------------------------------------------------------------------------------------")
+  print()
+  print("----------------------------------------- HOW IT WORKS ----------------------------------------")
   print("4. Rewrite a phrase or a question in a more 'readable' way")
   print("5. Give the list of words in the question and in the text")
   print("6. Give the list of words in the question and in the text with the TF-IDF score")
@@ -31,8 +33,10 @@ def main_menu():
   print("10. Take the most revelant file in the folder 'Cleaned' and give that same file from the folder 'Speeches'")
   print("11. Give the most relevant word in your question")
   print("12. Give you the most relevant answer")
+  print()
   print("--------------------------------------------CHATBOT--------------------------------------------")
   print("13. Ask a question to the chatbot, get an answer")
+  print()
   print("0. Exit")
 
 def choice_menu(choice, tf_idf_dict):
@@ -55,6 +59,7 @@ def choice_menu(choice, tf_idf_dict):
     print("4. Display the name(s) of the president(s) who used the word 'Nation'")
     print("5. Identify the first president to talk about climate")
     print("6. Display the most common word used by all the presidents")
+    print()
     print("0. Exit")
 
     second_choice = int(input("Enter the number : "))
