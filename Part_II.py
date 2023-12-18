@@ -269,13 +269,12 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):
 print(most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_of_files(new_directory, ".txt")))
 
 
-word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+#word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+#tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
 
-tfidf_matrix_corpus = calculate_tfidf(new_directory)
+#tfidf_matrix_corpus = calculate_tfidf(new_directory)
 
-list_names_files_corpus = list_of_files(new_directory, ".txt")  
-print(list_names_files_corpus)
+#list_names_files_corpus = list_of_files(new_directory, ".txt")
 #print(most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_names_files_corpus))
 
 
@@ -285,31 +284,41 @@ print(list_names_files_corpus)
 
 
 
-def highest_tfidf_score(most_relevant_document, tfidf_question_matrix):
-
+def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, words_in_question):
+  """
+  IN : int, index of the most relevant document, list, matrix of tfidf values of the question
+  OUT : str, the word with the highest tfidf score, float, the tfidf score of the word, list, the list of words with the same tfidf score
+  """
   unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
+  final_question_matrix = []
+  for row in range(len(tfidf_question_matrix)):
+    if tfidf_question_matrix[row][0] in words_in_question:
+      word = tfidf_question_matrix[row][0]
+      if tfidf_question_matrix[row][0] in unimportant_words_mentionned:
+        value = 0
+      else:
+        value = tfidf_question_matrix[row][1][most_relevant_document_index]
+      word_and_value = [word, value]
+      final_question_matrix.append(word_and_value)
 
-  tfidf_score = tfidf_corpus_matrix[0][1][most_relevant_document]
-  tfidf_mot = most_relevant_document[0][0]
-  many_word_with_same_score = []
-  print(tfidf_mot, " = ", tfidf_score)
+  final_question_matrix = sorted(final_question_matrix, key=lambda x: x[1], reverse=True)
 
-  for i in range(len(most_relevant_document)):
-    if most_relevant_document[i][1][0] > tfidf_score and most_relevant_document[i][0] not in unimportant_words_mentionned:
-      tfidf_score = most_relevant_document[i][1][0]
-      print(most_relevant_document[i][0], " = ", tfidf_score)
-    
-  for j in range(len(most_relevant_document)):
-    if tfidf_score == most_relevant_document[j][1][0]:
-      many_word_with_same_score.append(most_relevant_document[j][0])
-      tfidf_mot = most_relevant_document[j][0]
-      print(many_word_with_same_score)
-      print(tfidf_mot, " = ", tfidf_score)
+  return final_question_matrix[0]
 
   
-  return tfidf_score
+  
+word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)    
+                                                  #Calculate the tfidf of the question              
+
+tfidf_matrix_corpus = calculate_tfidf(new_directory)
+
+list_names_files_corpus = list_of_files(new_directory, ".txt")
+most_relevant_document_index = most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_names_files_corpus)  
 
 
+print(highest_tfidf_score(most_relevant_document_index, tfidf_matrix_question,word_in_question))                                                                   #Get the word with the highest tfidf score of the most relevant document
+  
 
 
 def first_occurrence_in_most_relevant_document(most_relevant_document, word_highest_tfidf_score):
