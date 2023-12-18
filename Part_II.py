@@ -371,17 +371,25 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
   
   print('\n',filtered_phrase)
 
-  L = []
 
-  if 0 < len(filtered_phrase):
-    for key, value in un_cleaned_dico.items():
-      if filtered_phrase == value :
-        L.append(key)
-  return L
+  if len(filtered_phrase) != 0:
+    print(len(filtered_phrase))
+    for i in range(len(un_cleaned_dico)):
+      if filtered_phrase in un_cleaned_dico[i]:
+        print(un_cleaned_dico[i])
+        return un_cleaned_dico[i]
 
 
-         
-          
+
+def cleaned_response(question, phrase):
+  answer = {"comment": "Après analyse, ", "pourquoi": "Car, ", "peux tu": "Oui, bien sûr! Dans les faits, ", "quoi": "En ce qui concerne cela, ", "qui": "En termes de personnes, ", "quel": "Concernant ce choix, ", "est ce que": "Bien entendu, ", "penses tu que": "De mon point de vue, ", "explique": "Pour mieux comprendre, ", "decris": "En détail, ", "imagine": "En imaginant, ", "en quoi consiste": "En ce qui concerne cela, "}
+
+  for key, value in answer.items():
+    if key in question:
+      phrase = value + phrase
+  return phrase
+
+
 word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
 tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
 
@@ -398,15 +406,11 @@ equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_fil
 
 most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                                #Get the word with the highest tfidf score of the most relevant document
   
+un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
 
-      
 print(first_occurrence_in_text(most_revelant_word, most_relevant_document_index))
 
-
-
-
-
-
+print(cleaned_response(word_in_question, un_cleaned_phrase))
 
 
 
