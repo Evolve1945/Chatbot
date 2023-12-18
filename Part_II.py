@@ -6,7 +6,7 @@ import os
 
 #Part II.1
 
-print("Part II")
+print("PART II")
 
 directory = "Speeches"
 new_directory = "Cleaned"
@@ -260,7 +260,10 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):
   total_relevance = []
   for i in range (len(list_names_files_corpus)) :
     total_relevance.append(calculate_relevance(matrix_cosine_similarity, i))
-  return list_names_files_corpus[total_relevance.index(max(total_relevance))]
+    name_file = list_names_files_corpus[total_relevance.index(max(total_relevance))]
+  return name_file
+
+
 
 #print(most_relevant_document(matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus), list_of_files(new_directory, ".txt")))
 
@@ -275,7 +278,7 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):
 # print(most_relevant_document(matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus), list_names_files_corpus))
 
 
-def equivalent_text(file_name):
+def equivalent_text(file_name, list_of_files):
   cleaned_folder = "Cleaned"
   speeches_folder = "Speeches"
 
@@ -283,87 +286,121 @@ def equivalent_text(file_name):
   speeches_file_path = os.path.join(speeches_folder, file_name)
 
   if os.path.exists(speeches_file_path):
-    print( cleaned_file_path + " -> " + speeches_file_path)
-    return speeches_file_path
-  else:
-    print()
-    return "No such file in the folder"
+    print(cleaned_file_path + " -> " + speeches_file_path)
+    print(file_name)
+    
+    for i in range(len(list_of_files)):
+      if file_name == list_of_files[i]:
+        print(i)
+        return i
+  
+
 
 # file_name = "Nomination_Chirac1.txt" #Remplacer par la fonction most_relevant_document(tf_idf_matrix, tf_idf_vector_question, list_name_corpus)
 # equivalent_file_path = equivalent_text(file_name)
 # print(equivalent_file_path)
 
 
-def highest_tfidf_score(tfidf_matrix_question, most_relevant_document):
-
+def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, words_in_question):
+  """
+  IN : int, index of the most relevant document, list, matrix of tfidf values of the question
+  OUT : str, the word with the highest tfidf score, float, the tfidf score of the word, list, the list of words with the same tfidf score
+  """
+  
   unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
+  final_question_matrix = []
 
-  # for i in range(len(list_of_files("Speeches", ".txt"))) :
-  #   if most_relevant_document == list_of_files("Speeches", ".txt")[i] :
-  #     most_relevant_document = i
+  for row in range(len(tfidf_question_matrix)):
+    if tfidf_question_matrix[row][0] in words_in_question:
+      word = tfidf_question_matrix[row][0]
+      if tfidf_question_matrix[row][0] in unimportant_words_mentionned:
+        value = 0
 
-  tfidf_score = tfidf_matrix_question[0][1][most_relevant_document]
-  tfidf_mot = tfidf_matrix_question[0][0]
-  many_word_with_same_score = []
-  
+      else:
+        value = tfidf_question_matrix[row][1][most_relevant_document_index]
 
-  for i in range(len(tfidf_matrix_question)):
-    if tfidf_matrix_question[i][1][most_relevant_document] > tfidf_score and tfidf_matrix_question[i][0] not in unimportant_words_mentionned:
-      tfidf_score = tfidf_matrix_question[i][1][most_relevant_document]
-      return (tfidf_matrix_question[i][0], " = ", tfidf_score)
+      word_and_value = [word, value]
+      final_question_matrix.append(word_and_value)
 
-    
-  # for j in range(len(tfidf_matrix_question)):
-  #   if tfidf_score == tfidf_matrix_question[j][1][0]:
-  #     many_word_with_same_score.append(tfidf_matrix_question[j][0])
-  #     tfidf_mot = tfidf_matrix_question[j][0]
-  #     print(many_word_with_same_score)
-  #     print(tfidf_mot, " = ", tfidf_score)
+  final_question_matrix = sorted(final_question_matrix, key=lambda x: x[1], reverse=True)
 
-  
-  #return tfidf_score
+  return final_question_matrix[0]
 
 
 #CALL
+# word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+# tfidf_matrix_question = calculate_tfidf_question(word_in_question)    
+                                                         
 
-word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+# tfidf_matrix_corpus = calculate_tfidf(new_directory)
 
-tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
-
-list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
-
-matrix_cosine = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
-
-
-in_most_relevant_document = most_relevant_document(matrix_cosine, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
-
-#print(tfidf_matrix_question)
-#print(in_most_relevant_document)
-
-#print(highest_tfidf_score(tfidf_matrix_question, 1))                                                                    #Get the word with the highest tfidf score of the most relevant document
+# list_names_files_corpus = list_of_files(new_directory, ".txt")
+# most_relevant_document_index = most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_names_files_corpus)  
 
 
-def first_occurrence_in_text(word_to_find, text):
-
-  point = ("." , "!" , "?") 
-
-  read_text = open(text, "r", encoding="utf-8").read()
-  text_split = read_text.split()
-
-  for i in range(len(text_split)):
-    if text_split[i] == word_to_find:
-      print(i)
-
+# print(highest_tfidf_score(most_relevant_document_index, tfidf_matrix_question,word_in_question))                                                                   #Get the word with the highest tfidf score of the most relevant document
   
-  for j in range(i, 0, -1):
-        if text_split[j] in point:
+
+def first_occurrence_in_text(word_to_find, equivalent_text):
+
+  word_to_find = word_to_find[0]
+  equivalent_path = os.path.join("Speeches", equivalent_text)
+  read_text = open(equivalent_path, "r", encoding="utf-8").read()           #Open the file and read it
+  # print(read_text) #fonctionne
+  phrase = read_text.split(".")                                             #Split the text into phrases
+  # print(phrase) #fonctionne
+
+
+  cleaned_phrase = []                                                     
+  filtered_phrase = []
+
+  un_cleaned_dico = {}
+
+  for p in phrase:
+    un_cleaned_dico[p] = words_in_question(p)                                #Cleaned the phrase and put it as value of p
+    cleaned_p = words_in_question(p)                                         
+    cleaned_phrase.append(cleaned_p)
+  #print("\n", cleaned_phrase)                                               #[[word1, word2, ...], [word1, word2, ...], ...]
+  #print('\n', un_cleaned_dico)                                              #{phrase1 : [word1, word2, ...], phrase2 : [word1, word2, ...], ...}
+
+
+  for phrase in cleaned_phrase:                                              #[word1, word2, ...]
+    if word_to_find in phrase:                                               #[word1, word2, word_to_find, ...]
+      for i in range(len(phrase)):                                           #[word1, word2, word_to_find, ...]
+        filtered_phrase.append(phrase[i])
+    else: 
+      print("The word is not in the text")
+  print('\n',filtered_phrase)
+
+  L = []
+  if len(filtered_phrase) > 0:
+    for i,j in un_cleaned_dico.items():
+      if filtered_phrase[0] in j:
+        L.append(i)
+  return L[0]
+
+
+         
           
+word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
+
+tfidf_matrix_corpus = calculate_tfidf(new_directory)
+
+list_names_files_corpus = list_of_files(new_directory, ".txt")
+
+matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
+
+most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
+print(most_relevant_document_index)
+
+equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
+
+most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                                #Get the word with the highest tfidf score of the most relevant document
+  
+
       
-      
-      return text_split[i-3:i+3]
-      
-print(first_occurrence_in_text("jour", "Cleaned/Nomination_Chirac1.txt"))
+print(first_occurrence_in_text(most_revelant_word, most_relevant_document_index))
 
 
 
