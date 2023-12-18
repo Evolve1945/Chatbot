@@ -159,15 +159,15 @@ def display_tfidf_matrix (tfidf_matrix):
   for lign in tfidf_matrix :
     print(lign)
 
-list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
+# list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+# display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
 
 
 #Part II.2
 
 def scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
   """
-  Input : two list of values [x] and [A,B,C,...]
+  Input : two list of values [x, y, z, ...] and [A,B,C,...]
   Output : a list of values [xA, xB, xC, ...]
   """
   list_value = []
@@ -179,10 +179,12 @@ def scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
   return list_value
 
 
+
 def norm_vector(tfidf_list_of_values): 
   """
-  Input : a list of values [A,B,C,...] or [x]
+  Input : a list of values [A,B,C,...]
   """
+  #print(tfidf_list_of_values)
   b = []
 
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
@@ -190,22 +192,31 @@ def norm_vector(tfidf_list_of_values):
   for i in range(len(tfidf_list_of_values)):
     b.append(tfidf_list_of_values[i] ** 2)
 
-  return sqrt(sum(b))
+  c = sqrt(sum(b))
+
+  return c
+
 
 
 
 
 def cosine_similarity(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
   """
-  Input : two list of values [x] and [A,B,C,...]
+  Input : two list of values [x, y, z,...] and [A,B,C,...]
   """
   final_tab = []
-  for i in range(len(tfidf_corpus_list_of_values)):
-    if norm_vector(tfidf_question_list_of_values[0]) * norm_vector(tfidf_corpus_list_of_values[i]) == 0:
-      return final_tab[i].append(0.0)
-    else:
-      return scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values) / (norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values))
 
+  for i in range(len(tfidf_corpus_list_of_values)):
+    if norm_vector(tfidf_question_list_of_values) * norm_vector(tfidf_corpus_list_of_values) == 0:
+      final_tab.append(0.0)
+
+    else:
+      scalar_product_ = scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values)[i]
+      norm_vector_ = norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values)
+      tot = scalar_product_ / norm_vector_
+      #print(tot)
+      final_tab.append(tot)
+  return final_tab
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
@@ -220,28 +231,12 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   
     test1 = tfidf_corpus_matrix[row][0]                                                               #Word              
     test2 = cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])             #Return 
+    
     word_and_value = [test1, test2]                                                                   # Word, [Value1, Value2, ...]
     list_of_cosine_similarity.append(word_and_value)
 
-  #   final_matrix = []
-    
-  # for i in range(len(list_of_cosine_similarity)):
-  #   for j in range(len(list_of_cosine_similarity)):
-  #     if list_of_cosine_similarity[i][0] == list_of_cosine_similarity[j][0]:
-
-  #       for k in range(len(final_matrix)):
-  #         if final_matrix[k][0] == list_of_cosine_similarity[j][0]:
-  #           final_matrix[k][1].append(list_of_cosine_similarity[j][1][0])
-  #         else:
-  #           final_matrix[k].append(list_of_cosine_similarity[j][0], [list_of_cosine_similarity[j][1]])
-
-
-
-
-
-    #print(cosine_similarity(tfidf_corpus_matrix[row][1], tfidf_question_matrix[row[nbr_doc]]))
-  print(list_of_cosine_similarity)
-  return final_matrix
+  #print(list_of_cosine_similarity)
+  return list_of_cosine_similarity
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
@@ -250,19 +245,10 @@ tfidf_question_matrix = calculate_tfidf_question(list_of_words_in_question)
 
 # print(tfidf_question_matrix)
 # print(tfidf_corpus_matrix)
-# print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 
 
 
-"""
-Censé renvoyer :
-[[mot 1 de la question[Cs texte1, Cs texte2, ..., Cstexte8]], 
- [mot 2 de la question[Cs texte1, Cs texte2, ..., Cstexte8]], 
- .
- .
- .
- [mot n de la question[Cs texte1, Cs texte2, ..., Cstexte8]]]
-"""
 
 
 # tfidf_corpus_matrix = calculate_tfidf(new_directory)
