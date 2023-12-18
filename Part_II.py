@@ -241,7 +241,7 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 
     #print(cosine_similarity(tfidf_corpus_matrix[row][1], tfidf_question_matrix[row[nbr_doc]]))
   print(list_of_cosine_similarity)
-  return final_matrix
+  #return final_matrix
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
