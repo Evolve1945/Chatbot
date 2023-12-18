@@ -275,17 +275,17 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):  
   return values_matrix_vector
 
 
-word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+# word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+# tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
 
-tfidf_matrix_corpus = calculate_tfidf(new_directory)
+# tfidf_matrix_corpus = calculate_tfidf(new_directory)
 
-list_names_files_corpus = list_of_files(new_directory, ".txt") 
+# list_names_files_corpus = list_of_files(new_directory, ".txt") 
 
-matrix_of_cosine_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
+# matrix_of_cosine_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
 
 
-print(calculate_most_relevant_document(matrix_of_cosine_similarity, list_names_files_corpus))
+# print(most_relevant_document(matrix_of_cosine_similarity, list_names_files_corpus))
 
 
 def equivalent_text(file_name):
@@ -332,34 +332,23 @@ def highest_tfidf_score(most_relevant_document):
   return tfidf_score
 
 
-def first_occurrence_in_most_relevant_document(most_relevant_document, word_highest_tfidf_score):
-  
-  phrase = ""
-
-  for word in most_relevant_document:
-    if word == word_highest_tfidf_score:
-      pass
-
-
-
-
 
 
 #CALL
 
-# word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-# tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
+word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                      #Calculate the tfidf of the question              
 
-# tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
+tfidf_matrix_corpus = calculate_tfidf(new_directory)                                                                    #Calculate the tfidf of the corpus                  
 
-# list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
+list_names_files_corpus = list_of_files(new_directory, ".txt")                                                          #Get the list of the name of the files in the corpus  
 
-# in_most_relevant_document = most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
+in_most_relevant_document = most_relevant_document(tfidf_matrix_corpus, tfidf_matrix_question, list_names_files_corpus) #Get the most relevant document based on the tfidf of the question and the corpus
 
-# print(tfidf_matrix_question)
-# print(in_most_relevant_document)
+print(tfidf_matrix_question)
+print(in_most_relevant_document)
 
-# print(highest_tfidf_score(in_most_relevant_document))                                                                    #Get the word with the highest tfidf score of the most relevant document
+print(highest_tfidf_score(in_most_relevant_document))                                                                    #Get the word with the highest tfidf score of the most relevant document
 
 """
 Problème avec la phrase "La France est-elle écologique ?" 

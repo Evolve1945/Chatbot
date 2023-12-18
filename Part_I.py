@@ -394,4 +394,4 @@ def words_mentioned_by_all_presidents(folder : str)-> str :                     
   return f"The words mentioned by all presidents are {', '.join(words)}."           # Return the string of the words mentioned by all presidents
 
 
-#commit
+#
