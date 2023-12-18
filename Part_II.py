@@ -264,7 +264,7 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):
   total_relevance = []
   for i in range (len(list_names_files_corpus)) :
     total_relevance.append(calculate_relevance(matrix_cosine_similarity, i))
-  return list_names_files_corpus[total_relevance.index(max(total_relevance))]
+  return total_relevance.index(max(total_relevance))
 
 print(most_relevant_document(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix), list_of_files(new_directory, ".txt")))
 
@@ -285,11 +285,11 @@ print(list_names_files_corpus)
 
 
 
-def highest_tfidf_score(most_relevant_document):
+def highest_tfidf_score(most_relevant_document, tfidf_question_matrix):
 
   unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
 
-  tfidf_score = most_relevant_document[0][1][0]
+  tfidf_score = tfidf_corpus_matrix[0][1][most_relevant_document]
   tfidf_mot = most_relevant_document[0][0]
   many_word_with_same_score = []
   print(tfidf_mot, " = ", tfidf_score)
@@ -308,6 +308,8 @@ def highest_tfidf_score(most_relevant_document):
 
   
   return tfidf_score
+
+
 
 
 def first_occurrence_in_most_relevant_document(most_relevant_document, word_highest_tfidf_score):
