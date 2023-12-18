@@ -17,32 +17,32 @@ def words_in_question(phrase : str) -> list:
   OUT : list, the list of words in the question
   Description : Function that takes a sentence as an input and returns a list of words in the question
   """
-  global list_of_words_in_question
-  assert phrase != "", "The phrase is empty"                        # If the phrase is empty, raise an error
+  global list_of_words_in_question                                  # Make the list of words in the question a global variable
+  assert phrase != "", "The phrase is empty"                        # Check if the phrase is not empty
 
-  acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}
-  cleaned_character = ""
-  list_of_words_in_question =[]
+  acc = {'ç': 'c', 'é': 'e', 'è': 'e', 'ê': 'e', 'à': 'a', 'â': 'a', 'ù': 'u', 'û': 'u', 'î': 'i', 'ï': 'i', 'ô': 'o', 'ö': 'o', 'œ': 'oe', 'ç': 'c', 'É': 'E', 'È': 'E', 'Ê': 'E', 'À': 'A', 'Â': 'A', 'Ù': 'U', 'Û': 'U', 'Î': 'I', 'Ï': 'I', 'Ô': 'O', 'Ö': 'O', 'Œ': 'OE'}          # Dictionary of accents to replace
+  cleaned_character = ""                                            # Initialize an empty string to store the cleaned characters
+  list_of_words_in_question =[]                                     # Initialize an empty list to store the words in the question
 
-  for char in phrase :
-    character = char.lower()                                        # Lower the character A -> a
+  for char in phrase :                                              # For each character in the phrase
+    character = char.lower()                                        # Convert the character to lowercase
     
-    if character in ("'", "-","\n", "_"):                                # If the character is a special character or a new line
-      character = " "                                               # Replace it by a space
+    if character in ("'", "-","\n", "_"):                           # If the character is a space, a dash or a newline      
+      character = " "                                               # Replace the character by a space
 
-    elif character in (".", ",", ":", ";", "!", "?", '"'):          # If the character is a ne or a special character
-      character = ""                                                # Delete it            
+    elif character in (".", ",", ":", ";", "!", "?", '"'):          # If the character is a punctuation mark
+      character = ""                                                # Replace the character by an empty string          
 
     for key, value in acc.items():                                  # For each key and value in the acc dictionary
-      character = character.replace(key, value)
+      character = character.replace(key, value)                     # Replace the key by the value in the character
 
-    cleaned_character += character
+    cleaned_character += character                                  # Add the cleaned character to the cleaned character string
    
-  list_of_words_in_question = cleaned_character.split()             # Split the text into individual words and put it in a list
+  list_of_words_in_question = cleaned_character.split()             # Split the cleaned character string into individual words
   
-  return list_of_words_in_question
+  return list_of_words_in_question                                  # Return the list of words in the question
 
-    #BONUS
+#BONUS
 
 def special_words_in_question() -> set:
   """
@@ -56,19 +56,22 @@ def special_words_in_question() -> set:
   for item in range(len(list_of_words_in_question)):                                                                    # for each item in the list of words in the question
     list_of_words_in_question[item] = clean_words.get(list_of_words_in_question[item], list_of_words_in_question[item]) # replace the item by the value of the key in the clean_words dictionary if the key is in the list of words in the question
   
-  return list_of_words_in_question
+  return list_of_words_in_question                                                                                      # return the list of words in the question without the special words
 
 
 
-def question_word_in_corpus(directory : str):
-
-  dico = {}
-  common_words = []
-  files = os.listdir(directory)
-  user_question = special_words_in_question()
-  for i in range(len(files)) :
-    print(i+1,".", files[i]) 
-  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))
+def question_word_in_corpus(directory : str):                     
+  """
+  IN : str, the directory of the corpus
+  OUT : dict, the dictionary of the common words between the question and the corpus
+  Description : Function that takes the directory of the corpus as an input and returns a dictionary of the common words between the question and the corpus"""
+  dico = {}                                                         # Create an empty dictionary to store the common words between the question and the corpus
+  common_words = []                                                 # Create an empty list to store the common words between the question and the corpus
+  files = os.listdir(directory)                                     # Get the list of files in the directory
+  user_question = special_words_in_question()                       # Get the list of words in the question without the special words
+  for i in range(len(files)) :                                      # For each file in the directory
+    print(i+1,".", files[i])                                        # Print the number of the file and its name
+  chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))   # Ask the user to enter the number of the speech to search for the questions words in it
 
   file_path = os.path.join("Speeches",files[chosen_speech])         # Get the path of the file
   file_content = open(file_path, "r", encoding="utf-8").read()      # Open the file and read it
@@ -77,11 +80,11 @@ def question_word_in_corpus(directory : str):
     if word in user_question and word not in common_words :         # If the word is in the user question
       common_words.append(word)                                     # Add the word to the list of common words
   
-    for word in common_words:
-      if word in dico:
-        dico[word] += 1
-      else:
-        dico[word] = 1
+    for word in common_words:                                       # For each word in the list of common words
+      if word in dico:                                              # If the word is in the dictionary
+        dico[word] += 1                                             # Increment its frequency by 1
+      else:                                                         # If not
+        dico[word] = 1                                              # If not, initialize its frequency to 1
   
   print(common_words)
   return dico                                    
