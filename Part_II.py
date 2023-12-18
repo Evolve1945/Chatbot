@@ -4,9 +4,9 @@ from Part_I import *
 import os
 # -*- coding: utf-8 -*-
 
-#Part II.1
+#Part II
 
-print("PART II")
+#print("PART II")
 
 directory = "Speeches"
 new_directory = "Cleaned"
@@ -59,7 +59,6 @@ def special_words_in_question() -> set:
   return list_of_words_in_question                                                                                      # return the list of words in the question without the special words
 
 
-
 def question_word_in_corpus(directory : str):                     
   """
   IN : str, the directory of the corpus
@@ -86,10 +85,8 @@ def question_word_in_corpus(directory : str):
       else:                                                         # If not
         dico[word] = 1                                              # If not, initialize its frequency to 1
   
-  print(common_words)
+  #print(common_words)
   return dico                                    
-
-#print(question_word_in_corpus(directory))
 
 
 def tf_question(file_path, folder, list_of_words_in_question):
@@ -120,15 +117,13 @@ def tf_question(file_path, folder, list_of_words_in_question):
     return frequency
  
 
-
-
 def calculate_tfidf_question(list_of_words_in_question):
   
   idf_values = idf(new_directory)
-  tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
+  tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
 
-  for filename in os.listdir(new_directory):                                                   # Iterate over each file in the folder
-    tf_values = tf_question(filename, new_directory, list_of_words_in_question)                                                    # Get the TF values of the words in the file
+  for filename in os.listdir(new_directory):                                            # Iterate over each file in the folder
+    tf_values = tf_question(filename, new_directory, list_of_words_in_question)         # Get the TF values of the words in the file
 
     for key in idf_values.keys():                                                       # Iterate over each word in the IDF dictionary
       found = False                                                                     # Initialize a boolean variable to keep track of whether the word is in the TF-IDF matrix or not
@@ -147,26 +142,20 @@ def calculate_tfidf_question(list_of_words_in_question):
       if found == False:                                                                # If the word is not in the TF-IDF matrix
         
         if key in tf_values:                                                            # Check if the word is in the TF dictionary
-          tfidf_matrix.append([key.lower(), [idf_values[key] * tf_values[key]]])                # If yes, append the word and its TF-IDF value to the TF-IDF matrix
+          tfidf_matrix.append([key.lower(), [idf_values[key] * tf_values[key]]])        # If yes, append the word and its TF-IDF value to the TF-IDF matrix
         
 
         else:                                                                           # If not
-          tfidf_matrix.append([key.lower(), [0]])                                               # Append the word and 0 to the TF-IDF matrix
+          tfidf_matrix.append([key.lower(), [0]])                                       # Append the word and 0 to the TF-IDF matrix
   
-  return tfidf_matrix                                                                 # Return the TF-IDF matrix
+  return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
-#print(calculate_tfidf_question(words_in_question(input("Enter a question : "))))
 
 def display_tfidf_matrix (tfidf_matrix):
   
   for lign in tfidf_matrix :
     print(lign)
 
-# list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-# display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
-
-
-#Part II.2
 
 def scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
   """
@@ -175,9 +164,9 @@ def scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
   """
   list_value = []
 
-  for i in range(len(tfidf_corpus_list_of_values)):
-    tot = tfidf_corpus_list_of_values[i] * tfidf_question_list_of_values[i]
-    list_value.append(tot)
+  for i in range(len(tfidf_corpus_list_of_values)):                                     #len(tfidf_corpus_list_of_values) = len(tfidf_question_list_of_values)
+    tot = tfidf_corpus_list_of_values[i] * tfidf_question_list_of_values[i]             #xA, xB, xC, ...
+    list_value.append(tot)                                                              #[xA, xB, xC, ...]
 
   return list_value
 
@@ -187,20 +176,15 @@ def norm_vector(tfidf_list_of_values):
   """
   Input : a list of values [A,B,C,...]
   """
-  #print(tfidf_list_of_values)
-  b = []
-
   #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
+  
+  list_of_values = []
 
-  for i in range(len(tfidf_list_of_values)):
-    b.append(tfidf_list_of_values[i] ** 2)
+  for i in range(len(tfidf_list_of_values)):                                            #len(tfidf_list_of_values) = len(tfidf_list_of_values)
+    list_of_values.append(tfidf_list_of_values[i] ** 2)                                 #A1², A2², ... , An²
+  final_result = sqrt(sum(list_of_values))                                              #sqrt(A1² + A2² + ... + An²)
 
-  c = sqrt(sum(b))
-
-  return c
-
-
-
+  return final_result
 
 
 def cosine_similarity(tfidf_question_list_of_values, tfidf_corpus_list_of_values):
@@ -210,15 +194,15 @@ def cosine_similarity(tfidf_question_list_of_values, tfidf_corpus_list_of_values
   """
   final_tab = []
 
-  for i in range(len(tfidf_corpus_list_of_values)):
-    if norm_vector(tfidf_question_list_of_values) * norm_vector(tfidf_corpus_list_of_values) == 0:
-      final_tab.append(0.0)
+  for i in range(len(tfidf_corpus_list_of_values)):                                                                     #len(tfidf_corpus_list_of_values) = len(tfidf_question_list_of_values)
+    if norm_vector(tfidf_question_list_of_values) * norm_vector(tfidf_corpus_list_of_values) == 0:                      #If the norm of the vector is 0
+      final_tab.append(0.0)                                                                                             #Append 0.0 to the final_tab because we can't divide by 0
 
     else:
-      scalar_product_ = scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values)[i]
-      norm_vector_ = norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values)
-      tot = scalar_product_ / norm_vector_
-      final_tab.append(tot)
+      scalar_product_ = scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values)[i]                   #scalar_product_ = [xA, xB, xC, ...]
+      norm_vector_ = norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values)             #norm_vector_ = sqrt(A1² + A2² + ... + An²) * sqrt(x1² + x2² + ... + xn²)
+      tot = scalar_product_ / norm_vector_                                                                              #tot = [xA, xB, xC, ...] / sqrt(A1² + A2² + ... + An²) * sqrt(x1² + x2² + ... + xn²)
+      final_tab.append(tot)                                                                                             #Append tot to the final_tab
   return final_tab
 
 
@@ -233,10 +217,10 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
   for row in range(len(tfidf_corpus_matrix)):                                                         #len(fidf_corpus_matrix) = len(tfidf_question_matrix)
   
     test1 = tfidf_corpus_matrix[row][0]                                                               #Word              
-    test2 = cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])             #Return 
+    test2 = cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])             #[Value1, Value2, ...]
     
     word_and_value = [test1, test2]                                                                   # Word, [Value1, Value2, ...]
-    list_of_cosine_similarity.append(word_and_value)
+    list_of_cosine_similarity.append(word_and_value)                                                  #[[Word, [Value1, Value2, ...]], [[Word, [Value1, Value2, ...]], ...]
 
   return list_of_cosine_similarity
 
@@ -248,8 +232,8 @@ def calculate_relevance(matrix_cosine_similarity, doc_number):
   OUT : float, the relevance of the document
   """
   tot = 0
-  for i in range (len(matrix_cosine_similarity)) :
-    tot += matrix_cosine_similarity[i][1][doc_number]
+  for i in range (len(matrix_cosine_similarity)) :                                                    #len(matrix_cosine_similarity) = len(tfidf_question_matrix)
+    tot += matrix_cosine_similarity[i][1][doc_number]                                                 #tot = Value1 + Value2 + ... + ValueN
   return tot
 
 
@@ -259,9 +243,9 @@ def most_relevant_document(matrix_cosine_similarity, list_names_files_corpus):
   OUT : str, the name of the most relevant document
   """
   total_relevance = []
-  for i in range (len(list_names_files_corpus)) :
-    total_relevance.append(calculate_relevance(matrix_cosine_similarity, i))
-    name_file = list_names_files_corpus[total_relevance.index(max(total_relevance))]
+  for i in range (len(list_names_files_corpus)) :                                                     #len(list_names_files_corpus) = len(matrix_cosine_similarity)
+    total_relevance.append(calculate_relevance(matrix_cosine_similarity, i))                          #total_relevance = [Value1, Value2, ...]
+    name_file = list_names_files_corpus[total_relevance.index(max(total_relevance))]                  #name_file = name of the file with the highest relevance
   return name_file
 
 
@@ -275,15 +259,15 @@ def equivalent_text(file_name, list_of_files):
   cleaned_folder = "Cleaned"
   speeches_folder = "Speeches"
 
-  cleaned_file_path = os.path.join(cleaned_folder, file_name)
-  speeches_file_path = os.path.join(speeches_folder, file_name)
+  cleaned_file_path = os.path.join(cleaned_folder, file_name)                                         #cleaned_file_path = Cleaned/file_name
+  speeches_file_path = os.path.join(speeches_folder, file_name)                                       #speeches_file_path = Speeches/file_name
 
-  if os.path.exists(speeches_file_path):
+  if os.path.exists(speeches_file_path):                                                              #If the file exists in the Speeches folder
     #print(cleaned_file_path + " -> " + speeches_file_path)
     
-    for i in range(len(list_of_files)):
-      if file_name == list_of_files[i]:
-        return i
+    for i in range(len(list_of_files)):                                                               #For each file in the list of files
+      if file_name == list_of_files[i]:                                                               #If the file name is in the list of files
+        return i                                                                                      #Return the index of the file
 
 
 def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, words_in_question):
@@ -295,19 +279,19 @@ def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, wor
   unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
   final_question_matrix = []
 
-  for row in range(len(tfidf_question_matrix)):
-    if tfidf_question_matrix[row][0] in words_in_question:
-      word = tfidf_question_matrix[row][0]
-      if tfidf_question_matrix[row][0] in unimportant_words_mentionned:
-        value = 0
+  for row in range(len(tfidf_question_matrix)):                                                     #len(tfidf_question_matrix) = len(tfidf_corpus_matrix)
+    if tfidf_question_matrix[row][0] in words_in_question:                                          #If the word is in the question
+      word = tfidf_question_matrix[row][0]                                                          #word = word
+      if tfidf_question_matrix[row][0] in unimportant_words_mentionned:                             #If the word is in the list of unimportant words
+        value = 0                                                                                   #value = 0
 
       else:
-        value = tfidf_question_matrix[row][1][most_relevant_document_index]
+        value = tfidf_question_matrix[row][1][most_relevant_document_index]                         #value = tfidf value of the word in the most relevant document
 
-      word_and_value = [word, value]
-      final_question_matrix.append(word_and_value)
+      word_and_value = [word, value]                                                                #word_and_value = [word, value]
+      final_question_matrix.append(word_and_value)                                                  #final_question_matrix = [[word, value], [word, value], ...]
 
-  final_question_matrix = sorted(final_question_matrix, key=lambda x: x[1], reverse=True)
+  final_question_matrix = sorted(final_question_matrix, key = lambda x : x[1], reverse = True)           #Sort the final_question_matrix by value in descending order
 
   return final_question_matrix[0]
 
@@ -321,7 +305,7 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
 
   word_to_find = word_to_find[0]
 
-  equivalent_path = os.path.join("Speeches", equivalent_text)
+  equivalent_path = os.path.join("Speeches", equivalent_text)               #equivalent_path = Speeches/equivalent_text
   read_text = open(equivalent_path, "r", encoding="utf-8").read()           #Open the file and read it
  
   phrase = read_text.split(".")                                             #Split the text into phrases
@@ -332,15 +316,15 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
   sentence = []
 
   for p in phrase:
-    cleaned_p = words_in_question(p)
-    sentence = [p, cleaned_p]
-    cleaned_matrix.append(sentence)                                            #[[word1, word2, ...], [word1, word2, ...], ...]
+    cleaned_p = words_in_question(p)                                         #Clean the phrase with the previous function made for the questions
+    sentence = [p, cleaned_p]                                                #[phrase, [word1, word2, ...]]
+    cleaned_matrix.append(sentence)                                          #[[word1, word2, ...], [word1, word2, ...], ...]
 
   for phrase in cleaned_matrix:                                              #[word1, word2, ...]
     if word_to_find in phrase[1]:                                            #[word1, word2, word_to_find, ...]
-      filtered_phrase.append(phrase[0])
+      filtered_phrase.append(phrase[0])                                      #[word1, word2, word_to_find, ...]
   
-  return filtered_phrase[0]
+  return filtered_phrase[0]                                                  #Return the first occurrence of the word in the text
 
 
 def cleaned_response(question, phrase):
@@ -350,13 +334,13 @@ def cleaned_response(question, phrase):
   """
   answer = {"comment": "Après analyse, ", "pourquoi": "Car, ", "peux tu": "Oui, bien sûr! Dans les faits, ", "quoi": "En ce qui concerne cela, ", "qui": "En termes de personnes, ", "quel": "Concernant ce choix, ", "est ce que": "Bien entendu, ", "penses tu que": "De mon point de vue, ", "explique": "Pour mieux comprendre, ", "decris": "En détail, ", "imagine": "En imaginant, ", "en quoi consiste": "En ce qui concerne cela, "}
 
-  for key, value in answer.items():
-    if key in question:
-      phrase = value + phrase
-  return phrase
+  for key, value in answer.items():                                           #For each key and value in the answer dictionary
+    if key in question:                                                       #If the key is in the question
+      phrase = value + phrase                                                 #phrase = value + phrase
+  return phrase                                                               #Return the phrase
          
           
-word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+word_in_question = words_in_question(input("Enter a question : "))                                                    
 tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
 
 tfidf_matrix_corpus = calculate_tfidf(new_directory)
@@ -369,108 +353,9 @@ most_relevant_document_index = most_relevant_document(matrix_similarity, list_na
 
 equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
 
-most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                                #Get the word with the highest tfidf score of the most relevant document
+most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                            
   
 un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
 
-print(first_occurrence_in_text(most_revelant_word, most_relevant_document_index))
+cleaned_response(word_in_question, un_cleaned_phrase)
 
-print(cleaned_response(word_in_question, un_cleaned_phrase))
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-#???
-
-"""
-def document_cleaned_title(folder):
-
-  list_of_folder = list_of_files(folder, ".txt")
-  title_of_text = []
-  word_in_title_text = []
-  list_word_in_title_text = []
-
-  #All titles in title_of_text
-  for text in list_of_folder:
-    title_of_text.append(text)
-
-
-  #Separate the text and the numbers of the title in title_of_text
-  for i in range(len(title_of_text)):
-    for k in "1234567890":
-        if k in title_of_text[i]:
-          title_of_text[i] = title_of_text[i].replace(k, "_" + k)
-
-    #Words in title goes in word_in_title_text after being split at the "_" 
-    word_in_title_text.append(title_of_text[i].split("_"))
-
-    #Cleaned the ".txt" of the title
-    for j in range(len(word_in_title_text[i])):
-      if word_in_title_text[i][j].endswith(".txt"):
-        word_in_title_text[i][j] = word_in_title_text[i][j][:-4]
-  
-  for i in range(len(title_of_text)):
-    
-    list_word_in_title_text.append([title_of_text[i], word_in_title_text[i]])
-  
-  for i in list_word_in_title_text :
-    nbr = ""
-    cpt = -1
-    for j in i[1] :
-      if j in "1234567890" :
-        cpt +=1
-        nbr += j
-    i[1] = i[1][0:len(i)-cpt]
-    if nbr != "" :
-      i[1].append(nbr)
-    
-    
-
-  return list_word_in_title_text
-
-print(document_cleaned_title(new_directory), '\n')
-
-"""
-
-"""
-def equivalent_text(file_name):
-  cleaned_folder = "Cleaned"
-  speeches_folder = "Speeches"
-
-  cleaned_file_path = os.path.join(cleaned_folder, file_name)
-  speeches_file_path = os.path.join(speeches_folder, file_name)
-
-  if os.path.exists(speeches_file_path):
-    return speeches_file_path
-  else:
-    print("No such file in the folder")
-    return None
-
-file_name = "Nomination_Chirac1.txt"
-equivalent_file_path = equivalent_text(file_name)
-print(equivalent_file_path)
-"""

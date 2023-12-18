@@ -4,7 +4,7 @@ from math import *
 
 
 #PART I
-print("PART I\n")
+#print("PART I\n")
 
 #Variables
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
