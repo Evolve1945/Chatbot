@@ -10,6 +10,7 @@ print("PART I\n")
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 dict_year_president = {1995 : "Chirac", 2007 : "Sarkozy", 2012 : "Hollande", 2017 : "Macron", 1981 : "Mitterrand", 1974 : "Giscard dEstaing"}
 directory = "Speeches"
+global unimportant_words_mentionned
 
 
 #Functions
@@ -138,7 +139,7 @@ def file_cleaned()-> bool:                          # Defines a function named "
         for character in line:                                                         # For each character in each line
           formatted_character = character.lower()                                      # Lower the character A -> a
 
-          if formatted_character in ("'", "-","\n"):                                   # If the character is a special character
+          if formatted_character in ("'", "-","\n", "_"):                                   # If the character is a special character
             formatted_character = " "                                                  # Replace it by a space
 
           elif formatted_character in (".", ",", ":", ";", "!", "?", '"'):             # If the character is a new line
@@ -341,7 +342,7 @@ def mentioned_nation(folder : str) -> str:
   OUT : str, the president(s) who mentioned the word "Nation"
   Description : Function that takes a folder as input and returns a string of the president(s) who mentioned the word "Nation"
   """
-  assert type(folder) == str and folder != "", "Insert a valid str folder" #Checks if the folder is a str
+  assert type(folder) == str and folder != "", "Insert a valid str folder"                          #Checks if the folder is a str
   presidents_mentioning_nation = []                                                                 # Create an empty list to store the presidents who mentioned the word "Nation"
   
   for text in os.listdir(folder):                                                                   # Iterate over each file in the folder
@@ -392,8 +393,5 @@ def words_mentioned_by_all_presidents(folder : str)-> str :                     
   
   return f"The words mentioned by all presidents are {', '.join(words)}."           # Return the string of the words mentioned by all presidents
 
-#print('non')
 
-
-
-
+#
