@@ -159,8 +159,8 @@ def display_tfidf_matrix (tfidf_matrix):
   for lign in tfidf_matrix :
     print(lign)
 
-list_of_words_in_question = words_in_question(input("Enter a question (*): "))
-display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
+#list_of_words_in_question = words_in_question(input("Enter a question (*): "))
+#display_tfidf_matrix(calculate_tfidf_question(list_of_words_in_question))
 
 
 #Part II.2
@@ -183,15 +183,7 @@ def norm_vector(tfidf_list_of_values):
   """
   Input : a list of values [A,B,C,...] or [x]
   """
-  b = []
-
-  #Sqrt(sum of Ai²) = sqrt(A1² + A2² + ... + An²)
-
-  for i in range(len(tfidf_list_of_values)):
-    b.append(tfidf_list_of_values[i] ** 2)
-
-  return sqrt(sum(b))
-
+  return sqrt(sum([i**2 for i in tfidf_list_of_values]))
 
 
 
@@ -200,12 +192,17 @@ def cosine_similarity(tfidf_question_list_of_values, tfidf_corpus_list_of_values
   Input : two list of values [x] and [A,B,C,...]
   """
   final_tab = []
-  for i in range(len(tfidf_corpus_list_of_values)):
-    if norm_vector(tfidf_question_list_of_values[0]) * norm_vector(tfidf_corpus_list_of_values[i]) == 0:
-      return final_tab[i].append(0.0)
-    else:
-      return scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values) / (norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values))
 
+  for i in range(len(tfidf_corpus_list_of_values)):
+    
+    if norm_vector(tfidf_question_list_of_values) * norm_vector(tfidf_corpus_list_of_values) == 0:
+      final_tab.append(0.0)
+    
+    else:
+      tot = scalar_product(tfidf_question_list_of_values, tfidf_corpus_list_of_values)[i] / (norm_vector(tfidf_question_list_of_values) * norm_vector (tfidf_corpus_list_of_values))
+      final_tab.append(tot)
+    
+  return final_tab
 
 
 def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
@@ -218,30 +215,13 @@ def matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix):
 
   for row in range(len(tfidf_corpus_matrix)):                                                         #len(fidf_corpus_matrix) = len(tfidf_question_matrix)
   
-    test1 = tfidf_corpus_matrix[row][0]                                                               #Word              
-    test2 = cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])             #Return 
-    word_and_value = [test1, test2]                                                                   # Word, [Value1, Value2, ...]
+    word = tfidf_corpus_matrix[row][0]
+    print(tfidf_question_matrix[row])                                                              #Word              
+    value = [cosine_similarity(tfidf_question_matrix[row][1], tfidf_corpus_matrix[row][1])]             #Return 
+    word_and_value = [word, value]                                                                   # Word, [Value1, Value2, ...]
     list_of_cosine_similarity.append(word_and_value)
 
-  #   final_matrix = []
-    
-  # for i in range(len(list_of_cosine_similarity)):
-  #   for j in range(len(list_of_cosine_similarity)):
-  #     if list_of_cosine_similarity[i][0] == list_of_cosine_similarity[j][0]:
-
-  #       for k in range(len(final_matrix)):
-  #         if final_matrix[k][0] == list_of_cosine_similarity[j][0]:
-  #           final_matrix[k][1].append(list_of_cosine_similarity[j][1][0])
-  #         else:
-  #           final_matrix[k].append(list_of_cosine_similarity[j][0], [list_of_cosine_similarity[j][1]])
-
-
-
-
-
-    #print(cosine_similarity(tfidf_corpus_matrix[row][1], tfidf_question_matrix[row[nbr_doc]]))
-  print(list_of_cosine_similarity)
-  #return final_matrix
+  return list_of_cosine_similarity
 
 tfidf_corpus_matrix = calculate_tfidf(new_directory)
 
@@ -250,7 +230,7 @@ tfidf_question_matrix = calculate_tfidf_question(list_of_words_in_question)
 
 # print(tfidf_question_matrix)
 # print(tfidf_corpus_matrix)
-# print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
+print(matrix_cosine_similarity(tfidf_question_matrix, tfidf_corpus_matrix))
 
 
 
