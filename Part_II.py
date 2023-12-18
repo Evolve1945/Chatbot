@@ -342,7 +342,6 @@ def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, wor
   
 
 def first_occurrence_in_text(word_to_find, equivalent_text):
-
   word_to_find = word_to_find[0]
   equivalent_path = os.path.join("Speeches", equivalent_text)
   read_text = open(equivalent_path, "r", encoding="utf-8").read()           #Open the file and read it
@@ -350,34 +349,26 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
   phrase = read_text.split(".")                                             #Split the text into phrases
   # print(phrase) #fonctionne
 
-
-  cleaned_phrase = []                                                     
+                                                    
   filtered_phrase = []
-
-  un_cleaned_dico = {}
+  cleaned_matrix = []
+  cleaned_p = []
+  sentence = []
 
   for p in phrase:
-    un_cleaned_dico[p] = words_in_question(p)                                #Cleaned the phrase and put it as value of p
-    cleaned_p = words_in_question(p)                                         
-    cleaned_phrase.append(cleaned_p)
-  #print("\n", cleaned_phrase)                                               #[[word1, word2, ...], [word1, word2, ...], ...]
-  print('\n', un_cleaned_dico)                                              #{phrase1 : [word1, word2, ...], phrase2 : [word1, word2, ...], ...}
+    
+    cleaned_p = words_in_question(p)
+    sentence = [p, cleaned_p]
+    cleaned_matrix.append(sentence)                                            #[[word1, word2, ...], [word1, word2, ...], ...]
 
 
-  for phrase in cleaned_phrase:                                              #[word1, word2, ...]
-    if word_to_find in phrase:                                               #[word1, word2, word_to_find, ...]
-      for i in range(len(phrase)):                                           #[word1, word2, word_to_find, ...]
-        filtered_phrase.append(phrase[i])
+
+  for phrase in cleaned_matrix:                                              #[word1, word2, ...]
+    if word_to_find in phrase[1]:                                            #[word1, word2, word_to_find, ...]
+      filtered_phrase.append(phrase[0])
   
-  print('\n',filtered_phrase)
+  return filtered_phrase[0]
 
-  L = []
-
-  if 0 < len(filtered_phrase):
-    for key, value in un_cleaned_dico.items():
-      if filtered_phrase == value :
-        L.append(key)
-  return L
 
 
          
@@ -392,7 +383,7 @@ list_names_files_corpus = list_of_files(new_directory, ".txt")
 matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
 
 most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
-print(most_relevant_document_index)
+#print(most_relevant_document_index)
 
 equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
 
