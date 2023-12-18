@@ -134,7 +134,7 @@ def choice_menu(choice, tf_idf_dict):
     matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
     most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
     equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
-    print("The equivalent file is : ", equivalent_file_path)
+    print("The equivalent file is the n°", equivalent_file_path, "in the folder 'Speeches'")
 
   elif choice == 11:
     word_in_question = words_in_question(input("Enter a question : "))                                                      
