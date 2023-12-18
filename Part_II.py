@@ -308,8 +308,7 @@ def highest_tfidf_score(most_relevant_document_index, tfidf_question_matrix, wor
   
   
 word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)    
-                                                  #Calculate the tfidf of the question              
+tfidf_matrix_question = calculate_tfidf_question(word_in_question)           
 
 tfidf_matrix_corpus = calculate_tfidf(new_directory)
 

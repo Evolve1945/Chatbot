@@ -183,7 +183,6 @@ def tf(file_path : str, folder : str) -> dict:                                  
 
 
 
-
 def idf(folder : str) -> dict:                                                                  # Defines a function named "idf" that takes one parameter: "folder"
   """
   IN : str, the path of the folder
@@ -211,7 +210,7 @@ def idf(folder : str) -> dict:                                                  
   
   idf_dict = dict(sorted(idf_dict.items(), key=lambda item: item[1], reverse=True))             # Sort the idf_dict by value in descending order
   return idf_dict                                                                           # Return the IDF dictionary
-
+print(idf("Cleaned"))
 
 """
 "Together, these vectors form a matrix called a "TF-IDF matrix", where each row represents a word 
@@ -223,7 +222,7 @@ def calculate_tfidf(folder):
 
   assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
   idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder
-  tfidf_matrix = []                                                                 # Create an empty list to store the TF-IDF values of the words in the folder
+  tfidf_matrix = []                                                                     # Create an empty list to store the TF-IDF values of the words in the folder
 
   for filename in os.listdir(folder):                                                   # Iterate over each file in the folder
     tf_values = tf(filename, folder)                                                    # Get the TF values of the words in the file
