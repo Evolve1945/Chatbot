@@ -363,7 +363,6 @@ list_names_files_corpus = list_of_files(new_directory, ".txt")
 matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
 
 most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
-#print(most_relevant_document_index)
 
 equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
 

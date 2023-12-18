@@ -8,16 +8,22 @@ MAIN MENU
 """
 
 def main_menu():
-  print("--- CHATBOT ---")
+  print("----------------------------------------")
+  print("--------------- CHATBOT ----------------")
+  print("----------------------------------------")
   print("--- Part I ---")
   print("1. List Presidents' Full Names")
   print("2. Reformat the text and put them in the 'Cleaned' folder")
   print("3. Analyze text and display results")
   print()
+
   print("--- Part II ---")
   print("4. Rewrite a phrase or a question in a more 'readable' way")
   print("5. Give the list of words in the question and in the text")
   print("6. Give the list of words in the question and in the text with the TF-IDF score")
+  print("7. Give the TF-IDF matrix of the question")
+  print("8. Give the matrix of similarities between the question and the speeches")
+  print("9.Give the most revelant document to answer the question")
   print("0. Exit")
 
 def choice_menu(choice, tf_idf_dict):
@@ -82,6 +88,18 @@ def choice_menu(choice, tf_idf_dict):
       print(i + 1,".", files[i]) 
     file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
     print(tf_question(files[file_path], new_directory, list_of_words_in_question))
+
+  elif choice == 7:
+    word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+    tfidf_matrix_question = calculate_tfidf_question(word_in_question) 
+    print(tfidf_matrix_question)
+
+  elif choice == 8:
+    word_in_question = words_in_question(input("Enter a question : "))                                                      #Clean the word in the question then put it into a list
+    tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
+    tfidf_matrix_corpus = calculate_tfidf(new_directory)
+    matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
+    print(matrix_similarity)
 
   elif choice == 0:
     print("End.")
