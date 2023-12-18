@@ -361,23 +361,23 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
     cleaned_p = words_in_question(p)                                         
     cleaned_phrase.append(cleaned_p)
   #print("\n", cleaned_phrase)                                               #[[word1, word2, ...], [word1, word2, ...], ...]
-  #print('\n', un_cleaned_dico)                                              #{phrase1 : [word1, word2, ...], phrase2 : [word1, word2, ...], ...}
+  print('\n', un_cleaned_dico)                                              #{phrase1 : [word1, word2, ...], phrase2 : [word1, word2, ...], ...}
 
 
   for phrase in cleaned_phrase:                                              #[word1, word2, ...]
     if word_to_find in phrase:                                               #[word1, word2, word_to_find, ...]
       for i in range(len(phrase)):                                           #[word1, word2, word_to_find, ...]
         filtered_phrase.append(phrase[i])
-    else: 
-      print("The word is not in the text")
+  
   print('\n',filtered_phrase)
 
   L = []
-  if len(filtered_phrase) > 0:
-    for i,j in un_cleaned_dico.items():
-      if filtered_phrase[0] in j:
-        L.append(i)
-  return L[0]
+
+  if 0 < len(filtered_phrase):
+    for key, value in un_cleaned_dico.items():
+      if filtered_phrase == value :
+        L.append(key)
+  return L
 
 
          
