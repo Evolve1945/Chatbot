@@ -139,7 +139,7 @@ def file_cleaned()-> bool:                          # Defines a function named "
         for character in line:                                                         # For each character in each line
           formatted_character = character.lower()                                      # Lower the character A -> a
 
-          if formatted_character in ("'", "-","\n"):                                   # If the character is a special character
+          if formatted_character in ("'", "-","\n", "_"):                                   # If the character is a special character
             formatted_character = " "                                                  # Replace it by a space
 
           elif formatted_character in (".", ",", ":", ";", "!", "?", '"'):             # If the character is a new line
