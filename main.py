@@ -187,9 +187,4 @@ def run_chatbot():
 
 
 
-  
-
 run_chatbot()
-
-
-
