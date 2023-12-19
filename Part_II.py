@@ -343,22 +343,22 @@ def cleaned_response(question, phrase):
   return phrase                                                               #Return the phrase
          
           
-word_in_question = words_in_question(input("Enter a question : "))                                                    
-tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
+#word_in_question = words_in_question(input("Enter a question : "))                                                    
+#tfidf_matrix_question = calculate_tfidf_question(word_in_question)                                                        
 
-tfidf_matrix_corpus = calculate_tfidf(new_directory)
+#tfidf_matrix_corpus = calculate_tfidf(new_directory)
 
-list_names_files_corpus = list_of_files(new_directory, ".txt")
+#list_names_files_corpus = list_of_files(new_directory, ".txt")
 
-matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
+# matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
 
-most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
+# most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
 
-equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
+# equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
 
-most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                            
+# most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                            
   
-un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
+# un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
 
-cleaned_response(word_in_question, un_cleaned_phrase)
+# cleaned_response(word_in_question, un_cleaned_phrase)
 
