@@ -324,7 +324,7 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
     cleaned_matrix.append(sentence)                                          #[[word1, word2, ...], [word1, word2, ...], ...]
 
   for phrase in cleaned_matrix:                                              #[word1, word2, ...]
-    if word_to_find in phrase[1]:                                            #[word1, word2, word_to_find, ...]
+    if word_to_find in phrase[1] and len(phrase[0]) > 0 :                                            #[word1, word2, word_to_find, ...]
       filtered_phrase.append(phrase[0])                                      #[word1, word2, word_to_find, ...]
   
   return filtered_phrase[0]                                                  #Return the first occurrence of the word in the text
