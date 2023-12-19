@@ -327,7 +327,7 @@ def first_occurrence_in_text(word_to_find, equivalent_text):
     if word_to_find in phrase[1] and len(phrase[0]) > 0 :                                            #[word1, word2, word_to_find, ...]
       filtered_phrase.append(phrase[0])                                      #[word1, word2, word_to_find, ...]
   
-  return filtered_phrase[0]                                                  #Return the first occurrence of the word in the text
+  return filtered_phrase                                                     #Return the first occurrence of the word in the text
 
 
 def cleaned_response(question, phrase):
