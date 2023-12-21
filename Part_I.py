@@ -218,6 +218,11 @@ and each column represents a document."
 """
 
 def calculate_tfidf(folder):
+  """
+  IN : str, the path of the folder
+  OUT : list of lists, the tfidf matrix
+  Description : Function that takes a folder as input and returns a list of lists of the tfidf matrix
+  """
 
   assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
   idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder

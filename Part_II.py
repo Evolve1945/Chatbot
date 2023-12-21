@@ -151,7 +151,7 @@ def calculate_tfidf_question(list_of_words_in_question):
   return tfidf_matrix                                                                   # Return the TF-IDF matrix
 
 
-def display_tfidf_matrix (tfidf_matrix):
+def display_tfidf_matrix(tfidf_matrix):
   
   for lign in tfidf_matrix :
     print(lign)
