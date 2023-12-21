@@ -44,6 +44,7 @@ There is a 5s to 10s cooldown before each answer.
 
 
 When you get on the program, just run the code.
+If the sentence "How many words do you want to display ?" in the terminal before the main menu -> Enter the phrase "1" then wait for the main menu to appear.
 If the sentence "Enter a question" in the terminal before the main menu -> Enter the phrase "Président" then wait for the main menu to appear.
 Read the main menu and choose the action you want to accomplish.
 Have fun !
