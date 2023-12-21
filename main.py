@@ -62,13 +62,14 @@ def main_menu():
 def choice_menu(choice, tf_idf_dict):
   if choice == 1:
     display_president_full_name = president_full_names(get_names(directory))
-    print("Presidents' Full Names : ", display_president_full_name)
+    display_president_full_name
+    print('\n')
 
   elif choice == 2:
     folder_cleaned()
     file_cleaned()
-
     print("Texts cleaned and moved to the 'Cleaned' folder")
+    print('\n')
 
   elif choice == 3:
     print("--- CHATBOT ---")
@@ -85,37 +86,48 @@ def choice_menu(choice, tf_idf_dict):
     second_choice = int(input("Enter the number : "))
 
     if second_choice == 1:
-      print("Least important words : ", least_imp_words(calculate_tfidf(new_directory)))
+      print("Least important words : ", least_imp_words(calculate_tfidf("Cleaned")))
+      print('\n')
 
     elif second_choice == 2:
       print("Most important words : ", most_imp_words(calculate_tfidf(new_directory)))
+      print('\n')
 
     elif second_choice == 3:
       president = "Chirac"
-      print(f"Most repeated wordss by president {president} : {most_repeated_words_by(president, new_directory)}")
+      print("Most repeated words by president Chirac : ")
+      print(most_repeated_words_by(president, new_directory))
+      print('\n')
 
     elif second_choice == 4:
       print("President(s) mentioning the Nation : ", mentioned_nation(new_directory))
+      print('\n')
     
     elif second_choice == 5:
-      print("1st president to mention climate : ", mentioned_climate(new_directory))
+      print(mentioned_climate(new_directory))
+      print('\n')
 
     
     elif second_choice == 6:
-      print("Words mentionned by every president : ", words_mentioned_by_all_presidents(tf_idf_dict))
+      print("Words mentionned by every president :", words_mentioned_by_all_presidents(tf_idf_dict))
+      print('\n')
 
     elif second_choice == 0:
       main_menu()
+      print('\n')
 
     else :
       print("Invalid")
+      print('\n')
 
   elif choice == 4:
     phrase = input("Enter your question, to have your question cleaned (you will not get an answer here) : ")
     print(words_in_question(phrase))
+    print('\n')
 
   elif choice == 5:
     print(question_word_in_corpus(new_directory))
+    print('\n')
 
   elif choice == 6:
     files = os.listdir(new_directory)
@@ -124,11 +136,13 @@ def choice_menu(choice, tf_idf_dict):
     file_path = int(input("Enter the number of the speech to search for the questions words in it : "))
     tf_of_question = tf_question(files[file_path], new_directory, list_of_words_in_question)
     print("Here the TF matrix of the question : ", tf_of_question)
+    print('\n')
 
   elif choice == 7:
     word_in_question = words_in_question(input("Enter a question : "))                                                     
     tfidf_matrix_question = calculate_tfidf_question(word_in_question) 
     print("Here the TD-IDF matrix of the question : ", tfidf_matrix_question)
+    print('\n')
 
   elif choice == 8:
     word_in_question = words_in_question(input("Enter a question : "))                                                     
@@ -136,6 +150,7 @@ def choice_menu(choice, tf_idf_dict):
     tfidf_matrix_corpus = calculate_tfidf(new_directory)
     matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
     print( "Here the matrix of similarities for each word in the question and text : ", matrix_similarity)
+    print('\n')
 
   elif choice == 9:
     word_in_question = words_in_question(input("Enter a question : "))                                       
@@ -145,6 +160,7 @@ def choice_menu(choice, tf_idf_dict):
     matrix_similarity = matrix_cosine_similarity(tfidf_matrix_question, tfidf_matrix_corpus)
     most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
     print("The most relevant document is : ", most_relevant_document_index)
+    print('\n')
 
   elif choice == 10:
     word_in_question = words_in_question(input("Enter a question : "))                                                  
@@ -155,6 +171,7 @@ def choice_menu(choice, tf_idf_dict):
     most_relevant_document_index = most_relevant_document(matrix_similarity, list_names_files_corpus)  
     equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
     print("The equivalent file is the n°", equivalent_file_path, "in the folder 'Speeches'")
+    print('\n')
 
   elif choice == 11:
     word_in_question = words_in_question(input("Enter a question : "))                                                      
@@ -166,6 +183,7 @@ def choice_menu(choice, tf_idf_dict):
     equivalent_file_path = equivalent_text(most_relevant_document_index, list_of_files(directory, ".txt"))
     most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                                #Get the word with the highest tfidf score of the most relevant document
     print("The most revelant word is : ", most_revelant_word)
+    print('\n')
 
   elif choice == 12:
     word_in_question = words_in_question(input("Enter a question : "))                                                      
@@ -178,6 +196,7 @@ def choice_menu(choice, tf_idf_dict):
     most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                                #Get the word with the highest tfidf score of the most relevant document
     un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
     print("The most revelant answer is : ", un_cleaned_phrase)
+    print('\n')
    
   elif choice == 13:
     word_in_question = words_in_question(input("Enter a question : "))                                                    
@@ -190,20 +209,23 @@ def choice_menu(choice, tf_idf_dict):
     most_revelant_word = highest_tfidf_score(equivalent_file_path, tfidf_matrix_question,word_in_question)                                                            
     un_cleaned_phrase = first_occurrence_in_text(most_revelant_word, most_relevant_document_index)
     print(cleaned_response(word_in_question, un_cleaned_phrase))
+    print('\n')
 
 
   elif choice == 0:
     print("End.")
     exit()
+  
 
   else:
     print("Invalid")
+    print('\n')
 
 def run_chatbot():
   while True:
     main_menu()
     choice = int(input("Enter a number :"))
-    choice_menu(choice, directory)
+    choice_menu(choice, new_directory)
 
 
 

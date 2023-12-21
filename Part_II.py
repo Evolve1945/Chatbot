@@ -69,7 +69,7 @@ def question_word_in_corpus(directory : str):
   files = os.listdir(directory)                                     # Get the list of files in the directory
   user_question = special_words_in_question()                       # Get the list of words in the question without the special words
   for i in range(len(files)) :                                      # For each file in the directory
-    print(i+1,".", files[i])                                        # Print the number of the file and its name
+    print(i,".", files[i])                                        # Print the number of the file and its name
   chosen_speech = int(input("Enter the number of the speech to search for the questions words in it : "))   # Ask the user to enter the number of the speech to search for the questions words in it
 
   file_path = os.path.join("Speeches",files[chosen_speech])         # Get the path of the file

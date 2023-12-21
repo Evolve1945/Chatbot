@@ -10,6 +10,7 @@ from math import *
 dict_president_full_name = {"Chirac" : "Jacques", "Giscard dEstaing" : "Gilles", "Hollande" : "François", "Macron" : "Emmanuel", "Sarkozy" : "Nicolas", "Mitterrand" : "François"}
 dict_year_president = {1995 : "Chirac", 2007 : "Sarkozy", 2012 : "Hollande", 2017 : "Macron", 1981 : "Mitterrand", 1974 : "Giscard dEstaing"}
 directory = "Speeches"
+new_directory = "Cleaned"
 global unimportant_words_mentionned
 
 
@@ -218,6 +219,11 @@ and each column represents a document."
 """
 
 def calculate_tfidf(folder):
+  """
+  IN : str, the path of the folder
+  OUT : list of lists, the tfidf matrix
+  Description : Function that takes a folder as input and returns a list of lists of the tfidf matrix
+  """
 
   assert type(folder) == str and folder != "", "Insert a valid str folder"              #Checks if the folder is a str
   idf_values = idf(folder)                                                              # Get the IDF values of the words in the folder
@@ -269,12 +275,12 @@ def least_imp_words(tfidf_matrix : list) -> list:                               
   Description : Function that takes a tfidf matrix as input and returns a list of the least important words
   """
   assert type(tfidf_matrix) == list and tfidf_matrix != [], "Insert a valid list tf-idf matrix" #Checks if the tfidf matrix is a list
-  nbr_words_display = int(input("How many words do you want to display ?"))             # Ask the user how many words he wants to display
+  nbr_words_display = int(input("How many words do you want to display ? "))             # Ask the user how many words he wants to display
   liw_list = []                                                                         # Create an empty list to store the least important words
   tfidf_matrixpop = tfidf_matrix                                                        # Create a copy of the TF-IDF matrix to avoid modifying the original matrix
 
-  for word in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
-    min_tfidf = min(tfidf_matrix, key=lambda x: min(x[1]))                              # Get the word with the minimum TF-IDF value
+  for _ in tfidf_matrix:                                                                # Iterate over each word in the TF-IDF matrix
+    min_tfidf = min(tfidf_matrix, key = lambda x : min(x[1]))                           # Get the word with the minimum TF-IDF value
     del tfidf_matrixpop[tfidf_matrix.index(min_tfidf)]                                  # Delete the word from the TF-IDF matrix
     liw_list.append(min_tfidf)                                                          # Append the word to the list of least important words
   
@@ -292,7 +298,7 @@ def most_imp_words(tfidf_matrix : list) -> list:                                
   miw_list = []                                                                         # Create an empty list to store the most important words
   tfidf_matrixpop = tfidf_matrix                                                        # Create a copy of the TF-IDF matrix to avoid modifying the original matrix
   
-  for word in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
+  for _ in tfidf_matrix:                                                             # Iterate over each word in the TF-IDF matrix
     max_tfidf = max(tfidf_matrix, key=lambda x: max(x[1]))                              # Get the word with the maximum TF-IDF value
     del tfidf_matrixpop[tfidf_matrix.index(max_tfidf)]                                  # Delete the word from the TF-IDF matrix
     miw_list.append(max_tfidf)                                                          # Append the word to the list of most important words
@@ -310,6 +316,7 @@ def most_repeated_words_by(president: str, folder: str) -> str :
   Description : Function that takes a president and a folder as input and returns a string of the most repeated words by the president
   """
   assert type(president) == str and president != "" and type(folder) == str and folder != "", "Insert a valid str president and folder" #Checks if the president and the folder are str
+  
   president_speeches = [i for i in os.listdir(folder) if president in i]            # Get the list of the president's speeches
   most_repeated_words = []                                                          # Create an empty list to store the most repeated words
   nbr_words_display = int(input("How many words do you want to display ?"))         # Ask the user how many words he wants to display
@@ -321,7 +328,7 @@ def most_repeated_words_by(president: str, folder: str) -> str :
       max_word = max(tf_values, key = tf_values.get)                                # Get the word with the maximum TF value
       if max_word not in unimportant_words_mentionned:                              # Check if the word is not in the list of unimportant words
         most_repeated_words.append(max_word)                                        # Append the word to the list of most repeated words
-      nbr_words_display += 1                                                        # If yes, increment the number of words to display by 1
+                                                
       del tf_values[max_word]                                                       # Delete the word from the TF dictionary
 
   return f"The most repeated words by {president} are {', '.join(most_repeated_words[:nbr_words_display])}" # Return the string of the most repeated words by the president
@@ -374,12 +381,15 @@ def words_mentioned_by_all_presidents(folder : str)-> str :                     
   Description : Function that takes a folder as input and returns a string of the words mentioned by all presidents
   """
   assert type(folder) == str and folder != "", "Insert a valid str folder"          #Checks if the folder is a str
+
+  unimportant_words_mentionned = ['c', 's', 'qu', 'suis', 'es', 'est', 'sommes', 'etes', 'sont', 'me', 'n', 'elle', 'il', 'elles', 'ils', 'soit', 'j', 'je', 'ses', 'se', 'sa', 'ca', 'l', 'le', 'les', 'la', 'un', 'une', 'd', 'de', 'du', 'des', 'et', 'ou', 'où', 'a', 'à', 'au', 'aux', 'en', 'par', 'pour', 'avec', 'dans', 'sur', 'sous', 'entre', 'vers', 'mais', 'donc', 'or', 'ni', 'car', 'que', 'qui', 'quoi', 'quand', 'comment', 'pourquoi', 'quel', 'quelle', 'quelles', 'quels', 'ce', 'cet', 'cette', 'ces', 'mon', 'ton', 'son', 'notre', 'votre', 'leur', 'ceci', 'cela', 'celui', 'celle', 'ceux', 'celles', 'ici', 'là', 'lui', 'eux', 'elles', 'si', 'tout', 'tous', 'toute', 'toutes', 'rien', 'aucun', 'aucune', 'autre', 'autres', 'même', 'mêmes', 'tel', 'telle', 'tels', 'telles', 'quelque', 'quelques', 'plusieurs', 'plus', 'autant', 'tant', 'trop', 'peu', 'beaucoup', 'moins', 'autrefois', 'aujourd', 'hui', 'demain', 'hier', 'maintenant', 'alors', 'après', 'avant', 'bientôt', 'déjà', 'ensuite', 'jamais', 'parfois', 'souvent', 'toujours', 'tard', 'tôt', 'aussi', 'donc', 'ensuite', 'puis', 'quand', 'que', 'comment', 'où', 'pourquoi', 'qui', 'quoi', 'si', 'comme', 'ainsi']
+
   matrix = calculate_tfidf(folder)                                                  # Get the TF-IDF matrix of the folder
   words = []                                                                        # Create an empty list to store the words mentioned by all presidents
   
   for word in matrix:                                                               # Iterate over each word in the TF-IDF matrix
     
-    if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] :                               # Check if the word is mentioned by all presidents
+    if word[1] == [0.0,0.0,0.0,0.0,0.0,0.0,0.0,0.0] and word[0] not in unimportant_words_mentionned:                               # Check if the word is mentioned by all presidents
       words.append(word[0])                                                         # If yes, append the word to the list of words mentioned by all presidents
   
   return f"The words mentioned by all presidents are {', '.join(words)}."           # Return the string of the words mentioned by all presidents
